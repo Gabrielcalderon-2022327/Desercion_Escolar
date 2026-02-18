@@ -1,0 +1,3 @@
+drop database if exists DB_DesercionEscolar_in5cm;
+create database DB_DesercionEscolar_in5cm;
+use DB_DesercionEscolar_in5cm;
