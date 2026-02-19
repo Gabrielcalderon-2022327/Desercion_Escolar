@@ -137,3 +137,17 @@ begin
 	select * from Alerta where id_alerta = p_id;
 end $$
 delimiter ;
+
+-- Riesgo
+call sp_agregar_riesgo('Alto','Problemas económicos y faltas constantes', 1);
+call sp_agregar_riesgo('Medio','Rendimiento bajo en materias', 2);
+call sp_agregar_riesgo('Bajo','Faltas ocasionales', 3);
+call sp_agregar_riesgo('Crítico','Riesgo de abandono por mudanza', 4);
+call sp_agregar_riesgo('Alto','Falta de materiales', 5);
+ 
+-- Alerta
+call sp_agregar_alerta('2026-02-10','Inasistencia','Sin reporte por 3 días', 1);
+call sp_agregar_alerta('2026-02-11','Académica','Promedio debajo de 60', 2);
+call sp_agregar_alerta('2026-02-12','Económica','Solicitud prórroga de pago', 5);
+call sp_agregar_alerta('2026-02-13','Retiro','Trabajo de medio tiempo', 4);
+call sp_agregar_alerta('2026-02-14','Salud','Justificación médica', 3);
