@@ -24,4 +24,46 @@ public class Usuario {
     @Column(name = "creacion_usuario")
     private Date creacionUsuario;
 
+    //Generar getter and setter a todos
+
+
+    public Integer getIdUsuario() {
+        return idUsuario;
+    }
+
+    public void setIdUsuario(Integer idUsuario) {
+        this.idUsuario = idUsuario;
+    }
+
+    public String getCorreoUsuario() {
+        return correoUsuario;
+    }
+
+    public void setCorreoUsuario(String correoUsuario) {
+        this.correoUsuario = correoUsuario;
+    }
+
+    public String getContraUsuario() {
+        return contraUsuario;
+    }
+
+    public void setContraUsuario(String contraUsuario) {
+        this.contraUsuario = contraUsuario;
+    }
+
+    public String getRolUsuario() {
+        return rolUsuario;
+    }
+
+    public void setRolUsuario(String rolUsuario) {
+        this.rolUsuario = rolUsuario;
+    }
+
+    public Date getCreacionUsuario() {
+        return creacionUsuario;
+    }
+
+    public void setCreacionUsuario(Date creacionUsuario) {
+        this.creacionUsuario = creacionUsuario;
+    }
 }
