@@ -2,7 +2,9 @@ package com.scrum.ProyectoDesercion.controller;
 
 
 import com.scrum.ProyectoDesercion.entity.Asistencia;
+import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.service.AsistenciaService;
+import com.scrum.ProyectoDesercion.validator.AsistenciaValidator;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,11 @@ import java.util.Objects;
 @RequestMapping("/api/asistencia")
 public class AsistenciaController {
     private final AsistenciaService service;
+    private final AsistenciaValidator validator;
 
-    public AsistenciaController(AsistenciaService service) {
+    public AsistenciaController(AsistenciaService service, AsistenciaValidator validator) {
         this.service = service;
+        this.validator = validator;
     }
 
     @GetMapping
@@ -28,49 +32,29 @@ public class AsistenciaController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Object> getAsistenciaById(@PathVariable int id) {
-        try {
-            Asistencia searchedAsistencia = service.getAsistenciaById(id);
-            return new ResponseEntity<>(searchedAsistencia, HttpStatus.OK);
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(Map.of("Error", e.getMessage()));
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().header("Error", e.getMessage()).build();
-        }
+        Asistencia searchedAsistencia = service.getAsistenciaById(id);
+        return new ResponseEntity<>(searchedAsistencia, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Object> createAsistencia(@Valid @RequestBody Asistencia asistencia) {
-        try {
-            Asistencia createdAsistencia = service.saveAsistencia(asistencia);
-            return new ResponseEntity<>(createdAsistencia, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(Map.of("Error", e.getMessage()));
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().header("Error", e.getMessage()).build();
-        }
+        validator.validar(asistencia);
+        Asistencia createdAsistencia = service.saveAsistencia(asistencia);
+        return new ResponseEntity<>(createdAsistencia, HttpStatus.CREATED);
+
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAsistencia(@PathVariable int id, @Valid @RequestBody Asistencia asistencia) {
-        try {
-            Asistencia updatedAsistencia = service.updateAsistencia(id, asistencia);
-            return new ResponseEntity<>(updatedAsistencia, HttpStatus.OK);
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(Map.of("Error", e.getMessage()));
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().header("Error", e.getMessage()).build();
-        }
+        validator.validar(asistencia);
+        Asistencia updatedAsistencia = service.updateAsistencia(id, asistencia);
+        return new ResponseEntity<>(updatedAsistencia, HttpStatus.OK);
+
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAsistencia(@PathVariable int id) {
-        try {
-            service.deleteAsistencia(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch (IllegalArgumentException e){
-            return ResponseEntity.badRequest().body(Map.of("Error", e.getMessage()));
-        } catch (RuntimeException e){
-            return ResponseEntity.notFound().header("Error", e.getMessage()).build();
-        }
+        service.deleteAsistencia(id);
+        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }
