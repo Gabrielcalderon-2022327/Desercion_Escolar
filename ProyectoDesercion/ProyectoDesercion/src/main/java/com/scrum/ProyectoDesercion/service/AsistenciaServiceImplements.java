@@ -1,6 +1,7 @@
 package com.scrum.ProyectoDesercion.service;
 
 import com.scrum.ProyectoDesercion.entity.Asistencia;
+import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.AsistenciaRepository;
 import org.springframework.stereotype.Service;
 
@@ -24,7 +25,7 @@ public class AsistenciaServiceImplements implements AsistenciaService{
     public Asistencia getAsistenciaById(Integer id) {
         Asistencia asistencia = repository.findById(id).orElse(null);
         if (asistencia == null) {
-            throw new RuntimeException("Asistencia no encontrada");
+            throw new ResourceNotFoundException("Asistencia no encontrada");
         }
         return asistencia;
     }
@@ -42,7 +43,7 @@ public class AsistenciaServiceImplements implements AsistenciaService{
             updateAsistencia.setFecha_asistencia(asistencia.getFecha_asistencia());
             updateAsistencia.setFk_id_estudiante(asistencia.getFk_id_estudiante());
         } else{
-            throw new RuntimeException("Asistencia no encontrada");
+            throw new ResourceNotFoundException("Asistencia no encontrada");
         }
         return repository.save(updateAsistencia);
     }
@@ -51,7 +52,7 @@ public class AsistenciaServiceImplements implements AsistenciaService{
     public void deleteAsistencia(Integer id) {
         Asistencia asistencia = repository.findById(id).orElse(null);
         if (asistencia == null) {
-            throw new RuntimeException("Asistencia no encontrada");
+            throw new ResourceNotFoundException("Asistencia no encontrada");
         }
         repository.delete(asistencia);
     }
