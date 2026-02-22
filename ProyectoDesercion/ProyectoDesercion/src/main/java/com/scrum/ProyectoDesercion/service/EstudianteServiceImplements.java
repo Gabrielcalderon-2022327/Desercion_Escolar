@@ -1,6 +1,7 @@
 package com.scrum.ProyectoDesercion.service;
 
 import com.scrum.ProyectoDesercion.entity.Estudiante;
+import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.EstudianteRepository;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +24,7 @@ public class EstudianteServiceImplements implements EstudianteService{
     public Estudiante getEstudianteById(Integer id) {
         Estudiante estudiante = repository.findById(id).orElse(null);
         if (estudiante == null) {
-            throw new RuntimeException("Estudiante no encontrado");
+            throw new ResourceNotFoundException("Estudiante no encontrado");
         }
         return estudiante;
     }
@@ -45,7 +46,7 @@ public class EstudianteServiceImplements implements EstudianteService{
             updateEstudiante.setFk_id_encargado(estudiante.getFk_id_encargado());
             updateEstudiante.setFk_id_grado(estudiante.getFk_id_grado());
         } else {
-            throw new RuntimeException("Estudiante no encontrado");
+            throw new ResourceNotFoundException("Estudiante no encontrado");
         }
         return repository.save(updateEstudiante);
     }
@@ -54,7 +55,7 @@ public class EstudianteServiceImplements implements EstudianteService{
     public void deleteEstudiante(Integer id) {
         Estudiante estudiante = repository.findById(id).orElse(null);
         if (estudiante == null) {
-            throw new RuntimeException("Estudiante no encontrado");
+            throw new ResourceNotFoundException("Estudiante no encontrado");
         }
         repository.delete(estudiante);
     }
