@@ -47,10 +47,10 @@ public class EconomiaServiceImplements implements EconomiaService {
 
     @Override
     public void deleteEconomia(Integer id) {
-        Economia asistencia = economiaRepository.findById(id).orElse(null);
-        if (asistencia == null) {
+        Economia economia = economiaRepository.findById(id).orElse(null);
+        if (economia == null) {
             throw new ResourceNotFoundException("Economia no encontrada");
         }
-        economiaRepository.delete(asistencia);
+        economiaRepository.delete(economia);
     }
 }
