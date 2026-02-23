@@ -1,4 +1,7 @@
 package com.scrum.ProyectoDesercion.repository;
 
-public interface EconomiaRepository {
+import com.scrum.ProyectoDesercion.entity.Economia;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EconomiaRepository extends JpaRepository<Economia,Integer> {
 }
