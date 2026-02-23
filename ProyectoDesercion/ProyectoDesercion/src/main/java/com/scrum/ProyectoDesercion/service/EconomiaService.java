@@ -1,9 +1,11 @@
 package com.scrum.ProyectoDesercion.service;
 
 import com.scrum.ProyectoDesercion.entity.Economia;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface EconomiaService {
     List<Economia> getAllEconomias();
     Economia getEconomiaById(Integer id);

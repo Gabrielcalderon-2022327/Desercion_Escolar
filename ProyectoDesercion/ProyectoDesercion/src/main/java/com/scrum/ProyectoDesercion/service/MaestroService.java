@@ -1,9 +1,11 @@
 package com.scrum.ProyectoDesercion.service;
 
 import com.scrum.ProyectoDesercion.entity.Maestro;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public interface MaestroService {
     List<Maestro> getAllMaestros();
     Maestro getMaestroById(Integer id);
