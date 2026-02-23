@@ -21,11 +21,11 @@ public class EconomiaServiceImplements implements EconomiaService {
 
     @Override
     public Economia getEconomiaById(Integer id) {
-        Economia asistencia = economiaRepository.findById(id).orElse(null);
-        if (asistencia == null) {
+        Economia economia = economiaRepository.findById(id).orElse(null);
+        if (economia == null) {
             throw new ResourceNotFoundException("Economia No Encontrada");
         }
-        return asistencia;
+        return economia;
     }
 
     @Override
@@ -40,7 +40,7 @@ public class EconomiaServiceImplements implements EconomiaService {
             updateEconomia.setFechaEconomia(economia.getFechaEconomia());
             updateEconomia.setIdEstudiante(economia.getIdEstudiante());
         } else{
-            throw new ResourceNotFoundException("Asistencia no encontrada");
+            throw new ResourceNotFoundException("Economia no encontrada");
         }
         return economiaRepository.save(updateEconomia);
     }
