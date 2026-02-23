@@ -58,9 +58,7 @@ public class MateriasF {
         return fechaAlertaMateriaF;
     }
 
-    public void setFechaAlertaMateriaF(LocalDate fechaAlertaMateriaF) {
-        this.fechaAlertaMateriaF = fechaAlertaMateriaF;
-    }
+    public void setFechaAlertaMateriaF(LocalDate fechaAlertaMateriaF) {this.fechaAlertaMateriaF = fechaAlertaMateriaF;}
 
     public Integer getIdMaestro() {
         return idMaestro;
