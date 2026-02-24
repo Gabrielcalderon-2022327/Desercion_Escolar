@@ -3,9 +3,11 @@ package com.scrum.ProyectoDesercion.service;
 import com.scrum.ProyectoDesercion.entity.Economia;
 import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.EconomiaRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class EconomiaServiceImplements implements EconomiaService {
     private final EconomiaRepository economiaRepository;
 
