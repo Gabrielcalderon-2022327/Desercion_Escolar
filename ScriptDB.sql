@@ -17,14 +17,14 @@ create table Maestro (
     especialidad_maestro varchar (45) not null,
     telefono_maestro int not null,
     fk_id_usuario int not null,
-    constraint foreign key (fk_id_usuario) references Usuario(id_usuario)
+    constraint foreign key (fk_id_usuario) references Usuario(id_usuario) on delete cascade
 );
 
 create table Grado (
     id_grado int primary key auto_increment,
     nombre_grado varchar (45) not null,
     fk_id_maestro int not null,
-    constraint foreign key (fk_id_maestro) references Maestro(id_maestro)
+    constraint foreign key (fk_id_maestro) references Maestro(id_maestro) on delete cascade
 );
 
  
@@ -46,8 +46,8 @@ direccion_estudiante varchar (60) not null,
 telefono_estudiante int not null,
 fk_id_encargado int not null,
 fk_id_grado int not null,
-constraint foreign key (fk_id_encargado) references Encargado(id_encargado),
-constraint foreign key (fk_id_grado) references Grado(id_grado)
+constraint foreign key (fk_id_encargado) references Encargado(id_encargado) on delete cascade,
+constraint foreign key (fk_id_grado) references Grado(id_grado) on delete cascade
 );
 
 
@@ -56,7 +56,7 @@ id_asistencia int primary key auto_increment,
 fecha_asistencia date not null,
 estado_asistencia varchar(50) not null,
 fk_id_estudiante int not null,
-constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante)
+constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante) on delete cascade
 );
 
 create table MateriasF (
@@ -66,8 +66,8 @@ create table MateriasF (
     fecha_alerta_materiaf date not null,
     fk_id_maestro int not null,
     fk_id_estudiante int not null,
-    constraint foreign key (fk_id_maestro) references Maestro(id_maestro),
-    constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante)
+    constraint foreign key (fk_id_maestro) references Maestro(id_maestro) on delete cascade,
+    constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante) on delete cascade
 );
 
 create table Economia (
@@ -75,7 +75,7 @@ create table Economia (
     ingresos_economia double not null,
     fecha_economia date not null,
     fk_id_estudiante int not null,
-    constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante)
+    constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante) on delete cascade
 );
 
 create table Riesgo (
@@ -83,7 +83,7 @@ create table Riesgo (
     nivel_riesgo varchar(45) not null,
     descripcion_riesgo text(200) not null,
     fk_id_estudiante int not null,
-    constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante)
+    constraint foreign key (fk_id_estudiante) references Estudiante(id_estudiante) on delete cascade
 );
  
  
@@ -93,7 +93,7 @@ create table Alerta (
     tipo_alerta varchar(45) not null,
     incidente_alerta varchar(250) not null,
     fk_id_riesgo int not null,
-	constraint foreign key (fk_id_riesgo) references Riesgo(id_riesgo)
+	constraint foreign key (fk_id_riesgo) references Riesgo(id_riesgo) on delete cascade
 );
 
 -- --------------------------------------------------------------------------------------------------------------------PROCEDIMIENTOS ALMACENADOS
