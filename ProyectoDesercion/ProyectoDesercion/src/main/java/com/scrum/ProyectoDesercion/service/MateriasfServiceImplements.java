@@ -4,6 +4,7 @@ import com.scrum.ProyectoDesercion.repository.MateriasfRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+@Service
 public class MateriasfServiceImplements implements MateriasfService{
     private final MateriasfRepository materiasfRepository;
 
