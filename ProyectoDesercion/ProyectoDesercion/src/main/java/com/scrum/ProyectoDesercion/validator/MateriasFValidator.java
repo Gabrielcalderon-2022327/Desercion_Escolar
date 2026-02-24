@@ -27,9 +27,8 @@ public class MateriasFValidator {
         Integer idMaestro = materiasF.getIdMaestro();
         Integer idEstudiante = materiasF.getIdEstudiante();
 
-        // Validación nombre obligatorio
-        if (nombre == null || nombre.isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la materia es obligatorio");
+        if (materiasF.getNombreMateriaF() == null || materiasF.getNombreMateriaF().isEmpty()) {
+            throw new RuntimeException("El nombre de la materia es obligatorio");
         }
 
         // Validación descripción obligatoria
