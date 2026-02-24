@@ -66,4 +66,5 @@ public class Usuario {
     public void setCreacionUsuario(Date creacionUsuario) {
         this.creacionUsuario = creacionUsuario;
     }
+
 }

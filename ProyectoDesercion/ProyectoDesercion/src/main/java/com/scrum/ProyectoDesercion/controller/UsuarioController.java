@@ -1,6 +1,7 @@
 package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Usuario;
+import com.scrum.ProyectoDesercion.repository.UsuarioRepository;
 import com.scrum.ProyectoDesercion.service.UsuarioService;
 import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.validator.UsuarioValidator;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -29,30 +31,23 @@ public class UsuarioController {
 
     @PostMapping
     public ResponseEntity<Object> createEmpleado(@Valid @RequestBody Usuario usuario){
-        try {
             validator.validar(usuario);
             Usuario created = usuarioService.saveUsuario(usuario);
             return ResponseEntity.status(HttpStatus.CREATED).body(created);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body(Map.of("error", e.getMessage()));
-        }
     }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Object> getUsuarioById(@PathVariable int id) {
+        Usuario searchedUsuario = usuarioService.getUsuarioById(id);
+        return new ResponseEntity<>(searchedUsuario, HttpStatus.OK);
+    }
+
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Integer id, @Valid @RequestBody Usuario usuario) {
-        try {
             usuario.setIdUsuario(id);   // Para que el validator ignore el mismo usuario
             validator.validar(usuario);
             Usuario updated = usuarioService.updateUsuario(id, usuario);
             return ResponseEntity.ok(updated);
-
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity
-                    .badRequest()
-                    .body((Usuario) Map.of("error", e.getMessage()));
-        }
     }
 
     @DeleteMapping("/{id}")
