@@ -1,6 +1,7 @@
 package com.scrum.ProyectoDesercion.controller;
 import com.scrum.ProyectoDesercion.entity.MateriasF;
 import com.scrum.ProyectoDesercion.service.MateriasfService;
+import com.scrum.ProyectoDesercion.validator.MateriasFValidator;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,30 +13,40 @@ import java.util.Map;
 @RequestMapping("/api/materiasf")
 public class MateriasfController {
     private final MateriasfService materiasfService;
+    private final MateriasFValidator validator;
 
-    public MateriasfController(MateriasfService materiasfService) { this.materiasfService = materiasfService; }
+    public MateriasfController(MateriasfService materiasfService, MateriasFValidator validator) {
+        this.materiasfService = materiasfService;
+        this.validator = validator;
+    }
     @GetMapping
     public List<MateriasF> getAllMateriasF(){return materiasfService.getAllMateriasF();}
 
     @PostMapping
     public ResponseEntity<Object> createMateriasF(@Valid @RequestBody MateriasF materiasF){
         try {
-            MateriasF createdUsuario = materiasfService.saveMateriasF(materiasF);
-            return new ResponseEntity<>(createdUsuario, HttpStatus.CREATED);
-        }catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(Map.of("Error", e.getMessage()), HttpStatus.NOT_FOUND);
+            validator.validar(materiasF);
+            MateriasF created = materiasfService.saveMateriasF(materiasF);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", e.getMessage()));
         }
     }
     @PutMapping("/{id}")
     public ResponseEntity<MateriasF> updateMateriasF(@PathVariable Integer id, @Valid @RequestBody MateriasF materiasF) {
+        try {
+            validator.validar(materiasF);
+            MateriasF updated = materiasfService.updateMateriasF(id, materiasF);
+            return ResponseEntity.ok(updated);
 
-        MateriasF updatedEmpleado = materiasfService.updateMateriasF(id, materiasF);
-
-        if (updatedEmpleado != null) {
-            return ResponseEntity.ok(updatedEmpleado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body((MateriasF) Map.of("error", e.getMessage()));
         }
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
