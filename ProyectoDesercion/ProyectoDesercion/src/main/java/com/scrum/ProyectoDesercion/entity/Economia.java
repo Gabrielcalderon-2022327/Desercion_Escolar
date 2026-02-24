@@ -1,6 +1,8 @@
 package com.scrum.ProyectoDesercion.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 
@@ -12,13 +14,17 @@ public class Economia {
     @Column(name = "id_economia")
     private Integer idEconomia;
 
+    @NotNull(message = "Los ingresos es un campo obligatorio.")
     @Column(name = "ingresos_economia")
     private Double ingresosEconomia;
 
+    @NotNull(message = "La fecha de la economia es un campo obligatorio.")
+    @Past(message = "La fecha no puede ser futura.")
     @Column(name = "fecha_economia")
     private LocalDate fechaEconomia;
 
-    @Column(name = "id_estudiante")
+    @NotNull(message = "El id del estudiante es un campo obligatorio.")
+    @Column(name = "fk_id_estudiante")
     private Integer idEstudiante;
 
     //getter y setter
