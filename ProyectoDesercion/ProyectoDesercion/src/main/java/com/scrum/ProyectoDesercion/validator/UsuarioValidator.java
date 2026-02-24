@@ -32,8 +32,8 @@ public class UsuarioValidator {
                 : null;
 
         // correo obligatorio
-        if (correo == null || correo.isEmpty()) {
-            throw new IllegalArgumentException("El correo es obligatorio");
+        if (usuario.getCorreoUsuario() == null || usuario.getCorreoUsuario().isEmpty()) {
+            throw new RuntimeException("El correo es obligatorio");
         }
 
         // El correo tiene que tener @gmail.com
