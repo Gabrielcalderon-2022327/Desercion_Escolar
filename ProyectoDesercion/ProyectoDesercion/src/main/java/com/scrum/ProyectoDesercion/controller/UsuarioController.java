@@ -1,9 +1,7 @@
 package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Usuario;
-import com.scrum.ProyectoDesercion.repository.UsuarioRepository;
 import com.scrum.ProyectoDesercion.service.UsuarioService;
-import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.validator.UsuarioValidator;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
@@ -11,8 +9,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/usuarios")
@@ -51,9 +47,9 @@ public class UsuarioController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteUsuario(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteUsuario(@PathVariable Integer id) {
         usuarioService.deleteUsuario(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Usuario eliminado con éxito");
     }
 }
 
