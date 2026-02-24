@@ -8,7 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Map;
+
 @RestController
 @RequestMapping("/api/materiasf")
 public class MateriasfController {
@@ -45,8 +45,8 @@ public class MateriasfController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteMateriasF(@PathVariable Integer id) {
+    public ResponseEntity<String> deleteMateriasF(@PathVariable Integer id) {
         materiasfService.deleteMateriasF(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok("Materia eliminado con éxito");
     }
 }
