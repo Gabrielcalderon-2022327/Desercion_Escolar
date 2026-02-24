@@ -4,9 +4,11 @@ import com.scrum.ProyectoDesercion.entity.Economia;
 import com.scrum.ProyectoDesercion.entity.Maestro;
 import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.MaestroRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MaestroServiceImplements implements MaestroService{
     private final MaestroRepository maestroRepository;
 
