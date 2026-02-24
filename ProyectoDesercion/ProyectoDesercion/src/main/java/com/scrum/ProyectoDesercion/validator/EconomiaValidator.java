@@ -32,11 +32,11 @@ public class EconomiaValidator {
         }
         List<Economia> economias = economiaRepository.findAll();
         for (Economia eco : economias) {
-            if (eco.getIdEstudiante().equals(idEstudiante)
-                    && eco.getFechaEconomia().equals(fecha)) {
-                throw new IllegalArgumentException(
-                        "Ya existe un registro económico para este estudiante en esa fecha"
-                );
+            if (eco.getIdEstudiante() != null &&
+                    eco.getFechaEconomia() != null &&
+                    eco.getIdEstudiante().equals(idEstudiante) &&
+                    eco.getFechaEconomia().equals(fecha)) {
+                throw new IllegalArgumentException("Ya existe un registro económico para este estudiante en esa fecha");
             }
         }
     }
