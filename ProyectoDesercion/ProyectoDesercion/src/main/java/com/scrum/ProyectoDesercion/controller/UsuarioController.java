@@ -2,6 +2,8 @@ package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Usuario;
 import com.scrum.ProyectoDesercion.service.UsuarioService;
+import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
+import com.scrum.ProyectoDesercion.validator.UsuarioValidator;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,8 +17,12 @@ import java.util.Map;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final UsuarioValidator validator;
 
-    public UsuarioController(UsuarioService usuarioService) {this.usuarioService = usuarioService;}
+    public UsuarioController(UsuarioService usuarioService, UsuarioValidator validator) {
+        this.usuarioService = usuarioService;
+        this.validator = validator;
+    }
 
     @GetMapping
     public List<Usuario> getAllUsuarios(){return usuarioService.getAllUsuarios();}
@@ -24,22 +30,29 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Object> createEmpleado(@Valid @RequestBody Usuario usuario){
         try {
-            Usuario createdUsuario = usuarioService.saveUsuario(usuario);
-            return new ResponseEntity<>(createdUsuario, HttpStatus.CREATED);
-        }catch (IllegalArgumentException e) {
-            return new ResponseEntity<>(Map.of("Error", e.getMessage()), HttpStatus.NOT_FOUND);
+            validator.validar(usuario);
+            Usuario created = usuarioService.saveUsuario(usuario);
+            return ResponseEntity.status(HttpStatus.CREATED).body(created);
 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(Map.of("error", e.getMessage()));
         }
     }
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Integer id, @Valid @RequestBody Usuario usuario) {
+        try {
+            usuario.setIdUsuario(id);   // Para que el validator ignore el mismo usuario
+            validator.validar(usuario);
+            Usuario updated = usuarioService.updateUsuario(id, usuario);
+            return ResponseEntity.ok(updated);
 
-        Usuario updatedEmpleado = usuarioService.updateUsuario(id, usuario);
-
-        if (updatedEmpleado != null) {
-            return ResponseEntity.ok(updatedEmpleado);
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity
+                    .badRequest()
+                    .body((Usuario) Map.of("error", e.getMessage()));
         }
-        return ResponseEntity.notFound().build();
     }
 
     @DeleteMapping("/{id}")
