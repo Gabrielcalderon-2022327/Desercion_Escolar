@@ -643,6 +643,127 @@ begin
 	select * from Alerta where id_alerta = p_id;
 end $$
 delimiter ;
+-- --------------------------------------------------------------------------------------------------------------------FUNCIONES
+delimiter $$
+create function fn_determinar_riesgo(f_riesgo varchar(45))
+returns varchar(45)
+reads sql data
+begin
+	if (f_riesgo = "Bajo") then
+		return "Medio";
+    end if;
+    
+    if (f_riesgo = "Medio") then
+		return "Alto";
+    end if;
+    
+    if (f_riesgo = "Alto") then
+		return "Crítico";
+    end if;
+    
+    if (f_riesgo = "Crítico") then
+		return f_riesgo;
+    end if;
+    
+    if (f_riesgo = "") then
+		return "Bajo";
+    end if;
+end $$
+delimiter ;
+-- --------------------------------------------------------------------------------------------------------------------TRIGGERS
+delimiter $$
+create trigger tr_riesgoEconomia
+after insert on Economia
+for each row
+begin
+	declare idEstudiante int;
+    declare ingresos double;
+    declare nivelRiesgo varchar(45);
+    declare descripcion text;
+    
+    set idEstudiante = new.fk_id_estudiante;
+    set ingresos = new.ingresos_economia;
+    set nivelRiesgo = "";
+    set descripcion = "";
+    
+    if ((select count(*) from Riesgo where fk_id_estudiante = idEstudiante) > 0) then
+		set nivelRiesgo = (select nivel_riesgo from Riesgo where fk_id_estudiante = idEstudiante);
+        set descripcion = (select descripcion_riesgo from Riesgo where fk_id_estudiante = idEstudiante);
+    end if;
+    
+    if (descripcion not like "%Ingresos muy bajos%") then
+		set descripcion = (select concat(descripcion, " Ingresos muy bajos."));
+    end if;
+    set nivelRiesgo = fn_determinar_riesgo(nivelRiesgo);
+    
+    if (ingresos <= 3500.00) then
+		call sp_agregar_riesgo(nivelRiesgo, descripcion, idEstudiante);
+	end if;
+end $$
+delimiter ;
+
+delimiter $$
+create trigger tr_riesgoAsistencia
+after insert on Asistencia
+for each row
+begin
+	declare numeroDeInasistencias int;
+    declare idEstudiante int;
+    declare nivelRiesgo varchar(45);
+    declare descripcion text;
+    
+    set idEstudiante = new.fk_id_estudiante;
+    set numeroDeInasistencias = (select count(*) from Asistencia where fk_id_estudiante = idEstudiante and estado_asistencia = "ausente" and fecha_asistencia >= CURDATE() - interval 30 day);
+    set nivelRiesgo = "";
+    set descripcion = "";
+    
+    if ((select count(*) from Riesgo where fk_id_estudiante = idEstudiante) > 0) then
+		set nivelRiesgo = (select nivel_riesgo from Riesgo where fk_id_estudiante = idEstudiante);
+        set descripcion = (select descripcion_riesgo from Riesgo where fk_id_estudiante = idEstudiante);
+    end if;
+    
+    if (descripcion not like  "%Ha faltado muchas veces%") then
+		set descripcion = (select concat(descripcion, " Ha faltado muchas veces."));
+    end if;
+    set nivelRiesgo = fn_determinar_riesgo(nivelRiesgo);
+    
+    if (numeroDeInasistencia >= 10) then
+		call sp_agregar_riesgo(nivelRiesgo, descripcion, idEstudiante);
+    end if;
+end $$
+delimiter ;
+
+delimiter $$
+create trigger tr_riesgoMaterias
+after insert on MateriasF
+for each row
+begin
+	declare numeroDeMaterias int;
+    declare idEstudiante int;
+    declare nivelRiesgo varchar(45);
+    declare descripcion text;
+    
+    set idEstudiante = new.fk_id_estudiante;
+    set numeroDeMaterias = (select count(*) from MateriasF where fk_id_estudiante = idEstudiante);
+    set nivelRiesgo = "";
+    set descripcion = "";
+    
+    if ((select count(*) from Riesgo where fk_id_estudiante = idEstudiante) > 0) then
+		set nivelRiesgo = (select nivel_riesgo from Riesgo where fk_id_estudiante = idEstudiante);
+        set descripcion = (select descripcion_riesgo from Riesgo where fk_id_estudiante = idEstudiante);
+    end if;
+    
+    if (descripcion not like  "%Ha perdido muchas materias%") then
+		set descripcion = (select concat(descripcion, " Ha perdido muchas materias."));
+    end if;
+    set nivelRiesgo = fn_determinar_riesgo(nivelRiesgo);
+    
+    if(numeroDeMaterias >= 4) then
+		call sp_agregar_riesgo(nivelRiesgo, descripcion, idEstudiante);
+    end if;
+end $$
+delimiter ;
+
 
 -- --------------------------------------------------------------------------------------------------------------------REGISTROS
 call sp_agregar_usuario('gabrielCalderon@gmail.com', '12345', 'Administrador', '2024-01-01');
