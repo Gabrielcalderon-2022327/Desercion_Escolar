@@ -6,7 +6,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table (name = "Alerta")
@@ -45,11 +44,11 @@ private String incidenteAlerta;
         this.idAlerta = idAlerta;
     }
 
-    public Date getFecha_alerta() {
+    public @NotNull @Past(message = "error la fecha no puede ser futura") LocalDate getFecha_alerta() {
         return fechaAlerta;
     }
 
-    public void setFecha_alerta(Date fecha_alerta) {
+    public void setFecha_alerta(@NotNull @Past LocalDate fecha_alerta) {
         this.fechaAlerta = fecha_alerta;
     }
 
