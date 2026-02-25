@@ -40,7 +40,7 @@ public class GradoServiceImplements implements GradoService{
     public Grado updateGrado(Integer id, Grado grado) {
 
         Grado updateGrado = gradoRepository.findById(id).orElse(null);
-        if(updateGrado == null){
+        if(updateGrado != null){
             updateGrado.setNombre_grado(grado.getNombre_grado());
             updateGrado.setFk_id_maestro(grado.getFk_id_maestro());
         }else{
