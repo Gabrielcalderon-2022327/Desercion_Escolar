@@ -5,7 +5,6 @@ import com.scrum.ProyectoDesercion.repository.MateriasfRepository;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Component
 public class MateriasFValidator {
@@ -16,9 +15,12 @@ public class MateriasFValidator {
         this.materiasfRepository = materiasfRepository;
     }
 
-    public void validar(MateriasF materiasF) {
+    // VALIDACIÓN PARA REGISTRO
+    public void validarRegistro(MateriasF materiasF) {
 
-        List<MateriasF> materias = materiasfRepository.findAll();
+        if (materiasF == null) {
+            throw new IllegalArgumentException("La materia no puede ser nula");
+        }
 
         String nombre = materiasF.getNombreMateriaF() != null
                 ? materiasF.getNombreMateriaF().trim()
@@ -27,17 +29,18 @@ public class MateriasFValidator {
         Integer idMaestro = materiasF.getIdMaestro();
         Integer idEstudiante = materiasF.getIdEstudiante();
 
-        if (materiasF.getNombreMateriaF() == null || materiasF.getNombreMateriaF().isEmpty()) {
-            throw new RuntimeException("El nombre de la materia es obligatorio");
+        // Nombre obligatorio
+        if (nombre == null || nombre.isEmpty()) {
+            throw new IllegalArgumentException("El nombre de la materia es obligatorio");
         }
 
-        // Validación descripción obligatoria
+        // Descripción obligatoria
         if (materiasF.getDescripcionMateriaF() == null ||
                 materiasF.getDescripcionMateriaF().trim().isEmpty()) {
             throw new IllegalArgumentException("La descripción es obligatoria");
         }
 
-        // Validación fecha obligatoria
+        // Fecha obligatoria
         if (materiasF.getFechaAlertaMateriaF() == null) {
             throw new IllegalArgumentException("La fecha de alerta es obligatoria");
         }
@@ -57,21 +60,18 @@ public class MateriasFValidator {
             throw new IllegalArgumentException("El id del estudiante debe ser mayor a 0");
         }
 
-        // Validación mismo nombre, mismo maestro y mismo estudiante
-        for (MateriasF mat : materias) {
+    }
 
-            String nombreExistente = mat.getNombreMateriaF() != null
-                    ? mat.getNombreMateriaF().trim()
-                    : "";
+    // VALIDACIÓN MATERIA NO ENCONTRADA
+    public MateriasF validarMateriaExistente(Integer id) {
 
-            if (nombre.equals(nombreExistente)
-                    && idMaestro.equals(mat.getIdMaestro())
-                    && idEstudiante.equals(mat.getIdEstudiante())) {
-
-                throw new IllegalArgumentException(
-                        "Ya existe esta materia asignada a este estudiante con este maestro"
-                );
-            }
+        if (id == null || id <= 0) {
+            throw new IllegalArgumentException("El id de la materia es inválido");
         }
+
+        return materiasfRepository.findById(id)
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Materia no encontrada con ID: " + id)
+                );
     }
 }
