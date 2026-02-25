@@ -23,32 +23,60 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<Usuario> getAllUsuarios(){return usuarioService.getAllUsuarios();}
+    public List<Usuario> getAllUsuarios() {
+        return usuarioService.getAllUsuarios();
+    }
 
     @PostMapping
-    public ResponseEntity<Object> createEmpleado(@Valid @RequestBody Usuario usuario){
-            validator.validar(usuario);
-            Usuario created = usuarioService.saveUsuario(usuario);
-            return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    public ResponseEntity<Object> createUsuario(@Valid @RequestBody Usuario usuario) {
+
+        validator.validarRegistro(usuario);  // 🔥 validación correcta
+
+        Usuario created = usuarioService.saveUsuario(usuario);
+        return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Object> getUsuarioById(@PathVariable int id) {
+    public ResponseEntity<Usuario> getUsuarioById(@PathVariable int id) {
+
         Usuario searchedUsuario = usuarioService.getUsuarioById(id);
-        return new ResponseEntity<>(searchedUsuario, HttpStatus.OK);
+
+        if (searchedUsuario == null) {
+            throw new IllegalArgumentException("Usuario no encontrado con ID: " + id);
+        }
+
+        return ResponseEntity.ok(searchedUsuario);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> updateUsuario(@PathVariable Integer id, @Valid @RequestBody Usuario usuario) {
-            usuario.setIdUsuario(id);   // Para que el validator ignore el mismo usuario
-            validator.validar(usuario);
-            Usuario updated = usuarioService.updateUsuario(id, usuario);
-            return ResponseEntity.ok(updated);
+    public ResponseEntity<Usuario> updateUsuario(
+            @PathVariable Integer id,
+            @Valid @RequestBody Usuario usuario) {
+
+        Usuario usuarioExistente = usuarioService.getUsuarioById(id);
+
+        if (usuarioExistente == null) {
+            throw new IllegalArgumentException("Usuario no encontrado con ID: " + id);
+        }
+
+        usuario.setIdUsuario(id);
+
+        Usuario updated = usuarioService.updateUsuario(id, usuario);
+
+        return ResponseEntity.ok(updated);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUsuario(@PathVariable Integer id) {
+
+        Usuario usuarioExistente = usuarioService.getUsuarioById(id);
+
+        if (usuarioExistente == null) {
+            throw new IllegalArgumentException("Usuario no encontrado con ID: " + id);
+        }
+
         usuarioService.deleteUsuario(id);
+
         return ResponseEntity.ok("Usuario eliminado con éxito");
     }
 }
