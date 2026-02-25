@@ -4,7 +4,7 @@ import com.scrum.ProyectoDesercion.entity.Usuario;
 import com.scrum.ProyectoDesercion.repository.UsuarioRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.Optional;
 
 @Component
 public class UsuarioValidator {
@@ -15,9 +15,12 @@ public class UsuarioValidator {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public void validar(Usuario usuario) {
+    // VALIDACIÓN PARA REGISTRO
+    public void validarRegistro(Usuario usuario) {
 
-        List<Usuario> usuarios = usuarioRepository.findAll();
+        if (usuario == null) {
+            throw new IllegalArgumentException("El usuario no puede ser nulo");
+        }
 
         String correo = usuario.getCorreoUsuario() != null
                 ? usuario.getCorreoUsuario().trim()
@@ -32,11 +35,11 @@ public class UsuarioValidator {
                 : null;
 
         // correo obligatorio
-        if (usuario.getCorreoUsuario() == null || usuario.getCorreoUsuario().isEmpty()) {
-            throw new RuntimeException("El correo es obligatorio");
+        if (correo == null || correo.isEmpty()) {
+            throw new IllegalArgumentException("El correo es obligatorio");
         }
 
-        // El correo tiene que tener @gmail.com
+        // dominio Gmail obligatorio
         if (!correo.toLowerCase().endsWith("@gmail.com")) {
             throw new IllegalArgumentException("El correo debe ser de Gmail (@gmail.com)");
         }
@@ -51,20 +54,30 @@ public class UsuarioValidator {
             throw new IllegalArgumentException("El rol es obligatorio");
         }
 
-        // fecha de creación obligatoria
+        // fecha obligatoria
         if (usuario.getCreacionUsuario() == null) {
             throw new IllegalArgumentException("La fecha de creación es obligatoria");
         }
 
-        // Validación para correos dobles
-        for (Usuario u : usuarios) {
-            String correoExistente = u.getCorreoUsuario() != null
-                    ? u.getCorreoUsuario().trim()
-                    : "";
+        // Validar si ya existe el usuario
+        Optional<Usuario> usuarioExistente =
+                usuarioRepository.findByCorreoUsuario(correo);
 
-            if (correo.equalsIgnoreCase(correoExistente)) {
-                throw new IllegalArgumentException("Ya existe un usuario con este correo");
-            }
+        if (usuarioExistente.isPresent()) {
+            throw new IllegalArgumentException("Ya existe un usuario con este correo");
         }
+    }
+
+    // VALIDACIÓN PARA LOGIN O BÚSQUEDA
+    public Usuario validarUsuarioExistente(String correo) {
+
+        if (correo == null || correo.trim().isEmpty()) {
+            throw new IllegalArgumentException("El correo es obligatorio");
+        }
+
+        return usuarioRepository.findByCorreoUsuario(correo.trim())
+                .orElseThrow(() ->
+                        new IllegalArgumentException("Usuario no encontrado")
+                );
     }
 }
