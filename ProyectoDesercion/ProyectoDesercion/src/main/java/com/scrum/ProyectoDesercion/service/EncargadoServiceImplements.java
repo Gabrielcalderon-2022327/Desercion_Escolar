@@ -40,7 +40,7 @@ public class EncargadoServiceImplements implements EncargadoService{
     public Encargado updateEncargado(Integer id, Encargado encargado) {
 
         Encargado updateEncargado = encargadoRepository.findById(id).orElse(null);
-        if(updateEncargado == null){
+        if(updateEncargado != null){
             updateEncargado.setNombre_encargado(encargado.getNombre_encargado());
             updateEncargado.setApellido_encargado(encargado.getApellido_encargado());
             updateEncargado.setFecha_nacimiento_encargado(encargado.getFecha_nacimiento_encargado());
