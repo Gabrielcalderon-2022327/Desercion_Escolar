@@ -854,16 +854,16 @@ call sp_agregar_MateriasF('Fisica', 'No entrego tareas', '2026-02-11', 6, 4);
 call sp_agregar_MateriasF('Lenguaje', 'Dificultad de lectura', '2026-02-11', 5, 5);
 call sp_agregar_MateriasF('Historia', 'Falta de interes', '2026-02-12', 4, 2);
 
-call sp_agregar_riesgo('Alto','Problemas económicos y faltas constantes', 1);
-call sp_agregar_riesgo('Medio','Rendimiento bajo en materias', 2);
-call sp_agregar_riesgo('Bajo','Faltas ocasionales', 3);
-call sp_agregar_riesgo('Crítico','Riesgo de abandono por mudanza', 4);
-call sp_agregar_riesgo('Alto','Falta de materiales', 5);
-call sp_agregar_riesgo('Medio','Bajo acompañamiento familiar', 6);
-call sp_agregar_riesgo('Alto','Historial de repitencia', 7);
-call sp_agregar_riesgo('Bajo','Participación irregular en clase', 8);
-call sp_agregar_riesgo('Crítico','Problemas de conducta graves', 9);
-call sp_agregar_riesgo('Medio','Dificultades de aprendizaje detectadas', 10);
+call sp_agregar_riesgo('Alto','Ha faltado muchas veces. Ha perdido muchas materias. Ingresos muy bajos', 1);
+call sp_agregar_riesgo('Alto','Ha faltado muchas veces. Ha perdido muchas materias. Ingresos muy bajos', 2);
+call sp_agregar_riesgo('Alto','Ha faltado muchas veces. Ha perdido muchas materias. Ingresos muy bajos', 3);
+call sp_agregar_riesgo('Medio','Ha faltado muchas veces. Ha perdido muchas materias.', 4);
+call sp_agregar_riesgo('Medio','Ha faltado muchas veces. Ingresos muy bajos', 5);
+call sp_agregar_riesgo('Medio','Ha perdido muchas materias. Ingresos muy bajos', 6);
+call sp_agregar_riesgo('Bajo','Ha faltado muchas veces.', 7);
+call sp_agregar_riesgo('Bajo','Ha perdido muchas materias.', 8);
+call sp_agregar_riesgo('Bajo','Ingresos muy bajos', 9);
+call sp_agregar_riesgo('Crítico','Ha faltado muchas veces. Ha perdido muchas materias. Ingresos muy bajos. Riesgo de abandono inmediato', 10);
 
 call sp_agregar_alerta('2026-02-10','Inasistencia','Sin reporte por 3 días', 1);
 call sp_agregar_alerta('2026-02-11','Académica','Promedio debajo de 60', 2);
