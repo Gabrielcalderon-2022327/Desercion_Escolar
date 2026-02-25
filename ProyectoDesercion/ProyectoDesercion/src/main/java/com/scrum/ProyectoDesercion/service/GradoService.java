@@ -11,5 +11,5 @@ public interface GradoService {
     Grado getGradoById(Integer id);
     Grado saveGrado(Grado grado) throws RuntimeException;
     Grado updateGrado(Integer id, Grado grado);
-    Grado deleteGrado(Integer id);
+    void deleteGrado(Integer id);
 }
