@@ -11,5 +11,5 @@ public interface EncargadoService {
     Encargado getEncargadoById(Integer id);
     Encargado saveEncargado(Encargado encargado) throws RuntimeException;
     Encargado updateEncargado(Integer id, Encargado encargado);
-    Encargado deleteEncargado(Integer id);
+    void deleteEncargado(Integer id);
 }
