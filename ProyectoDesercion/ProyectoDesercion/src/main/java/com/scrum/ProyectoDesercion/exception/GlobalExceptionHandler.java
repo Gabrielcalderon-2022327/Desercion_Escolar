@@ -44,4 +44,8 @@ public class GlobalExceptionHandler {
     public ResponseEntity<Object> validacionesNegocio(IllegalArgumentException ex){
         return ResponseEntity.badRequest().body(Map.of("Error", ex.getMessage()));
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 3c84bceabbce306173aad04f1d9cd4a60fa59f31
