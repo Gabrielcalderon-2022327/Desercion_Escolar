@@ -754,6 +754,7 @@ call sp_agregar_alerta('2026-02-16','Académica','Reprobación de dos materias',
 call sp_agregar_alerta('2026-02-17','Conducta','Reporte disciplinario', 9);
 call sp_agregar_alerta('2026-02-18','Económica','Retraso en pago de colegiatura', 6);
 <<<<<<< HEAD
+<<<<<<< HEAD
 call sp_agregar_alerta('2026-02-19','Psicológica','Cambio de comportamiento notable', 8);
 =======
 call sp_agregar_alerta('2026-02-19','Psicológica','Cambio de comportamiento notable', 8);
@@ -898,3 +899,6 @@ end $$
 delimiter ;
 
 >>>>>>> 3c84bceabbce306173aad04f1d9cd4a60fa59f31
+=======
+call sp_agregar_alerta('2026-02-19','Psicológica','Cambio de comportamiento notable', 8);
+>>>>>>> a7964f992b64ed4a900de1650dc1d527c7717a06

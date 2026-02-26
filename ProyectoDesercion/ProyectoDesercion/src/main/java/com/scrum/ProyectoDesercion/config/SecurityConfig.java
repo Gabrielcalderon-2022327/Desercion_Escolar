@@ -15,7 +15,11 @@ public class SecurityConfig {
         return http.build();
     }
 <<<<<<< HEAD
+<<<<<<< HEAD
 }
 =======
 }
 >>>>>>> 3c84bceabbce306173aad04f1d9cd4a60fa59f31
+=======
+}
+>>>>>>> a7964f992b64ed4a900de1650dc1d527c7717a06
