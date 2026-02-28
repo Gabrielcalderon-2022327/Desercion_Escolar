@@ -28,21 +28,18 @@ public class AlertaServiceImplements implements AlertaService {
 
     @Override
     public Alerta saveAlerta(Alerta alerta) {
+        // Este funciona simple porque es un registro nuevo
         return alertaRepository.save(alerta);
     }
 
     @Override
     public Alerta updateAlerta(Integer id, Alerta alerta) {
-        Optional<Alerta> alertaExistente = alertaRepository.findById(id);
-        if (alertaExistente.isPresent()) {
-            Alerta alertaActualizada = alertaExistente.get();
-            alertaActualizada.setFechaAlerta(alerta.getFechaAlerta());
-            alertaActualizada.setTipoAlerta(alerta.getTipoAlerta());
-            alertaActualizada.setIncidenteAlerta(alerta.getIncidenteAlerta());
-            return alertaRepository.save(alertaActualizada);
-        } else {
-            throw new IllegalArgumentException("No se encontró la alerta con el ID: " + id);
-        }
+        return alertaRepository.findById(id).map(alertaExistente -> {
+            alertaExistente.setFechaAlerta(alerta.getFechaAlerta());
+            alertaExistente.setTipoAlerta(alerta.getTipoAlerta());
+            alertaExistente.setIncidenteAlerta(alerta.getIncidenteAlerta());
+            return alertaRepository.save(alertaExistente);
+        }).orElseThrow(() -> new RuntimeException("No se encontró la alerta con ID: " + id));
     }
 
     @Override
