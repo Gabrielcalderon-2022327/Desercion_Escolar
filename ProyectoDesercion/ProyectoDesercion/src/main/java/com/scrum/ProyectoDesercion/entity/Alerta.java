@@ -8,33 +8,28 @@ import jakarta.validation.constraints.Past;
 import java.time.LocalDate;
 
 @Entity
-@Table (name = "Alerta")
-
+@Table(name = "Alerta")
 public class Alerta {
 
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_alerta")
+    private Integer idAlerta;
 
+    @Column(name = "fecha_alerta")
+    @NotNull(message = "La fecha no puede ser nula")
+    @Past(message = "Error: la fecha no puede ser futura")
+    private LocalDate fechaAlerta;
 
-@Column(name = "id_empleado")
-private Integer idAlerta;
+    @Column(name = "tipo_alerta")
+    @NotBlank(message = "El tipo de alerta no puede estar vacío")
+    private String tipoAlerta;
 
-@Column(name = "fecha_alerta")
-@NotNull
-@Past(message = "error la fecha no puede ser futura")
-private LocalDate fechaAlerta;
+    @Column(name = "incidente_alerta")
+    @NotBlank(message = "El incidente de alerta no puede estar vacío")
+    private String incidenteAlerta;
 
-@Column(name = "tipo_alerta")
-@NotBlank (message = " el tipo de alerta no puede estar vacio")
-private String tipoAlerta;
-
-@Column(name = "incidente_alerta")
-@NotBlank(message = "el incidente de alerta no puede estar vacio")
-private String incidenteAlerta;
-
-
-// getter y setters
-
+    // Getters y Setters
 
     public Integer getIdAlerta() {
         return idAlerta;
@@ -44,27 +39,27 @@ private String incidenteAlerta;
         this.idAlerta = idAlerta;
     }
 
-    public @NotNull @Past(message = "error la fecha no puede ser futura") LocalDate getFecha_alerta() {
+    public LocalDate getFechaAlerta() {
         return fechaAlerta;
     }
 
-    public void setFecha_alerta(@NotNull @Past LocalDate fecha_alerta) {
-        this.fechaAlerta = fecha_alerta;
+    public void setFechaAlerta(LocalDate fechaAlerta) {
+        this.fechaAlerta = fechaAlerta;
     }
 
-    public String getTipo_alerta() {
+    public String getTipoAlerta() {
         return tipoAlerta;
     }
 
-    public void setTipo_alerta(String tipo_alerta) {
-        this.tipoAlerta = tipo_alerta;
+    public void setTipoAlerta(String tipoAlerta) {
+        this.tipoAlerta = tipoAlerta;
     }
 
-    public String getIncidente_alerta() {
+    public String getIncidenteAlerta() {
         return incidenteAlerta;
     }
 
-    public void setIncidente_alerta(String incidente_alerta) {
-        this.incidenteAlerta = incidente_alerta;
+    public void setIncidenteAlerta(String incidenteAlerta) {
+        this.incidenteAlerta = incidenteAlerta;
     }
 }
