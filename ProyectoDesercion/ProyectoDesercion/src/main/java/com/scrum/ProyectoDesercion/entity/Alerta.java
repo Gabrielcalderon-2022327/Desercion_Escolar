@@ -12,8 +12,8 @@ import java.time.LocalDate;
 public class Alerta {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_alerta")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id_empleado")
     private Integer idAlerta;
 
     @Column(name = "fecha_alerta")
@@ -30,36 +30,15 @@ public class Alerta {
     private String incidenteAlerta;
 
     // Getters y Setters
+    public Integer getIdAlerta() { return idAlerta; }
+    public void setIdAlerta(Integer idAlerta) { this.idAlerta = idAlerta; }
 
-    public Integer getIdAlerta() {
-        return idAlerta;
-    }
+    public LocalDate getFechaAlerta() { return fechaAlerta; }
+    public void setFechaAlerta(LocalDate fechaAlerta) { this.fechaAlerta = fechaAlerta; }
 
-    public void setIdAlerta(Integer idAlerta) {
-        this.idAlerta = idAlerta;
-    }
+    public String getTipoAlerta() { return tipoAlerta; }
+    public void setTipoAlerta(String tipoAlerta) { this.tipoAlerta = tipoAlerta; }
 
-    public LocalDate getFechaAlerta() {
-        return fechaAlerta;
-    }
-
-    public void setFechaAlerta(LocalDate fechaAlerta) {
-        this.fechaAlerta = fechaAlerta;
-    }
-
-    public String getTipoAlerta() {
-        return tipoAlerta;
-    }
-
-    public void setTipoAlerta(String tipoAlerta) {
-        this.tipoAlerta = tipoAlerta;
-    }
-
-    public String getIncidenteAlerta() {
-        return incidenteAlerta;
-    }
-
-    public void setIncidenteAlerta(String incidenteAlerta) {
-        this.incidenteAlerta = incidenteAlerta;
-    }
+    public String getIncidenteAlerta() { return incidenteAlerta; }
+    public void setIncidenteAlerta(String incidenteAlerta) { this.incidenteAlerta = incidenteAlerta; }
 }
