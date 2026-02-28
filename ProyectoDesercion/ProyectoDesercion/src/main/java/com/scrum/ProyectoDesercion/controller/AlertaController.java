@@ -25,7 +25,7 @@ public class AlertaController {
         return alertaService.getAllAlerta();
     }
 
-    @GetMapping("/alerta/{id}")
+    @GetMapping("/{id}")
     public Alerta buscarPorId(@PathVariable Integer id) {
         return alertaService.getAlertaById(id);
     }
