@@ -25,6 +25,11 @@ public class AlertaController {
         return alertaService.getAllAlerta();
     }
 
+    @GetMapping("/alerta/{id}")
+    public Alerta buscarPorId(@PathVariable Integer id) {
+        return alertaService.getAlertaById(id);
+    }
+
     @PostMapping
     public ResponseEntity<Object> createAlerta(@Valid @RequestBody Alerta alerta) {
         try {
