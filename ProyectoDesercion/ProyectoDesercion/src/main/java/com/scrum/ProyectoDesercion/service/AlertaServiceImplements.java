@@ -36,6 +36,9 @@ public class AlertaServiceImplements implements AlertaService {
         Optional<Alerta> alertaExistente = alertaRepository.findById(id);
         if (alertaExistente.isPresent()) {
             Alerta alertaActualizada = alertaExistente.get();
+            alertaActualizada.setFechaAlerta(alerta.getFechaAlerta());
+            alertaActualizada.setTipoAlerta(alerta.getTipoAlerta());
+            alertaActualizada.setIncidenteAlerta(alerta.getIncidenteAlerta());
             return alertaRepository.save(alertaActualizada);
         } else {
             throw new IllegalArgumentException("No se encontró la alerta con el ID: " + id);
