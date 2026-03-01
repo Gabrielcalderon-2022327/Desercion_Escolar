@@ -67,7 +67,7 @@ body {
 }
 
 #entidades-desplegable::before { 
-    content: "Entidades"; 
+    content: "MENU"; 
     margin-right: 8px; 
 }
 #entidades-desplegable::after { 
