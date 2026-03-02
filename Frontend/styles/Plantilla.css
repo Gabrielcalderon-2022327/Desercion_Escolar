@@ -31,6 +31,14 @@ body {
     border-bottom: 2px solid var(--borde);
 }
 
+/* Ajuste del Logo en el Header */
+.logo img {
+    height: 45px;     
+    width: auto;       
+    display: block;    
+    filter: brightness(1.1); 
+}
+
 .navegacion, .entidades-menu {
     list-style: none;
     margin: 0; padding: 0;
