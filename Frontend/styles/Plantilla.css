@@ -1,4 +1,7 @@
-/* Variables para facilitar cambios de color */
+/* =========================================
+   ESTILOs PAGINA DE GESTIÓN DE MATERIAS PERDIDAS
+   ========================================= */
+
 :root {
     --fondo-oscuro: #121212;
     --fondo-tarjeta: #1e1e1e;
@@ -9,7 +12,8 @@
     --rojo-eliminar: #ff5252;
 }
 
-/* Reset y Base */
+* { box-sizing: border-box; }
+
 body {
     background-color: var(--fondo-oscuro);
     color: var(--texto-principal);
@@ -17,13 +21,7 @@ body {
     margin: 0;
 }
 
-.layout {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-/* Encabezado de la página */
+/* --- HEADER Y NAVEGACIÓN --- */
 .header {
     background-color: var(--fondo-tarjeta);
     padding: 15px 30px;
@@ -33,409 +31,238 @@ body {
     border-bottom: 2px solid var(--borde);
 }
 
-/* Logo */
-.logo img {
-    max-height: 50px;
-    filter: brightness(0) invert(1); 
-}
-
-/* Navegacion */
-/* Contenedor de la navegación */
-.navegacion {
-    position: relative;
-    padding: 0;
-    margin: 0;
-}
-
-/* El li que contiene el submenú */
-.navegacion > li {
-    position: relative;
-    padding: 10px 15px;
-}
-
-/* Estilo del menú desplegable oculto */
-.entidades-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    width: 200px;
-    background: rgba(30, 30, 30, 0.8); 
-    backdrop-filter: blur(10px);        
-    border: 1px solid var(--borde);
-    border-radius: 8px;
+.navegacion, .entidades-menu {
     list-style: none;
-    padding: 10px 0;
-    opacity: 0;
-    visibility: hidden;
-    transform: translateY(10px);
-    transition: all 0.3s ease;
-    z-index: 1000;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+    margin: 0; padding: 0;
 }
 
-/* Mostrar al hacer hover */
-.navegacion > li:hover .entidades-menu {
-    opacity: 1;
-    visibility: visible;
-    transform: translateY(0);
-}
+.navegacion { display: flex; align-items: center; gap: 20px; }
 
-/* Menu desplegable entidades */
-.entidades-menu {
-    background-color: var(--fondo-tarjeta);
-    border: 1px solid var(--borde);
-    padding: 10px;
-}
-
-/* Informacion del usuario */
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-/* Estilo para los items del submenú */
-.entidades-menu li a {
-    display: block;
-    padding: 10px 20px;
-    color: var(--texto-secundario);
-    transition: 0.2s;
-}
-
-/* Efecto hover para los items del submenú */
-.entidades-menu li a:hover {
-    background: var(--hover);
-    color: var(--acento-color);
-    padding-left: 25px; 
-}
-
-/* Mejora visual para el link activo */
-#riesgo-link a {
-    color: var(--acento-color);
-    border-left: 3px solid var(--acento-color);
-    background: rgba(0, 173, 181, 0.1);
-}
-
-/* Añadir un separador visual antes de Riesgo */
-#riesgo-link {
-    border-top: 1px solid var(--borde);
-    margin-top: 5px;
-    padding-top: 5px;
-}
-
-/* Efecto de brillo en el texto principal */
-.navegacion > li > a {
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.9rem;
-}
-
-/* Seleccionamos el primer li de la navegación (Inicio) */
+/* Botón Inicio */
 .navegacion > li:first-child a {
     background: rgba(255, 255, 255, 0.05);
     padding: 8px 20px;
     border-radius: 20px;
     border: 1px solid var(--borde);
-    transition: all 0.3s ease;
-    display: inline-block;
+    transition: 0.3s;
     color: var(--texto-secundario);
+    text-decoration: none;
     text-transform: uppercase;
     font-size: 0.85rem;
-    letter-spacing: 1px;
 }
 
-/* Efecto al pasar el mouse por Inicio */
 .navegacion > li:first-child a:hover {
     background: var(--acento-color);
-    color: #000; 
-    border-color: var(--acento-color);
-    box-shadow: 0 0 15px rgba(0, 173, 181, 0.4);
-    transform: translateY(-2px);
+    color: #000;
 }
 
-/* Estilo para el texto "MENU" */
-.navegacion > li:nth-child(2) {
-    color: var(--texto-principal);
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-/* Flecha decorativa usando pseudo-elemento */
-.navegacion > li:nth-child(2)::after {
-    content: '▼';
-    font-size: 0.6rem;
-    transition: transform 0.3s ease;
-    color: var(--acento-color);
-}
-
-/* Girar la flecha cuando el menú está abierto (hover) */
-.navegacion > li:hover:nth-child(2)::after {
-    transform: rotate(180deg);
-}
-
-/* Seleccionamos el segundo elemento de la lista (el contenedor de entidades) */
+/* Menú Desplegable (Basado en tu Plantilla) */
 .navegacion > li:nth-child(2) {
     position: relative;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 0.85rem;
+    text-transform: uppercase;
     display: flex;
     align-items: center;
     gap: 8px;
-    color: var(--texto-principal);
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-size: 0.85rem;
-    cursor: pointer;
-    padding: 10px 15px;
 }
 
-/* Ponemos el texto Menu */
-.navegacion > li:nth-child(2)::before {
-    content: "MENÚ"; /* Aquí definimos el texto que aparecerá antes de la flecha */
-    color: var(--texto-principal);
+.navegacion > li:nth-child(2)::before { content: "MENÚ"; }
+.navegacion > li:nth-child(2)::after { 
+    content: '▼'; 
+    font-size: 0.6rem; 
+    color: var(--acento-color); 
+    transition: 0.3s; 
+}
+.navegacion > li:hover:nth-child(2)::after { transform: rotate(180deg); }
+
+.entidades-menu {
+    position: absolute;
+    top: 100%; left: 0;
+    width: 200px;
+    background: var(--fondo-tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 8px;
+    opacity: 0; visibility: hidden;
+    transform: translateY(10px);
+    transition: 0.3s;
+    z-index: 1000;
 }
 
-/* Tu flecha actual */
-.navegacion > li:nth-child(2)::after {
-    content: '▼';
-    font-size: 0.6rem;
+.navegacion > li:hover .entidades-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+
+.entidades-menu li a {
+    display: block;
+    padding: 10px 20px;
+    color: var(--texto-secundario);
+    text-decoration: none;
+    transition: 0.2s;
+}
+
+.entidades-menu li a:hover {
+    background: rgba(255, 255, 255, 0.05);
     color: var(--acento-color);
-    transition: transform 0.3s ease;
+    padding-left: 25px;
 }
 
-/* Efecto hover para girar la flecha */
-.navegacion > li:hover:nth-child(2)::after {
-    transform: rotate(180deg);
-}
-
-/* Eliminar los estilos de lista por defecto */
-.navegacion, .entidades-menu {
-    list-style: none; 
-    margin: 0;
-    padding: 0;
-}
-
-/* Adaptación del botón animado a la clase .btn-cerrarSesion */
-.btn-cerrarSesion {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  width: 45px;
-  height: 45px;
-  border: none;
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-  overflow: hidden;
-  transition-duration: .3s;
-  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.199);
-  background-color: rgb(255, 65, 65);
-  color: transparent; 
-  font-size: 0; 
-}
-
-/* El Sign creado con pseudo-elemento (el icono) */
-.btn-cerrarSesion::before {
-  content: "→"; 
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  color: white;
-  font-size: 20px;
-  transition-duration: .3s;
-  position: absolute;
-  left: 0;
-}
-
-/* El text creado con pseudo-elemento (Logout) */
-.btn-cerrarSesion::after {
-  content: "Logout";
-  position: absolute;
-  right: 0%;
-  width: 0%;
-  opacity: 0;
-  color: white;
-  font-size: 16px; 
-  font-weight: 600;
-  transition-duration: .3s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-/* Hover: El botón se expande */
-.btn-cerrarSesion:hover {
-  width: 125px;
-  border-radius: 40px;
-  transition-duration: .3s;
-}
-
-/* Hover: El icono se mueve a la izquierda */
-.btn-cerrarSesion:hover::before {
-  width: 30%;
-  transition-duration: .3s;
-  padding-left: 10px;
-}
-
-/* Hover: Aparece el texto "Logout" */
-.btn-cerrarSesion:hover::after {
-  opacity: 1;
-  width: 70%;
-  transition-duration: .3s;
-  padding-right: 10px;
-}
-
-/* Efecto Click */
-.btn-cerrarSesion:active {
-  transform: translate(2px, 2px);
-}
-
-/* Contenido Principal */
-.main-content {
-    padding: 40px;
-}
-
-/* Título de la entidad */
-.titulo-entidad {
-    color: var(--acento-color);
-    margin-bottom: 30px;
-}
-
-/* Acciones CRUD y Búsqueda */
-.crud-actions, .crud-search {
-    margin-bottom: 20px;
+/* --- BOTONES CRUD CORREGIDOS --- */
+.crud-container {
     display: flex;
-    gap: 10px;
+    justify-content: space-between;
+    align-items: center;
+    margin: 25px 0;
 }
 
-/* Botones CRUD */
+.crud-actions { display: flex; gap: 12px; }
+
 .btn-crud {
-  position: relative;
-  width: 150px;
-  height: 40px;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  border: 1px solid var(--acento-color);
-  background-color: var(--fondo-tarjeta); 
-  overflow: hidden;
-  transition: all 0.3s;
-  color: transparent; 
-  font-size: 0;
-  border-radius: 4px;
+    position: relative;
+    width: 140px;
+    height: 42px;
+    cursor: pointer;
+    border: 1px solid var(--acento-color);
+    background-color: var(--fondo-tarjeta);
+    border-radius: 4px;
+    overflow: hidden;
+    transition: 0.3s;
+    color: transparent; 
 }
 
-/* El texto del botón usando pseudo-elemento */
-.btn-crud::after {
-  content: attr(data-text); 
-  position: absolute;
-  transform: translateX(20px);
-  color: #fff;
-  font-weight: 600;
-  font-size: 14px;
-  transition: all 0.3s;
-}
-
-/* Personalización de texto por ID */
-#btn-crear::after { content: "Crear"; }
-#btn-actualizar::after { content: "Actualizar"; }
-#btn-eliminar::after { content: "Eliminar"; }
-#btn-listar::after { content: "Listar"; }
-
-/* El icono del botón usando pseudo-elemento */
+/* Iconos de los botones (Correctamente centrados) */
 .btn-crud::before {
-  content: "+"; 
-  position: absolute;
-  transform: translateX(109px);
-  height: 100%;
-  width: 39px;
-  background-color: var(--acento-color);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 20px;
-  transition: all 0.3s;
-  z-index: 2;
+    position: absolute;
+    right: 0; top: 0;
+    width: 40px; height: 100%;
+    background-color: var(--acento-color);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 18px; transition: 0.3s; z-index: 2;
 }
 
-/* Personalización de iconos por ID */
+/* Textos de los botones (Pseudo-elementos para control total) */
+.btn-crud::after {
+    position: absolute;
+    left: 15px; top: 50%;
+    transform: translateY(-50%);
+    color: white; font-weight: 600; 
+    font-size: 14px; 
+    transition: 0.3s;
+}
+
+/* Asignación de iconos y textos por ID */
+#btn-crear::before { content: "+"; }
+#btn-crear::after { content: "Crear"; }
+
+#btn-actualizar::before { content: "✎"; }
+#btn-actualizar::after { content: "Actualizar"; }
+
 #btn-eliminar::before { content: "×"; background-color: var(--rojo-eliminar); }
-#btn-actualizar::before { content: "↻"; }
-#btn-listar::before { content: "☰"; }
+#btn-eliminar::after { content: "Eliminar"; }
 #btn-eliminar { border-color: var(--rojo-eliminar); }
 
-/* Hover Effects */
-.btn-crud:hover {
-  background: var(--acento-color);
+#btn-listar::before { content: "☰"; }
+#btn-listar::after { content: "Listar"; }
+
+/* Animación Hover */
+.btn-crud:hover::before { width: 100%; }
+.btn-crud:hover::after { opacity: 0; }
+
+/* --- BUSCADOR NIVELADO --- */
+.crud-search { 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
 }
 
-/* Hover específico para el botón Eliminar */
-#btn-eliminar:hover {
-  background: var(--rojo-eliminar);
-}
-
-/* Al hacer hover, el texto se vuelve visible y el icono se mueve a la izquierda */
-.btn-crud:hover::after {
-  color: transparent; 
-}
-
-/* Al hacer hover, el icono se expande para cubrir todo el botón */
-.btn-crud:hover::before {
-  width: 148px;
-  transform: translateX(0);
-}
-
-/* Active State */
-.btn-crud:active {
-  transform: scale(0.95);
-}
-
-/* Estilo para el campo de búsqueda */
 .crud-search input {
+    height: 42px; 
+    width: 280px;
+    padding: 0 45px 0 15px; 
     background-color: #252525;
     border: 1px solid var(--borde);
     color: white;
-    padding: 10px;
-    width: 300px;
-    border-radius: 4px;
+    border-radius: 20px;
+    outline: none;
+    transition: 0.3s;
 }
 
-/* Tabla de las entidades */
+.crud-search input:focus { 
+    border-color: var(--acento-color); 
+    width: 320px; 
+}
+
+#btn-buscar { 
+    position: absolute; 
+    right: 12px; 
+    background: none; 
+    border: none; 
+    cursor: pointer; 
+    display: flex; 
+    align-items: center; 
+}
+
+#btn-buscar img { width: 16px; filter: invert(1); opacity: 0.7; }
+
+/* --- TABLA --- */
+.main-content { 
+    padding: 40px; 
+}
+.titulo-entidad { 
+    color: var(--acento-color); 
+    margin-bottom: 30px; 
+}
+
 .table-container {
     background-color: var(--fondo-tarjeta);
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    border-radius: 8px; padding: 20px;
+    border: 1px solid var(--borde);
 }
 
-/* Estilo para la tabla */
-.crud-table {
-    width: 100%;
-    border-collapse: collapse;
+.crud-table { width: 100%; border-collapse: collapse; }
+.crud-table th { 
+    color: var(--acento-color); 
+    padding: 15px; 
+    text-align: left; 
+    border-bottom: 2px solid var(--acento-color); 
+}
+.crud-table td { 
+    padding: 12px 15px; 
+    border-bottom: 1px solid var(--borde); 
+    color: var(--texto-secundario); 
+}
+.crud-table tr:hover { 
+    background: rgba(255, 255, 255, 0.05); 
 }
 
-.crud-table thead {
-    border-bottom: 2px solid var(--acento-color);
+/* --- BOTÓN CERRAR SESIÓN --- */
+.btn-cerrarSesion {
+    width: 45px; 
+    height: 45px; 
+    border: none; 
+    border-radius: 50%;
+    cursor: pointer; 
+    position: relative; 
+    overflow: hidden;
+    background-color: var(--rojo-eliminar); 
+    transition: 0.3s;
 }
-
-.crud-table th {
-    text-align: left;
-    padding: 15px;
-    color: var(--acento-color);
+.btn-cerrarSesion::before { 
+    content: "→"; position: absolute; 
+    left: 0; width: 80%; 
+    color: white; 
+    font-size: 20px; 
+    display: flex; 
+    justify-content: center; 
 }
-
-.crud-table td {
-    padding: 12px 15px;
-    border-bottom: 1px solid var(--borde);
+.btn-cerrarSesion::after { 
+    content: "Logout"; 
+    position: absolute; 
+    right: 0px; 
+    width: 0; 
+    opacity: 0; 
+    color: white; 
+    font-size: 14px; 
+    transition: 0.3s; 
 }
-
-.crud-table tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.05);
-}
+.btn-cerrarSesion:hover { width: 125px; border-radius: 40px; }
+.btn-cerrarSesion:hover::after { opacity: 1; width: 70%; }
