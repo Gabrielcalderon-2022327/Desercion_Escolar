@@ -36,13 +36,13 @@
 
         <!--Informacion del usuario y boton para cerrar sesion-->
         <div class="user-info">
-            <span>Gabriel</span>
+            <span>Rodri</span>
             <button class="btn-cerrarSesion">Cerrar sesión</button>
         </div>
     </header>
 
     <main class="main-content">
-      <h1 class="titulo-entidad">Gestión de Usuarios</h1>
+      <h1 class="titulo-entidad">Gestión de Maestros</h1>
 
       <!-- Botones para el put, post, delete y get-->
       <div class="crud-actions">
@@ -56,7 +56,7 @@
       <div class="crud-search">
         <input type="text" placeholder="Buscar por ID o nombre...">
         <button class="btn-crud" id="btn-buscar">
-          <img src="#" alt="Logo de busqueda">
+          <img src="" alt="Logo de busqueda">
         </button>
       </div>
 
@@ -66,28 +66,28 @@
 
           <thead> <!-- Encabezado de las columnas-->
             <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Rol</th>
-              <th>Fecha Creación</th>
+              <th>id_maestro</th>
+              <th>nombre_maestro</th>
+              <th>especialidad_maestro</th>
+              <th>telefono_maestro</th>
+              <th>fk_id_usuario</th>
             </tr>
           </thead>
 
           <tbody> <!-- Contenido de la tabla-->
             <tr> <!-- Filas de ejemplo (tr representa una fila)-->
               <td>1</td> <!-- Filas de ejemplo (td representa la informacion de una celda, debe cazar con el th)-->
-              <td>Gabriel Calderon</td>
-              <td>gabriel@email.com</td>
-              <td>ADMIN</td>
-              <td>2024-01-15</td>
+              <td>Rodrigo Aquino</td>
+              <td>Matematicas</td>
+              <td>34670912</td>
+              <td>1</td>
             </tr>
-            <tr> <!-- Filas de ejemplo-->
+            <tr> <!-- Filas de ejemplo (tr representa una fila)-->
+              <td>2</td> 
+              <td>Jorge Álvarez</td>
+              <td>Inglés</td>
+              <td>78902354</td>
               <td>2</td>
-              <td>Alexander Monzon</td>
-              <td>alex@email.com</td>
-              <td>MAESTRO</td>
-              <td>2024-02-10</td>
             </tr>
           </tbody>
         </table>
