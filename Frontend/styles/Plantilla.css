@@ -33,7 +33,7 @@ body {
 
 /* Ajuste del Logo en el Header */
 .logo img {
-    height: 45px;     
+    height: 85px;     
     width: auto;       
     display: block;    
     filter: brightness(1.1); 
