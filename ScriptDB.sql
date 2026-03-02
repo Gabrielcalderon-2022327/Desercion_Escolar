@@ -894,3 +894,29 @@ begin
 end $$
 delimiter ;
 
+delimiter $$
+create trigger tr_alerta_insert
+after insert on Riesgo
+for each row
+begin
+	declare idRiesgo int;
+    set idRiesgo = new.id_riesgo;
+    
+    call sp_agregar_alerta(curdate(),"Pendiente de investigacion","Pendiente de investigacion", idRiesgo);
+end $$
+delimiter ;
+
+delimiter $$
+create trigger tr_alerta_update
+after update on Riesgo
+for each row
+begin
+	declare idRiesgo int;
+    set idRiesgo = new.id_riesgo;
+    
+    call sp_agregar_alerta(curdate(),"Pendiente de investigacion","Pendiente de investigacion", idRiesgo);
+end $$
+delimiter ;
+
+
+
