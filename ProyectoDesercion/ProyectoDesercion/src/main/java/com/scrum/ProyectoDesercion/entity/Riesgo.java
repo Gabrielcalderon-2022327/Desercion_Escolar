@@ -12,36 +12,50 @@ public class Riesgo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_riesgo")
-    private Integer idRiesgo;
+    private Integer id_riesgo;
 
     @Column(name = "nivel_riesgo")
     @NotBlank(message = "El nivel de riesgo no puede estar vacío")
-    @JsonProperty("nivel_riesgo")
-    private String nivelRiesgo;
+    private String nivel_riesgo;
 
     @Column(name = "descripcion_riesgo")
     @NotBlank(message = "La descripción del riesgo no puede estar vacía")
-    @JsonProperty("descripcion_riesgo")
-    private String descripcionRiesgo;
+    private String descripcion_riesgo;
 
-    // --- LA REGLA DEL PRIMO: unique = true ---
     @Column(name = "fk_id_estudiante", unique = true)
     @NotNull(message = "El ID del estudiante es obligatorio")
-    @JsonProperty("fk_id_estudiante")
-    private Integer fkIdEstudiante;
+    private Integer fk_id_estudiante;
 
-    public Riesgo() {}
 
-    // --- Getters y Setters ---
-    public Integer getIdRiesgo() { return idRiesgo; }
-    public void setIdRiesgo(Integer idRiesgo) { this.idRiesgo = idRiesgo; }
+    public Integer getId_riesgo() {
+        return id_riesgo;
+    }
 
-    public String getNivelRiesgo() { return nivelRiesgo; }
-    public void setNivelRiesgo(String nivelRiesgo) { this.nivelRiesgo = nivelRiesgo; }
+    public void setId_riesgo(Integer id_riesgo) {
+        this.id_riesgo = id_riesgo;
+    }
 
-    public String getDescripcionRiesgo() { return descripcionRiesgo; }
-    public void setDescripcionRiesgo(String descripcionRiesgo) { this.descripcionRiesgo = descripcionRiesgo; }
+    public String getNivel_riesgo() {
+        return nivel_riesgo;
+    }
 
-    public Integer getFkIdEstudiante() { return fkIdEstudiante; }
-    public void setFkIdEstudiante(Integer fkIdEstudiante) { this.fkIdEstudiante = fkIdEstudiante; }
+    public void setNivel_riesgo(String nivel_riesgo) {
+        this.nivel_riesgo = nivel_riesgo;
+    }
+
+    public Integer getFk_id_estudiante() {
+        return fk_id_estudiante;
+    }
+
+    public void setFk_id_estudiante(Integer fk_id_estudiante) {
+        this.fk_id_estudiante = fk_id_estudiante;
+    }
+
+    public String getDescripcion_riesgo() {
+        return descripcion_riesgo;
+    }
+
+    public void setDescripcion_riesgo(String descripcion_riesgo) {
+        this.descripcion_riesgo = descripcion_riesgo;
+    }
 }
