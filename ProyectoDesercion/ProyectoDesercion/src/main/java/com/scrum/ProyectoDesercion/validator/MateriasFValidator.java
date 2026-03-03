@@ -18,38 +18,9 @@ public class MateriasFValidator {
     // VALIDACIÓN PARA REGISTRO
     public void validarRegistro(MateriasF materiasF) {
 
-        if (materiasF == null) {
-            throw new IllegalArgumentException("La materia no puede ser nula");
-        }
-
-        String nombre = materiasF.getNombreMateriaF() != null
-                ? materiasF.getNombreMateriaF().trim()
-                : null;
-
         Integer idMaestro = materiasF.getIdMaestro();
         Integer idEstudiante = materiasF.getIdEstudiante();
-
-        // Nombre obligatorio
-        if (nombre == null || nombre.isEmpty()) {
-            throw new IllegalArgumentException("El nombre de la materia es obligatorio");
-        }
-
-        // Descripción obligatoria
-        if (materiasF.getDescripcionMateriaF() == null ||
-                materiasF.getDescripcionMateriaF().trim().isEmpty()) {
-            throw new IllegalArgumentException("La descripción es obligatoria");
-        }
-
-        // Fecha obligatoria
-        if (materiasF.getFechaAlertaMateriaF() == null) {
-            throw new IllegalArgumentException("La fecha de alerta es obligatoria");
-        }
-
-        // Fecha no puede ser pasada
-        if (materiasF.getFechaAlertaMateriaF().isBefore(LocalDate.now())) {
-            throw new IllegalArgumentException("La fecha de alerta no puede ser pasada");
-        }
-
+        
         // Validación idMaestro
         if (idMaestro == null || idMaestro <= 0) {
             throw new IllegalArgumentException("El id del maestro debe ser mayor a 0");
