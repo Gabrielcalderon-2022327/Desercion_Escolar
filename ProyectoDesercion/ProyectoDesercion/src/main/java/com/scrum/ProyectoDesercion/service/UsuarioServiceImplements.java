@@ -1,6 +1,7 @@
 package com.scrum.ProyectoDesercion.service;
 
 import com.scrum.ProyectoDesercion.entity.Usuario;
+import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class UsuarioServiceImplements implements UsuarioService {
             usuario1.setRolUsuario(usuario.getRolUsuario());
             usuario1.setCreacionUsuario(usuario.getCreacionUsuario());
         } else {
-            throw new RuntimeException("Usuario no encontrado");
+            throw new ResourceNotFoundException("Usuario no encontrado");
         }
         return usuarioRepository.save(usuario1);
     }
