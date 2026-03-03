@@ -1,5 +1,6 @@
 package com.scrum.ProyectoDesercion.service;
 import com.scrum.ProyectoDesercion.entity.MateriasF;
+import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.MateriasfRepository;
 import org.springframework.stereotype.Service;
 
