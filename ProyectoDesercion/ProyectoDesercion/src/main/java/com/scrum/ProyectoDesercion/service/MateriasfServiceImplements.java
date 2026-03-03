@@ -41,7 +41,11 @@ public class MateriasfServiceImplements implements MateriasfService{
     }
 
     public void deleteMateriasF(Integer id) {
-        materiasfRepository.deleteById(id);
+        MateriasF materiasf = materiasfRepository.findById(id).orElse(null);
+        if (materiasf == null) {
+            throw new ResourceNotFoundException("Materia no encontrada");
+        }
+        materiasfRepository.delete(materiasf);
     }
 }
 
