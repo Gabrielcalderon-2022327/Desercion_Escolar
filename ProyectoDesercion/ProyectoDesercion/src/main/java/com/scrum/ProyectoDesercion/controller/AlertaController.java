@@ -26,38 +26,26 @@ public class AlertaController {
     }
 
     @GetMapping("/{id}")
-    public Alerta buscarPorId(@PathVariable Integer id) {
-        return alertaService.getAlertaById(id);
+    public ResponseEntity<Object> buscarPorId(@PathVariable Integer id) {
+        Alerta searchedAlerta = alertaService.getAlertaById(id);
+        return new ResponseEntity<>(searchedAlerta, HttpStatus.OK);
     }
 
     @PostMapping
     public ResponseEntity<Object> createAlerta(@Valid @RequestBody Alerta alerta) {
-        try {
             Alerta createdAlerta = alertaService.saveAlerta(alerta);
             return new ResponseEntity<>(createdAlerta, HttpStatus.CREATED);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> updateAlerta(@PathVariable Integer id, @Valid @RequestBody Alerta alerta) {
-        try {
             Alerta updatedAlerta = alertaService.updateAlerta(id, alerta);
             return ResponseEntity.ok(updatedAlerta);
-        } catch (IllegalArgumentException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Object> deleteAlerta(@PathVariable Integer id) {
-        try {
             alertaService.deleteAlerta(id);
-            return ResponseEntity.ok("La alerta fue eliminada con éxito: " + id);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("No se pudo eliminar: " + e.getMessage());
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
-    }
 }
