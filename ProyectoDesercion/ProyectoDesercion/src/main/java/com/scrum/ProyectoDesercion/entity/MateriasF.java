@@ -1,6 +1,9 @@
 package com.scrum.ProyectoDesercion.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDate;
 
@@ -14,18 +17,24 @@ public class MateriasF {
     private Integer idMateriasF;
 
     @Column(name = "nombre_materiaf")
+    @NotBlank(message = "El nombre de materia es un campo obligatorio")
     private String nombreMateriaF;
 
     @Column(name = "descripcion_materiaf")
+    @NotBlank(message = "La descripcion es un campo obligatorio")
     private String descripcionMateriaF;
-
+    
     @Column(name = "fecha_alerta_materiaf")
+    @NotNull(message = "La fecha de alerta es un campo obligatorio")
+    @Past(message = "La fecha no puede ser futura")
     private LocalDate fechaAlertaMateriaF;
 
     @Column(name = "fk_id_maestro")
+    @NotNull(message = "El id del maestro es un campo  obligatorio")
     private Integer idMaestro;
 
     @Column(name = "fk_id_estudiante")
+    @NotNull(message = "El id del estudiante es un campo  obligatorio")
     private Integer idEstudiante;
 
     //Generar getter and setter a todos
