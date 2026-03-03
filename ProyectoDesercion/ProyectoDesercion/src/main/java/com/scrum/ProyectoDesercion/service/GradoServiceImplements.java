@@ -26,7 +26,7 @@ public class GradoServiceImplements implements GradoService{
         Grado grado = gradoRepository.findById(id).orElse(null);
 
         if(grado == null){
-            throw new IllegalArgumentException("El grado no se ha encontrado");
+            throw new ResourceNotFoundException("El grado no se ha encontrado");
         }
         return grado;
     }
