@@ -1,42 +1,59 @@
 package com.scrum.ProyectoDesercion.service;
 
 import com.scrum.ProyectoDesercion.entity.Riesgo;
+import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.RiesgoRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class RiesgoServiceImplements {
+public class RiesgoServiceImplements implements RiesgoService {
 
-    @Autowired
-    private RiesgoRepository riesgoRepository;
+    private final RiesgoRepository riesgoRepository;
 
+    public RiesgoServiceImplements(RiesgoRepository riesgoRepository) {
+        this.riesgoRepository = riesgoRepository;
+    }
+
+    @Override
     public List<Riesgo> listarRiesgos() {
         return riesgoRepository.findAll();
     }
 
+    @Override
     public Riesgo buscarRiesgo(Integer id) {
-        return riesgoRepository.findById(id).orElse(null);
+        Riesgo riesgo = riesgoRepository.findById(id).orElse(null);
+        if (riesgo == null) {
+            throw new ResourceNotFoundException("Riesgo no encontrada");
+        }
+        return riesgo;
     }
 
+    @Override
     public Riesgo crearRiesgo(Riesgo riesgo) {
-        // Como es nuevo, usamos el save directo
         return riesgoRepository.save(riesgo);
     }
 
+    @Override
     public Riesgo actualizarRiesgo(Integer id, Riesgo riesgo) {
-        return riesgoRepository.findById(id).map(riesgoExistente -> {
-            // Mapeamos los datos nuevos al registro que ya existe
-            riesgoExistente.setNivelRiesgo(riesgo.getNivelRiesgo());
-            riesgoExistente.setDescripcionRiesgo(riesgo.getDescripcionRiesgo());
-            riesgoExistente.setFkIdEstudiante(riesgo.getFkIdEstudiante());
-            return riesgoRepository.save(riesgoExistente);
-        }).orElseThrow(() -> new RuntimeException("No se encontró el riesgo con ID: " + id));
+        Riesgo riesgo1 = riesgoRepository.findById(id).orElse(null);
+        if (riesgo1 == null) {
+            throw new ResourceNotFoundException("Riesgo no encontrada");
+        } else {
+            riesgo1.setDescripcion_riesgo(riesgo.getDescripcion_riesgo());
+            riesgo1.setNivel_riesgo(riesgo.getNivel_riesgo());
+            riesgo1.setFk_id_estudiante(riesgo.getFk_id_estudiante());
+        }
+        return riesgo1;
     }
 
+    @Override
     public void eliminarRiesgo(Integer id) {
-        riesgoRepository.deleteById(id);
+        Riesgo riesgo = riesgoRepository.findById(id).orElse(null);
+        if (riesgo == null) {
+            throw new ResourceNotFoundException("Riesgo no encontrada");
+        }
+        riesgoRepository.delete(riesgo);
     }
 }
