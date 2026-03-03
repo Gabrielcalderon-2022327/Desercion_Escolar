@@ -15,53 +15,74 @@ public class Alerta {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id_alerta")
-    private Integer idAlerta;
+    private Integer id_alerta;
 
     @Column(name = "fecha_alerta")
     @NotNull(message = "La fecha no puede ser nula")
     @Past(message = "Error: la fecha no puede ser futura")
-    @JsonProperty("fecha_alerta")
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
-    private LocalDate fechaAlerta;
+    private LocalDate fecha_alerta;
 
     @Column(name = "tipo_alerta")
     @NotBlank(message = "El tipo de alerta no puede estar vacío")
-    @JsonProperty("tipo_alerta")
-    private String tipoAlerta;
+    private String tipo_alerta;
 
     @Column(name = "incidente_alerta")
     @NotBlank(message = "El incidente de alerta no puede estar vacío")
-    @JsonProperty("incidente_alerta")
-    private String incidenteAlerta;
+    private String incidente_alerta;
 
     @Column(name = "fk_id_riesgo")
     @NotNull(message = "El ID de riesgo es obligatorio")
-    @JsonProperty("fk_id_riesgo")
-    private Integer fkIdRiesgo;
+    private Integer fk_id_riesgo;
 
     @Column(name = "id_empleado")
     @NotNull(message = "El ID del empleado es obligatorio")
-    @JsonProperty("id_empleado")
-    private Integer idEmpleado;
+    private Integer id_empleado;
 
-    public Alerta() {}
+    public Integer getId_alerta() {
+        return id_alerta;
+    }
 
-    // --- Getters y Setters ---
-    public Integer getIdAlerta() { return idAlerta; }
-    public void setIdAlerta(Integer idAlerta) { this.idAlerta = idAlerta; }
+    public void setId_alerta(Integer id_alerta) {
+        this.id_alerta = id_alerta;
+    }
 
-    public LocalDate getFechaAlerta() { return fechaAlerta; }
-    public void setFechaAlerta(LocalDate fechaAlerta) { this.fechaAlerta = fechaAlerta; }
+    public LocalDate getFecha_alerta() {
+        return fecha_alerta;
+    }
 
-    public String getTipoAlerta() { return tipoAlerta; }
-    public void setTipoAlerta(String tipoAlerta) { this.tipoAlerta = tipoAlerta; }
+    public void setFecha_alerta(LocalDate fecha_alerta) {
+        this.fecha_alerta = fecha_alerta;
+    }
 
-    public String getIncidenteAlerta() { return incidenteAlerta; }
-    public void setIncidenteAlerta(String incidenteAlerta) { this.incidenteAlerta = incidenteAlerta; }
+    public String getTipo_alerta() {
+        return tipo_alerta;
+    }
 
-    public Integer getFkIdRiesgo() { return fkIdRiesgo; }
-    public void setFkIdRiesgo(Integer fkIdRiesgo) { this.fkIdRiesgo = fkIdRiesgo; }
+    public void setTipo_alerta(String tipo_alerta) {
+        this.tipo_alerta = tipo_alerta;
+    }
 
-    public Integer getIdEmpleado() { return idEmpleado; }
-    public void setIdEmpleado(Integer idEmpleado) { this.idEmpleado = idEmpleado; }
+    public String getIncidente_alerta() {
+        return incidente_alerta;
+    }
+
+    public void setIncidente_alerta(String incidente_alerta) {
+        this.incidente_alerta = incidente_alerta;
+    }
+
+    public Integer getFk_id_riesgo() {
+        return fk_id_riesgo;
+    }
+
+    public void setFk_id_riesgo(Integer fk_id_riesgo) {
+        this.fk_id_riesgo = fk_id_riesgo;
+    }
+
+    public Integer getId_empleado() {
+        return id_empleado;
+    }
+
+    public void setId_empleado(Integer id_empleado) {
+        this.id_empleado = id_empleado;
+    }
 }
