@@ -14,10 +14,6 @@ public class GradoValidator {
             throw new IllegalArgumentException("El ID del maestro es obligatorio y mayor a 0");
         }
 
-        // Validacion de nombre del grado
-        if (nombreGrad == null || nombreGrad.trim().isEmpty()) {
-            throw new IllegalArgumentException("El nombre del grado no puede estar vacio");
-        }
 
         if (nombreGrad.length() > 50) {
             throw new IllegalArgumentException("El nombre del grado es demasiado largo (maximo 50 caracteres)");
