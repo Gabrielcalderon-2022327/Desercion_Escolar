@@ -3,6 +3,7 @@ package com.scrum.ProyectoDesercion.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
 
 import java.time.LocalDate;
 
@@ -25,6 +26,8 @@ public class Encargado {
     private String apellido_encargado;
 
     @Column(name = "fecha_nacimiento_encargado")
+    @Past(message = "La fecha no puede ser futura")
+    @NotNull(message = "La fecha es un campo obligatorio")
     private LocalDate fecha_nacimiento_encargado;
 
     @Column(name = "direccion_encargado")
