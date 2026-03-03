@@ -47,10 +47,6 @@ public class UsuarioValidator {
     // VALIDACIÓN PARA LOGIN O BÚSQUEDA
     public Usuario validarUsuarioExistente(String correo) {
 
-        if (correo == null || correo.trim().isEmpty()) {
-            throw new IllegalArgumentException("El correo es obligatorio");
-        }
-
         return usuarioRepository.findByCorreoUsuario(correo.trim())
                 .orElseThrow(() ->
                         new IllegalArgumentException("Usuario no encontrado")
