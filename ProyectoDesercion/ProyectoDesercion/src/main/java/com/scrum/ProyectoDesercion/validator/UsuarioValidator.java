@@ -18,10 +18,6 @@ public class UsuarioValidator {
     // VALIDACIÓN PARA REGISTRO
     public void validarRegistro(Usuario usuario) {
 
-        if (usuario == null) {
-            throw new IllegalArgumentException("El usuario no puede ser nulo");
-        }
-
         String correo = usuario.getCorreoUsuario() != null
                 ? usuario.getCorreoUsuario().trim()
                 : null;
@@ -34,29 +30,9 @@ public class UsuarioValidator {
                 ? usuario.getRolUsuario().trim()
                 : null;
 
-        // correo obligatorio
-        if (correo == null || correo.isEmpty()) {
-            throw new IllegalArgumentException("El correo es obligatorio");
-        }
-
         // dominio Gmail obligatorio
         if (!correo.toLowerCase().endsWith("@gmail.com")) {
             throw new IllegalArgumentException("El correo debe ser de Gmail (@gmail.com)");
-        }
-
-        // contraseña obligatoria
-        if (contra == null || contra.isEmpty()) {
-            throw new IllegalArgumentException("La contraseña es obligatoria");
-        }
-
-        // rol obligatorio
-        if (rol == null || rol.isEmpty()) {
-            throw new IllegalArgumentException("El rol es obligatorio");
-        }
-
-        // fecha obligatoria
-        if (usuario.getCreacionUsuario() == null) {
-            throw new IllegalArgumentException("La fecha de creación es obligatoria");
         }
 
         // Validar si ya existe el usuario
