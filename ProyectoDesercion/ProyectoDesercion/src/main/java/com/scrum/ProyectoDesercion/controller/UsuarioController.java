@@ -30,7 +30,7 @@ public class UsuarioController {
     @PostMapping
     public ResponseEntity<Object> createUsuario(@Valid @RequestBody Usuario usuario) {
 
-        validator.validarRegistro(usuario);  // 🔥 validación correcta
+        validator.validarRegistro(usuario);  
 
         Usuario created = usuarioService.saveUsuario(usuario);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
