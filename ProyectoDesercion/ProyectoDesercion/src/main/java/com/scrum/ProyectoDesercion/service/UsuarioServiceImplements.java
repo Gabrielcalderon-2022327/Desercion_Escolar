@@ -43,7 +43,11 @@ public class UsuarioServiceImplements implements UsuarioService {
     }
 
     public void deleteUsuario(Integer id) {
-        usuarioRepository.deleteById(id);
+        Usuario usuario = usuarioRepository.findById(id).orElse(null);
+        if (usuario == null) {
+            throw new ResourceNotFoundException("Usuario no encontrado");
+        }
+        usuarioRepository.delete(usuario);
     }
 }
 
