@@ -24,31 +24,6 @@ public class EncargadoValidator {
         String direccionEnc = encargado.getDireccion_encargado();
         Integer telefonoEnc = encargado.getTelefono_encargado();
 
-        // Validacion para evitar que tenga espacios al final y al inicio, que no tenga cero caracteres
-        if(nombreEnc == null || nombreEnc.trim().isEmpty()){
-            throw new IllegalArgumentException("El nombre del encargado es obligatorio");
-        }
-
-        if(apellidoEnc == null || apellidoEnc.trim().isEmpty()){
-            throw new IllegalArgumentException("El apellido del encargado es obligatorio");
-        }
-
-        // Validacion de la Fecha de nacimiento
-
-        // No sea nula
-        if(fechaNacimientoEnc == null ){
-            throw new IllegalArgumentException("La fecha de nacimiento del encargado es obligatoria");
-        }
-
-        // Para que no sea futura
-        if(fechaNacimientoEnc.isAfter(LocalDate.now())){
-            throw new IllegalArgumentException("La fecha de nacimiento del encargado no puede ser futura");
-        }
-
-        if(direccionEnc == null || direccionEnc.trim().isEmpty()){
-            throw new IllegalArgumentException("La direccion del encargado es obligatoria");
-        }
-
         if(telefonoEnc == null || (telefonoEnc <= 0)){
             throw new IllegalArgumentException("El numero de telefono no puede ser nulo o menor a cero");
         }
