@@ -1,0 +1,88 @@
+package com.scrum.ProyectoDesercion.entity;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Past;
+import java.time.LocalDate;
+
+@Entity
+@Table(name = "Alerta")
+public class Alerta {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_alerta")
+    private Integer id_alerta;
+
+    @Column(name = "fecha_alerta")
+    @NotNull(message = "La fecha no puede ser nula")
+    @Past(message = "Error: la fecha no puede ser futura")
+    private LocalDate fecha_alerta;
+
+    @Column(name = "tipo_alerta")
+    @NotBlank(message = "El tipo de alerta no puede estar vacío")
+    private String tipo_alerta;
+
+    @Column(name = "incidente_alerta")
+    @NotBlank(message = "El incidente de alerta no puede estar vacío")
+    private String incidente_alerta;
+
+    @Column(name = "fk_id_riesgo")
+    @NotNull(message = "El ID de riesgo es obligatorio")
+    private Integer fk_id_riesgo;
+
+    @Column(name = "id_empleado")
+    @NotNull(message = "El ID del empleado es obligatorio")
+    private Integer id_empleado;
+
+    public Integer getId_alerta() {
+        return id_alerta;
+    }
+
+    public void setId_alerta(Integer id_alerta) {
+        this.id_alerta = id_alerta;
+    }
+
+    public LocalDate getFecha_alerta() {
+        return fecha_alerta;
+    }
+
+    public void setFecha_alerta(LocalDate fecha_alerta) {
+        this.fecha_alerta = fecha_alerta;
+    }
+
+    public String getTipo_alerta() {
+        return tipo_alerta;
+    }
+
+    public void setTipo_alerta(String tipo_alerta) {
+        this.tipo_alerta = tipo_alerta;
+    }
+
+    public String getIncidente_alerta() {
+        return incidente_alerta;
+    }
+
+    public void setIncidente_alerta(String incidente_alerta) {
+        this.incidente_alerta = incidente_alerta;
+    }
+
+    public Integer getFk_id_riesgo() {
+        return fk_id_riesgo;
+    }
+
+    public void setFk_id_riesgo(Integer fk_id_riesgo) {
+        this.fk_id_riesgo = fk_id_riesgo;
+    }
+
+    public Integer getId_empleado() {
+        return id_empleado;
+    }
+
+    public void setId_empleado(Integer id_empleado) {
+        this.id_empleado = id_empleado;
+    }
+}
