@@ -918,5 +918,3 @@ begin
 end $$
 delimiter ;
 
-
-
