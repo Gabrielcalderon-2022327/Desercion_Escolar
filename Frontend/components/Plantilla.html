@@ -2,99 +2,198 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <title>Gestión de Entidad</title>
-  <link rel="stylesheet" href="../styles/Plantilla.css">
+   <meta charset="UTF-8">
+   <title>Gestión de Entidad</title>
+   <link rel="stylesheet" href="../styles/Plantilla.css">
 </head>
 
 <body>
-  <div class="layout">
-    <!-- Encabezado de la página-->
-    <header class="header">
-        <div class="logo">
+   <div class="layout">
+      <!-- Encabezado de la página-->
+      <header class="header">
+         <div class="logo">
             <img src="#" alt="Imagen que describa la entidad + logo de la aplicacion">
-        </div>
-        <!-- Navegacion por la pagina-->
-        <ul class="navegacion">
-          <li><a href="#">Inicio</a></li>
-          <li>
-            <!--Menu desplegable para las entidades-->
-            <ul class="entidades-menu">
-              <li id="usuarios-link"><a href="#">Usuarios</a></li>
-              <li id="maestros-link"><a href="#">Maestros</a></li>
-              <li id="grado-link"><a href="#">Grado</a></li>
-              <li id="encargado-link"><a href="#">Encargado</a></li>
-              <li id="estudiante-link"><a href="#">Estudiante</a></li>
-              <li id="asistencia-link"><a href="#">Asistencia</a></li>
-              <li id="materiasF-link"><a href="#">Materias perdidas</a></li>
-              <li id="economia-link"><a href="#">Economia</a></li>
-              <li id="riesgo-link"><a href="#">Riesgo</a></li>
-              <li id="alerta-link"><a href="#">Alerta</a></li>
-            </ul>
-          </li>
-        </ul>
+         </div>
+         <!-- Navegacion por la pagina-->
+         <ul class="navegacion">
+            <li><a href="#">Inicio</a></li>
+            <li>
+               <!--Menu desplegable para las entidades-->
+               <ul class="entidades-menu">
+                  <li id="usuarios-link"><a href="#">Usuarios</a></li>
+                  <li id="maestros-link"><a href="#">Maestros</a></li>
+                  <li id="grado-link"><a href="#">Grado</a></li>
+                  <li id="encargado-link"><a href="#">Encargado</a></li>
+                  <li id="estudiante-link"><a href="#">Estudiante</a></li>
+                  <li id="asistencia-link"><a href="#">Asistencia</a></li>
+                  <li id="materiasF-link"><a href="#">Materias perdidas</a></li>
+                  <li id="economia-link"><a href="#">Economia</a></li>
+                  <li id="riesgo-link"><a href="#">Riesgo</a></li>
+                  <li id="alerta-link"><a href="#">Alerta</a></li>
+               </ul>
+            </li>
+         </ul>
 
-        <!--Informacion del usuario y boton para cerrar sesion-->
-        <div class="user-info">
+         <!--Informacion del usuario y boton para cerrar sesion-->
+         <div class="user-info">
             <span>Gabriel</span>
             <button class="btn-cerrarSesion">Cerrar sesión</button>
-        </div>
-    </header>
+         </div>
+      </header>
 
-    <main class="main-content">
-      <h1 class="titulo-entidad">Gestión de Usuarios</h1>
+      <main class="main-content">
+         <h1 class="titulo-entidad">Gestión de Usuarios</h1>
 
-      <!-- Botones para el put, post, delete y get-->
-      <div class="crud-actions">
-        <button class="btn-crud" id="btn-crear">Crear</button>
-        <button class="btn-crud" id="btn-actualizar">Actualizar</button>
-        <button class="btn-crud" id="btn-eliminar">Eliminar</button>
-        <button class="btn-crud" id="btn-listar">Listar</button>
-      </div>
+         <!-- Botones para el put, post, delete y get-->
+         <div class="crud-actions">
+            <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/usuarios/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <div class="crud-search">
+               <input type="text" placeholder="Buscar por ID...">
+               <button class="btn-crud" id="btn-buscar">
+                  <img src="../img/buscar.png" alt="Logo de busqueda">
+               </button>
+            </div>
+         </div>
 
-      <!-- Barra de busqueda-->
-      <div class="crud-search">
-        <input type="text" placeholder="Buscar por ID o nombre...">
-        <button class="btn-crud" id="btn-buscar">
-          <img src="#" alt="Logo de busqueda">
-        </button>
-      </div>
+         <!-- Formulario para crear o actualizar una entidad-->
+         <div id="datos" class="crud-form" popover>
+            <form id="popup-form" th:action="@{/usuarios}" method="post">
 
-      <!-- Tabla de las entidades-->
-      <div class="table-container">
-        <table class="crud-table">
+               <div class="input-group">
 
-          <thead> <!-- Encabezado de las columnas-->
-            <tr>
-              <th>ID</th>
-              <th>Nombre</th>
-              <th>Correo</th>
-              <th>Rol</th>
-              <th>Fecha Creación</th>
-            </tr>
-          </thead>
+                  <div id="user-container">
+                     <label for="idUsuario">ID:</label>
+                     <input type="hidden" id="idUsuario" name="idUsuario" readonly required>
+                  </div>
 
-          <tbody> <!-- Contenido de la tabla-->
-            <tr> <!-- Filas de ejemplo (tr representa una fila)-->
-              <td>1</td> <!-- Filas de ejemplo (td representa la informacion de una celda, debe cazar con el th)-->
-              <td>Gabriel Calderon</td>
-              <td>gabriel@email.com</td>
-              <td>ADMIN</td>
-              <td>2024-01-15</td>
-            </tr>
-            <tr> <!-- Filas de ejemplo-->
-              <td>2</td>
-              <td>Alexander Monzon</td>
-              <td>alex@email.com</td>
-              <td>MAESTRO</td>
-              <td>2024-02-10</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
+                  <div>
+                     <label for="correoUsuario">Correo:</label>
+                     <input type="email" id="correoUsuario" name="correoUsuario" required>
+                  </div>
 
-  </div>
+                  <div>
+                     <label for="contraUsuario">Contraseña:</label>
+                     <input type="password" id="contraUsuario" name="contraUsuario" required>
+                  </div>
+
+                  <div>
+                     <label for="rolUsuario">Rol:</label>
+                     <select id="rolUsuario" name="rolUsuario" required>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Orientador">Orientador</option>
+                        <option value="Maestro">Maestro</option>
+                     </select>
+                  </div>
+
+                  <div id="date-container">
+                     <label for="creacionUsuario">Fecha de Creación:</label>
+                     <input type="date" id="creacionUsuario" name="creacionUsuario" readonly required>
+                  </div>
+
+               </div>
+               <div class="btn-container">
+                  <button type="submit" class="btn-crud" id="btn-crear-popoup">Crear</button>
+                  <button type="submit" class="btn-crud" id="btn-actualizar-popoup">Actualizar</button>
+               </div>
+            </form>
+         </div>
+
+         <!-- Tabla de las entidades-->
+         <div class=" table-container">
+            <table class="crud-table">
+
+               <thead> <!-- Encabezado de las columnas-->
+                  <tr>
+                     <th>ID</th>
+                     <th>Correo</th>
+                     <th>Contraseña</th>
+                     <th>Rol</th>
+                     <th>Fecha Creación</th>
+                     <th>Acciones</th>
+                  </tr>
+               </thead>
+
+               <tbody> <!-- Contenido de la tabla-->
+                  <tr th:each=" u: ${usuarios}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                     <td th:text="${u.idUsuario}">1</td>
+                     <td th:text="${u.correoUsuario}">gabriel@email.com</td>
+                     <td th:text="${u.contraUsuario}">password123</td>
+                     <td th:text="${u.rolUsuario}">ADMIN</td>
+                     <td th:text="${u.creacionUsuario}">2024-01-15</td>
+                     <td>
+                        <div id="dropdown-actions">
+                           <button class="btn-crud" id="dropdown-btn"></button>
+                           <div id="dropdown-content">
+                              <button class="btn-crud btn-actualizar" popovertarget="datos"
+                                 th:data-id="${u.idUsuario}" th:data-correo="${u.correoUsuario}"
+                                 th:data-contra="${u.contraUsuario}" th:data-rol="${u.rolUsuario}"
+                                 th:data-fecha="${u.creacionUsuario}" onclick="cargarData(this)">Actualizar</button>
+
+                              <a th:href="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
+                           </div>
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </main>
+   </div>
+
+   <script>
+      //FUNCION DROPDOWN PARA LOS BOTONES DE ACCIONES
+      const btn = document.getElementById("dropdown-btn");
+      const menu = document.getElementById("dropdown-content");
+
+      btn.addEventListener("click", function (e) {
+         e.stopPropagation();
+         menu.classList.toggle("active");
+         btn.classList.toggle("active");
+      });
+
+      document.addEventListener("click", function () {
+         menu.classList.remove("active");
+         btn.classList.remove("active");
+      });
+
+      //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
+      function cargarData(button) {
+         document.getElementById("idUsuario").value = button.dataset.id;
+         document.getElementById("correoUsuario").value = button.dataset.correo;
+         document.getElementById("contraUsuario").value = button.dataset.contra;
+         document.getElementById("rolUsuario").value = button.dataset.rol;
+         document.getElementById("creacionUsuario").value = button.dataset.fecha;
+         toggleIdInput(true);
+      }
+
+      //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
+      function toggleIdInput(isUpdate) {
+         const idInput = document.getElementById("idUsuario");
+         const userContainer = document.getElementById("user-container");
+         const dateContainer = document.getElementById("date-container");
+         const btnActualizar = document.getElementById("btn-actualizar-popoup");
+         const btnCrear = document.getElementById("btn-crear-popoup");
+         const popupForm = document.getElementById("popup-form");
+         if (isUpdate) {
+            idInput.setAttribute("type", "number");
+            userContainer.style.display = "block";
+            btnActualizar.style.display = "inline-block";
+            btnCrear.style.display = "none";
+            dateContainer.style.display = "block";
+            popupForm.setAttribute("th:action", "/usuarios/actualizar");
+         } else {
+            idInput.setAttribute("type", "hidden");
+            userContainer.style.display = "none";
+            dateContainer.style.display = "none";
+            btnActualizar.style.display = "none";
+            btnCrear.style.display = "inline-block";
+            popupForm.setAttribute("th:action", "/usuarios/crear");
+         }
+
+      }
+   </script>
+
 </body>
 
 </html>
