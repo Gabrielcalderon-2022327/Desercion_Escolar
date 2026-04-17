@@ -1,18 +1,16 @@
-/* =========================================
-   ESTILOS PAGINA DE GESTIÓN 
-   ========================================= */
-
 :root {
     --fondo-oscuro: #121212;
     --fondo-tarjeta: #1e1e1e;
     --texto-principal: #e0e0e0;
     --texto-secundario: #b0b0b0;
-    --acento-color: #00adb5; 
+    --acento-color: #00adb5;
     --borde: #333333;
     --rojo-eliminar: #ff5252;
 }
 
-* { box-sizing: border-box; }
+* {
+    box-sizing: border-box;
+}
 
 body {
     background-color: var(--fondo-oscuro);
@@ -33,21 +31,27 @@ body {
 
 /* Ajuste del Logo en el Header */
 .logo img {
-    height: 85px;     
-    width: auto;       
-    display: block;    
-    filter: brightness(1.1); 
+    height: 85px;
+    width: auto;
+    display: block;
+    filter: brightness(1.1);
 }
 
-.navegacion, .entidades-menu {
+.navegacion,
+.entidades-menu {
     list-style: none;
-    margin: 0; padding: 0;
+    margin: 0;
+    padding: 0;
 }
 
-.navegacion { display: flex; align-items: center; gap: 20px; }
+.navegacion {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
 
 /* Botón Inicio */
-.navegacion > li:first-child a {
+.navegacion>li:first-child a {
     background: rgba(255, 255, 255, 0.05);
     padding: 8px 20px;
     border-radius: 20px;
@@ -59,13 +63,13 @@ body {
     font-size: 0.85rem;
 }
 
-.navegacion > li:first-child a:hover {
+.navegacion>li:first-child a:hover {
     background: var(--acento-color);
     color: #000;
 }
 
 /* Menú Desplegable */
-.navegacion > li:nth-child(2) {
+.navegacion>li:nth-child(2) {
     position: relative;
     cursor: pointer;
     font-weight: bold;
@@ -76,29 +80,41 @@ body {
     gap: 8px;
 }
 
-.navegacion > li:nth-child(2)::before { content: "MENÚ"; }
-.navegacion > li:nth-child(2)::after { 
-    content: '▼'; 
-    font-size: 0.6rem; 
-    color: var(--acento-color); 
-    transition: 0.3s; 
+.navegacion>li:nth-child(2)::before {
+    content: "MENÚ";
 }
-.navegacion > li:hover:nth-child(2)::after { transform: rotate(180deg); }
+
+.navegacion>li:nth-child(2)::after {
+    content: '▼';
+    font-size: 0.6rem;
+    color: var(--acento-color);
+    transition: 0.3s;
+}
+
+.navegacion>li:hover:nth-child(2)::after {
+    transform: rotate(180deg);
+}
 
 .entidades-menu {
     position: absolute;
-    top: 100%; left: 0;
+    top: 100%;
+    left: 0;
     width: 200px;
     background: var(--fondo-tarjeta);
     border: 1px solid var(--borde);
     border-radius: 8px;
-    opacity: 0; visibility: hidden;
+    opacity: 0;
+    visibility: hidden;
     transform: translateY(10px);
     transition: 0.3s;
     z-index: 1000;
 }
 
-.navegacion > li:hover .entidades-menu { opacity: 1; visibility: visible; transform: translateY(0); }
+.navegacion>li:hover .entidades-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
 
 .entidades-menu li a {
     display: block;
@@ -115,14 +131,12 @@ body {
 }
 
 /* --- BOTONES CRUD CORREGIDOS --- */
-.crud-container {
+.crud-actions {
     display: flex;
-    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 30px;
     align-items: center;
-    margin: 25px 0;
 }
-
-.crud-actions { display: flex; gap: 12px; }
 
 .btn-crud {
     position: relative;
@@ -134,58 +148,74 @@ body {
     border-radius: 4px;
     overflow: hidden;
     transition: 0.3s;
-    color: transparent; 
+    color: transparent;
 }
 
 /* Iconos de los botones (Correctamente centrados) */
 .btn-crud::before {
     position: absolute;
-    right: 0; top: 0;
-    width: 40px; height: 100%;
+    right: 0;
+    top: 0;
+    width: 40px;
+    height: 100%;
     background-color: var(--acento-color);
-    display: flex; align-items: center; justify-content: center;
-    color: white; font-size: 18px; transition: 0.3s; z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 18px;
+    transition: 0.3s;
+    z-index: 2;
 }
 
 /* Textos de los botones (Pseudo-elementos para control total) */
 .btn-crud::after {
     position: absolute;
-    left: 15px; top: 50%;
+    left: 15px;
+    top: 50%;
     transform: translateY(-50%);
-    color: white; font-weight: 600; 
-    font-size: 14px; 
+    color: white;
+    font-weight: 600;
+    font-size: 14px;
     transition: 0.3s;
 }
 
 /* Asignación de iconos y textos por ID */
-#btn-crear::before { content: "+"; }
-#btn-crear::after { content: "Crear"; }
+#btn-crear::before {
+    content: "+";
+}
 
-#btn-actualizar::before { content: "✎"; }
-#btn-actualizar::after { content: "Actualizar"; }
+#btn-crear::after {
+    content: "Crear";
+}
 
-#btn-eliminar::before { content: "×"; background-color: var(--rojo-eliminar); }
-#btn-eliminar::after { content: "Eliminar"; }
-#btn-eliminar { border-color: var(--rojo-eliminar); }
+#btn-listar::before {
+    content: "↻";
+}
 
-#btn-listar::before { content: "☰"; }
-#btn-listar::after { content: "Listar"; }
+#btn-listar::after {
+    content: "Listar";
+}
 
 /* Animación Hover */
-.btn-crud:hover::before { width: 100%; }
-.btn-crud:hover::after { opacity: 0; }
+.btn-crud:hover::before {
+    width: 100%;
+}
+
+.btn-crud:hover::after {
+    opacity: 0;
+}
 
 /* --- BUSCADOR NIVELADO --- */
-.crud-search { 
-    position: relative; 
-    display: flex; 
-    align-items: center; 
+.crud-search {
+    display: flex;
+    gap: 5px;
 }
 
 .crud-search input {
-    height: 42px; 
+    height: 42px;
     width: 280px;
-    padding: 0 45px 0 15px; 
+    padding: 0 45px 0 15px;
     background-color: #252525;
     border: 1px solid var(--borde);
     color: white;
@@ -194,83 +224,269 @@ body {
     transition: 0.3s;
 }
 
-.crud-search input:focus { 
-    border-color: var(--acento-color); 
-    width: 320px; 
+.crud-search input:focus {
+    border-color: var(--acento-color);
+    width: 320px;
 }
 
-#btn-buscar { 
-    position: absolute; 
-    right: 12px; 
-    background: none; 
-    border: none; 
-    cursor: pointer; 
-    display: flex; 
-    align-items: center; 
+#btn-buscar {
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    padding: 5px;
 }
 
-#btn-buscar img { width: 16px; filter: invert(1); opacity: 0.7; }
+#btn-buscar img {
+    width: 32px;
+    filter: invert(1);
+    transition: 0.3s ease-in-out;
+}
+
+#btn-buscar:hover img {
+    transform: scale(1.1);
+}
 
 /* --- TABLA --- */
-.main-content { 
-    padding: 40px; 
+.main-content {
+    padding: 40px;
 }
-.titulo-entidad { 
-    color: var(--acento-color); 
-    margin-bottom: 30px; 
+
+.titulo-entidad {
+    color: var(--acento-color);
+    margin-bottom: 30px;
 }
 
 .table-container {
     background-color: var(--fondo-tarjeta);
-    border-radius: 8px; padding: 20px;
+    border-radius: 8px;
+    padding: 20px;
     border: 1px solid var(--borde);
 }
 
-.crud-table { width: 100%; border-collapse: collapse; }
-.crud-table th { 
-    color: var(--acento-color); 
-    padding: 15px; 
-    text-align: left; 
-    border-bottom: 2px solid var(--acento-color); 
-}
-.crud-table td { 
-    padding: 12px 15px; 
-    border-bottom: 1px solid var(--borde); 
-    color: var(--texto-secundario); 
-}
-.crud-table tr:hover { 
-    background: rgba(255, 255, 255, 0.05); 
+.crud-table {
+    width: 100%;
+    border-collapse: collapse;
 }
 
-/* --- BOTÓN CERRAR SESIÓN --- */
+.crud-table th {
+    color: var(--acento-color);
+    padding: 15px;
+    text-align: left;
+    border-bottom: 2px solid var(--acento-color);
+}
+
+.crud-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid var(--borde);
+    color: var(--texto-principal)
+}
+
+.crud-table tbody tr:hover {
+    background-color: rgba(0, 173, 181, 0.05);
+    transform: scale(1.01);
+}
+
+.crud-table table,
+.crud-table th,
+.crud-table td,
+.crud-table tr {
+    transition: 0.3s ease-in-out;
+}
+
+td:last-child,
+th:last-child {
+    width: 1%;
+    white-space: nowrap;
+    text-align: center;
+}
+
+/* --- Botones de accion --- */
+#dropdown-content {
+    position: absolute;
+    opacity: 0;
+    transform: translateY(10px);
+    pointer-events: none;
+    transition: 0.25s ease;
+    padding: 5px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+#dropdown-content.active {
+    opacity: 1;
+    transform: translateY(0px);
+    pointer-events: all;
+}
+
+#dropdown-btn {
+    transform: scale(0.9);
+    font-weight: 600;
+    font-size: 14px;
+}
+
+#dropdown-btn::before {
+    content: "≡";
+}
+
+#dropdown-btn::after {
+    content: "Click aquí";
+}
+
+#dropdown-btn.active::before {
+    width: 100%;
+}
+
+#dropdown-btn.active::after {
+    opacity: 0;
+}
+
+.btn-actualizar {
+    border-color: purple;
+    transform: scale(0.85);
+}
+
+.btn-actualizar::before {
+    content: "✎";
+    background-color: purple;
+}
+
+.btn-actualizar::after {
+    content: "Actualizar";
+}
+
+.btn-eliminar {
+    border-color: var(--rojo-eliminar);
+    transform: scale(0.85);
+}
+
+.btn-eliminar::before {
+    content: "×";
+    background-color: var(--rojo-eliminar);
+}
+
+.btn-eliminar::after {
+    content: "Eliminar";
+}
+
+/* --- BOTÓN CERRAR SESIÓN E INFORMACION DEL USUARIO --- */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: white;
+    font-weight: 500;
+}
+
 .btn-cerrarSesion {
-    width: 45px; 
-    height: 45px; 
-    border: none; 
-    border-radius: 50%;
-    cursor: pointer; 
-    position: relative; 
+    color: white;
+    width: 120px;
+    border-radius: 40px;
+    height: 35px;
+    border: none;
+    cursor: pointer;
+    position: relative;
     overflow: hidden;
-    background-color: var(--rojo-eliminar); 
+    background-color: var(--rojo-eliminar);
     transition: 0.3s;
 }
-.btn-cerrarSesion::before { 
-    content: "→"; position: absolute; 
-    left: 0; width: 80%; 
-    color: white; 
-    font-size: 20px; 
-    display: flex; 
-    justify-content: center; 
+
+.btn-cerrarSesion:hover {
+    background-color: transparent;
+    color: var(--rojo-eliminar);
+    border: 1px solid var(--rojo-eliminar);
 }
-.btn-cerrarSesion::after { 
-    content: "Logout"; 
-    position: absolute; 
-    right: 0px; 
-    width: 0; 
-    opacity: 0; 
-    color: white; 
-    font-size: 14px; 
-    transition: 0.3s; 
+
+/* --- POPUP --- */
+#datos {
+    background-color: var(--fondo-tarjeta);
+    border: 1px solid var(--borde);
+    border-radius: 10px;
+    padding: 25px;
+    color: var(--texto-principal);
 }
-.btn-cerrarSesion:hover { width: 125px; border-radius: 40px; }
-.btn-cerrarSesion:hover::after { opacity: 1; width: 70%; }
+
+#datos:popover-open {
+    animation: popupIn 0.3s ease;
+}
+
+@keyframes popupIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+#datos::backdrop {
+    background: rgba(0, 0, 0, 0.6);
+    backdrop-filter: blur(4px);
+}
+
+#datos form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    align-items: center;
+}
+
+.input-group {
+    display: flex;
+    gap: 5px;
+}
+
+#datos label {
+    font-size: 0.85rem;
+    color: var(--texto-secundario);
+    font-weight: 500;
+}
+
+#datos input,
+#datos select {
+    width: 110px;
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid var(--borde);
+    background-color: #252525;
+    color: var(--texto-principal);
+    outline: none;
+    transition: 0.3s ease;
+    font-size: 0.9rem;
+}
+
+#datos input:focus,
+#datos select:focus {
+    border-color: var(--acento-color);
+    box-shadow: 0 0 5px rgba(0, 173, 181, 0.4);
+    width: 140px;
+}
+
+#datos select {
+    cursor: pointer;
+}
+
+#datos input[readonly] {
+    opacity: 0.8;
+    cursor: not-allowed;
+}
+
+#btn-crear-popoup::before {
+    content: "+";
+}
+
+#btn-crear-popoup::after {
+    content: "Crear";
+}
+
+#btn-actualizar-popoup::before {
+    content: "✎";
+}
+
+#btn-actualizar-popoup::after {
+    content: "Actualizar";
+}
