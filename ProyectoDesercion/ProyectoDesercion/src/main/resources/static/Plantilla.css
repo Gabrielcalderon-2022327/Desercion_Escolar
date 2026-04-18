@@ -278,7 +278,7 @@ body {
 }
 
 .crud-table td {
-    padding: 12px 15px;
+    padding: 6px 9px;
     border-bottom: 1px solid var(--borde);
     color: var(--texto-principal)
 }
@@ -302,50 +302,15 @@ th:last-child {
     text-align: center;
 }
 
-/* --- Botones de accion --- */
-#dropdown-content {
-    position: absolute;
-    opacity: 0;
-    transform: translateY(10px);
-    pointer-events: none;
-    transition: 0.25s ease;
-    padding: 5px 0;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-#dropdown-content.active {
-    opacity: 1;
-    transform: translateY(0px);
-    pointer-events: all;
-}
-
-#dropdown-btn {
-    transform: scale(0.9);
-    font-weight: 600;
-    font-size: 14px;
-}
-
-#dropdown-btn::before {
-    content: "≡";
-}
-
-#dropdown-btn::after {
-    content: "Click aquí";
-}
-
-#dropdown-btn.active::before {
-    width: 100%;
-}
-
-#dropdown-btn.active::after {
-    opacity: 0;
+.actions{
+    display: inline-flex;
 }
 
 .btn-actualizar {
+    position: relative;
     border-color: purple;
-    transform: scale(0.85);
+    transform: scale(0.8);
+    padding: 0;
 }
 
 .btn-actualizar::before {
@@ -358,8 +323,10 @@ th:last-child {
 }
 
 .btn-eliminar {
+    position: relative;
     border-color: var(--rojo-eliminar);
-    transform: scale(0.85);
+    transform: scale(0.8);
+    padding: 0;
 }
 
 .btn-eliminar::before {

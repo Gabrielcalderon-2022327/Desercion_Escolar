@@ -20,16 +20,16 @@
             <li>
                <!--Menu desplegable para las entidades-->
                <ul class="entidades-menu">
-                  <li id="usuarios-link"><a href="#">Usuarios</a></li>
-                  <li id="maestros-link"><a href="#">Maestros</a></li>
-                  <li id="grado-link"><a href="#">Grado</a></li>
-                  <li id="encargado-link"><a href="#">Encargado</a></li>
-                  <li id="estudiante-link"><a href="#">Estudiante</a></li>
-                  <li id="asistencia-link"><a href="#">Asistencia</a></li>
-                  <li id="materiasF-link"><a href="#">Materias perdidas</a></li>
-                  <li id="economia-link"><a href="#">Economia</a></li>
-                  <li id="riesgo-link"><a href="#">Riesgo</a></li>
-                  <li id="alerta-link"><a href="#">Alerta</a></li>
+                  <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
+                  <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                  <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
+                  <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
+                  <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
+                  <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
+                  <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
+                  <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
+                  <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
+                  <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
                </ul>
             </li>
          </ul>
@@ -51,8 +51,8 @@
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/usuarios/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
             <form class="crud-search" th:action="@{/usuarios/buscar}" method="get">
-               <input type="text" placeholder="Buscar por ID...">
-               <button class="btn-crud" id="btn-buscar">
+               <input type="text" placeholder="Buscar por ID..." name="idUsuario">
+               <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
             </form>
@@ -124,16 +124,12 @@
                      <td th:text="${u.rolUsuario}">ADMIN</td>
                      <td th:text="${u.creacionUsuario}">2024-01-15</td>
                      <td>
-                        <div id="dropdown-actions">
-                           <button class="btn-crud" id="dropdown-btn"></button>
-                           <div id="dropdown-content">
-                              <button class="btn-crud btn-actualizar" popovertarget="datos"
-                                 th:data-id="${u.idUsuario}" th:data-correo="${u.correoUsuario}"
-                                 th:data-contra="${u.contraUsuario}" th:data-rol="${u.rolUsuario}"
-                                 th:data-fecha="${u.creacionUsuario}" onclick="cargarData(this)">Actualizar</button>
-
-                              <a th:href="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
-                           </div>
+                        <div class="actions">
+                           <button class="btn-crud btn-actualizar" popovertarget="datos"
+                              th:data-id="${u.idUsuario}" th:data-correo="${u.correoUsuario}"
+                              th:data-contra="${u.contraUsuario}" th:data-rol="${u.rolUsuario}"
+                              th:data-fecha="${u.creacionUsuario}" onclick="cargarData(this)">Actualizar</button>
+                           <a th:href="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
                         </div>
                      </td>
                   </tr>
@@ -144,21 +140,6 @@
    </div>
 
    <script>
-      //FUNCION DROPDOWN PARA LOS BOTONES DE ACCIONES
-      const btn = document.getElementById("dropdown-btn");
-      const menu = document.getElementById("dropdown-content");
-
-      btn.addEventListener("click", function (e) {
-         e.stopPropagation();
-         menu.classList.toggle("active");
-         btn.classList.toggle("active");
-      });
-
-      document.addEventListener("click", function () {
-         menu.classList.remove("active");
-         btn.classList.remove("active");
-      });
-
       //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
       function cargarData(button) {
          document.getElementById("idUsuario").value = button.dataset.id;
@@ -183,14 +164,14 @@
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
             dateContainer.style.display = "block";
-            popupForm.setAttribute("th:action", "@{/usuarios/actualizar}");
+            popupForm.setAttribute("action", "/usuarios/editar");
          } else {
             idInput.setAttribute("type", "hidden");
             userContainer.style.display = "none";
             dateContainer.style.display = "none";
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
-            popupForm.setAttribute("th:action", "@{/usuarios/crear}");
+            popupForm.setAttribute("action", "/usuarios/crear");
          }
 
       }
