@@ -4,7 +4,7 @@
 <head>
    <meta charset="UTF-8">
    <title>Gestión de Entidad</title>
-   <link rel="stylesheet" href="Plantilla.css">
+   <link rel="stylesheet" href="../static/Plantilla.css">
 </head>
 
 <body>
@@ -37,7 +37,9 @@
          <!--Informacion del usuario y boton para cerrar sesion-->
          <div class="user-info">
             <span>Gabriel</span>
-            <button class="btn-cerrarSesion">Cerrar sesión</button>
+            <form th:action="@{/logout}" method="post">
+               <button class="btn-cerrarSesion">Cerrar sesión</button>
+            </form>
          </div>
       </header>
 
@@ -48,12 +50,12 @@
          <div class="crud-actions">
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/usuarios/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <div class="crud-search">
+            <form class="crud-search" th:action="@{/usuarios/buscar}" method="get">
                <input type="text" placeholder="Buscar por ID...">
                <button class="btn-crud" id="btn-buscar">
-                  <img src="../img/buscar.png" alt="Logo de busqueda">
+                  <img src="../static/img/buscar.png" alt="Logo de busqueda">
                </button>
-            </div>
+            </form>
          </div>
 
          <!-- Formulario para crear o actualizar una entidad-->
@@ -181,14 +183,14 @@
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
             dateContainer.style.display = "block";
-            popupForm.setAttribute("th:action", "/usuarios/actualizar");
+            popupForm.setAttribute("th:action", "@{/usuarios/actualizar}");
          } else {
             idInput.setAttribute("type", "hidden");
             userContainer.style.display = "none";
             dateContainer.style.display = "none";
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
-            popupForm.setAttribute("th:action", "/usuarios/crear");
+            popupForm.setAttribute("th:action", "@{/usuarios/crear}");
          }
 
       }
