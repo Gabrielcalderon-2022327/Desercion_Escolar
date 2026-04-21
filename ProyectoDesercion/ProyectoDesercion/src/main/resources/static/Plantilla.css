@@ -457,6 +457,19 @@ th:last-child {
 #btn-actualizar-popoup::after {
     content: "Actualizar";
 }
+.message-container{
+    display: flex;
+    gap: 10px;
+}
+
+.message-container h2{
+    font-size: 15px;
+    font-weight: 500;
+    padding: 5px 10px;
+    border-radius: 10px;
+    transition: 0.3s ease-in-out;
+    cursor: default;
+}
 
 #error-text{
     border: solid 0.5px var(--rojo-eliminar);
