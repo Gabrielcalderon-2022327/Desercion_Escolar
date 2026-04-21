@@ -33,6 +33,7 @@ public class UsuarioController {
     @GetMapping("/usuarios/listar")
     public String listarUsuarios(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("usuarios", usuarioService.getAllUsuarios());
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
         return "redirect:/usuarios";
     }
 
@@ -40,11 +41,13 @@ public class UsuarioController {
     public String buscarUsuario(RedirectAttributes redirectAttributes, @RequestParam Integer idUsuario){
         Usuario usuario = usuarioService.getUsuarioById(idUsuario);
         redirectAttributes.addFlashAttribute("usuarios", List.of(usuario));
+        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
         return "redirect:/usuarios";
     }
 
     @PostMapping("/usuarios/crear")
-    public String crearUsuario( @Valid @RequestParam String correoUsuario,
+    public String crearUsuario( RedirectAttributes redirectAttributes,
+                                @Valid @RequestParam String correoUsuario,
                                 @Valid @RequestParam String contraUsuario,
                                 @Valid @RequestParam String rolUsuario){
         Usuario newUsuario = new Usuario();
@@ -54,11 +57,13 @@ public class UsuarioController {
         newUsuario.setCreacionUsuario(LocalDate.now());
         validator.validarRegistro(newUsuario);
         usuarioService.saveUsuario(newUsuario);
+        redirectAttributes.addFlashAttribute("success", "Se creo un nuevo registro!");
         return "redirect:/usuarios";
     }
 
     @PostMapping("/usuarios/editar")
-    public String editarUsuario(@Valid @RequestParam Integer idUsuario,
+    public String editarUsuario(RedirectAttributes redirectAttributes,
+                                @Valid @RequestParam Integer idUsuario,
                                 @Valid @RequestParam String correoUsuario,
                                 @Valid @RequestParam String contraUsuario,
                                 @Valid @RequestParam String rolUsuario,
@@ -68,13 +73,18 @@ public class UsuarioController {
         newUsuario.setContraUsuario(contraUsuario);
         newUsuario.setRolUsuario(rolUsuario);
         newUsuario.setCreacionUsuario(creacionUsuario);
+
+        validator.validarUpdate(newUsuario, idUsuario);
         usuarioService.updateUsuario(idUsuario,newUsuario);
+
+        redirectAttributes.addFlashAttribute("success", "Se actualizó el registro no: " + idUsuario + "!");
         return "redirect:/usuarios";
     }
 
     @GetMapping("/usuarios/eliminar/{id}")
-    public String eliminarUsuario(@PathVariable Integer id){
+    public String eliminarUsuario(RedirectAttributes redirectAttributes, @PathVariable Integer id){
         usuarioService.deleteUsuario(id);
+        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro correctamente!");
         return "redirect:/usuarios";
     }
 }
