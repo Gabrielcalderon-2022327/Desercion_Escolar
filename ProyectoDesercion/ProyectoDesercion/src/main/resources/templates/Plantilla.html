@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="es">
 
 <head>
    <meta charset="UTF-8">
-   <title>Grado</title>
+   <title>Maestro</title>
    <link rel="stylesheet" href="Plantilla.css">
 </head>
 
@@ -12,16 +12,17 @@
       <!-- Encabezado de la página-->
       <header class="header">
          <div class="logo">
-            <img src="/img/Grado.png" alt="Imagen que describa la entidad + logo de la aplicacion">
+            <img src="/img/" alt="Imagen que describa la entidad + logo de la aplicacion">
          </div>
          <!-- Navegacion por la pagina-->
          <ul class="navegacion">
-            <li><a th:href="@{/index}">Inicio</a></li>
+            <li><a href="#">Inicio</a></li>
             <li>
                <!--Menu desplegable para las entidades-->
                <ul class="entidades-menu">
                   <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
                   <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                  <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
                   <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
                   <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
                   <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
@@ -43,13 +44,13 @@
       </header>
 
       <main class="main-content">
-         <h1 class="titulo-entidad">Gestión de Grados</h1>
+         <h1 class="titulo-entidad">Gestión de Usuarios</h1>
 
          <!-- Botones para el put, post, delete y get-->
          <div class="crud-actions">
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <a th:href="@{/grados/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <form class="crud-search" th:action="@{/alertas/buscar}" method="get">
+            <a th:href="@{/usuarios/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/usuarios/buscar}" method="get">
                <input type="text" placeholder="Buscar por ID..." name="idUsuario">
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
@@ -59,25 +60,38 @@
 
          <!-- Formulario para crear o actualizar una entidad-->
          <div id="datos" class="crud-form" popover>
-            <form id="popup-form" th:action="@{/grados}" method="post">
+            <form id="popup-form" th:action="@{/usuarios}" method="post">
 
                <div class="input-group">
 
                   <div id="user-container">
-                     <label for="id_grado">ID Alerta:</label>
-                     <input type="number" id="id_grado" name="id_grado" readonly required>
+                     <label for="idUsuario">ID:</label>
+                     <input type="hidden" id="idUsuario" name="idUsuario" readonly required>
                   </div>
 
                   <div>
-                     <label for="nombre_grado">Nombre:</label>
-                     <input type="text" id="nombre_grado" name="nombre_grado" required>
+                     <label for="correoUsuario">Correo:</label>
+                     <input type="email" id="correoUsuario" name="correoUsuario" required>
                   </div>
 
                   <div>
-                     <label for="fk_id_maestro">ID Maestro:</label>
-                     <input type="number" id="fk_id_maestro" name="fk_id_maestro" required>
+                     <label for="contraUsuario">Contraseña:</label>
+                     <input type="password" id="contraUsuario" name="contraUsuario" required>
                   </div>
 
+                  <div>
+                     <label for="rolUsuario">Rol:</label>
+                     <select id="rolUsuario" name="rolUsuario" required>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Orientador">Orientador</option>
+                        <option value="Maestro">Maestro</option>
+                     </select>
+                  </div>
+
+                  <div id="date-container">
+                     <label for="creacionUsuario">Fecha de Creación:</label>
+                     <input type="date" id="creacionUsuario" name="creacionUsuario" readonly required>
+                  </div>
 
                </div>
                <div class="btn-container">
@@ -94,24 +108,28 @@
                <thead> <!-- Encabezado de las columnas-->
                   <tr>
                      <th>ID</th>
-                     <th>Nombre Grado</th>
-                     <th>ID Maestro</th>
+                     <th>Correo</th>
+                     <th>Contraseña</th>
+                     <th>Rol</th>
+                     <th>Fecha Creación</th>
                      <th>Acciones</th>
                   </tr>
                </thead>
 
                <tbody> <!-- Contenido de la tabla-->
-                  <tr th:each=" g: ${grados}"> <!-- Filas de ejemplo (tr representa una fila)-->
-                     <td th:text="${g.id_grado}">1</td>
-                     <td th:text="${g.nombre_grado}"></td>
-                     <td th:text="${g.fk_id_maestro}"></td>
+                  <tr th:each=" u: ${usuarios}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                     <td th:text="${u.idUsuario}">1</td>
+                     <td th:text="${u.correoUsuario}">gabriel@email.com</td>
+                     <td th:text="${u.contraUsuario}">password123</td>
+                     <td th:text="${u.rolUsuario}">ADMIN</td>
+                     <td th:text="${u.creacionUsuario}">2024-01-15</td>
                      <td>
                         <div class="actions">
                            <button class="btn-crud btn-actualizar" popovertarget="datos"
-                              th:data-id="${{g.id_grado}"
-                              th:data-nombre="${g.nombre_grado}" th:data-maestro="${g.fk_id_maestro}"
-                              onclick="cargarData(this)">Actualizar</button>
-                           <a th:href="@{/grados/eliminar/{id}(id=${g.id_grado})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
+                              th:data-id="${u.idUsuario}" th:data-correo="${u.correoUsuario}"
+                              th:data-contra="${u.contraUsuario}" th:data-rol="${u.rolUsuario}"
+                              th:data-fecha="${u.creacionUsuario}" onclick="cargarData(this)">Actualizar</button>
+                           <a th:href="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
                         </div>
                      </td>
                   </tr>
@@ -124,28 +142,36 @@
    <script>
       //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
       function cargarData(button) {
-         document.getElementById("id_grado").value = button.dataset.id;
-         document.getElementById("nombre_grado").value = button.dataset.nombre;
-         document.getElementById("fk_id_maestro").value = button.dataset.maestro;
+         document.getElementById("idUsuario").value = button.dataset.id;
+         document.getElementById("correoUsuario").value = button.dataset.correo;
+         document.getElementById("contraUsuario").value = button.dataset.contra;
+         document.getElementById("rolUsuario").value = button.dataset.rol;
+         document.getElementById("creacionUsuario").value = button.dataset.fecha;
          toggleIdInput(true);
       }
 
       //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
       function toggleIdInput(isUpdate) {
+         const idInput = document.getElementById("idUsuario");
          const userContainer = document.getElementById("user-container");
+         const dateContainer = document.getElementById("date-container");
          const btnActualizar = document.getElementById("btn-actualizar-popoup");
          const btnCrear = document.getElementById("btn-crear-popoup");
          const popupForm = document.getElementById("popup-form");
          if (isUpdate) {
+            idInput.setAttribute("type", "number");
             userContainer.style.display = "block";
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
-            popupForm.setAttribute("action", "/grados/editar");
+            dateContainer.style.display = "block";
+            popupForm.setAttribute("action", "/usuarios/editar");
          } else {
+            idInput.setAttribute("type", "hidden");
             userContainer.style.display = "none";
+            dateContainer.style.display = "none";
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
-            popupForm.setAttribute("action", "/grados/crear");
+            popupForm.setAttribute("action", "/usuarios/crear");
          }
 
       }
