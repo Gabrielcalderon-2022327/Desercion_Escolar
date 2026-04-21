@@ -457,3 +457,23 @@ th:last-child {
 #btn-actualizar-popoup::after {
     content: "Actualizar";
 }
+
+#error-text{
+    border: solid 0.5px var(--rojo-eliminar);
+}
+
+#error-text:hover{
+    transform: scale(1.05);
+    background-color: var(--rojo-eliminar);
+    color: black;
+}
+
+#success-text{
+    border: solid 0.5px #61E786;
+}
+
+#success-text:hover{
+    transform: scale(1.05);
+    background-color: #61E786;
+    color: black;
+}
