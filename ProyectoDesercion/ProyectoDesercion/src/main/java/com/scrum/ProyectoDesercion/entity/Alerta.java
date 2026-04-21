@@ -21,7 +21,7 @@ public class Alerta {
 
     @Column(name = "fecha_alerta")
     @NotNull(message = "La fecha no puede ser nula")
-    @PastOrPresent(message = "Error: la fecha no puede ser futura")
+    @PastOrPresent(message = "La fecha no puede ser futura")
     private LocalDate fecha_alerta;
 
     @Column(name = "tipo_alerta")
