@@ -58,7 +58,7 @@ public class EstudianteController {
     public String crearEstudiante(@ModelAttribute Estudiante estudiante,
                                   RedirectAttributes redirectAttributes) {
         service.saveEstudiante(estudiante);
-        redirectAttributes.addFlashAttribute("mensaje", "Estudiante creado correctamente");
+        redirectAttributes.addFlashAttribute("success", "Estudiante creado correctamente");
         return "redirect:/estudiantes";
     }
 
@@ -66,7 +66,7 @@ public class EstudianteController {
     public String editarEstudiante(@ModelAttribute Estudiante estudiante,
                                    RedirectAttributes redirectAttributes) {
         service.updateEstudiante(estudiante.getId_estudiante(), estudiante);
-        redirectAttributes.addFlashAttribute("mensaje", "Estudiante actualizado correctamente");
+        redirectAttributes.addFlashAttribute("success", "Estudiante actualizado correctamente");
         return "redirect:/estudiantes";
     }
 
@@ -74,7 +74,7 @@ public class EstudianteController {
     public String eliminarEstudiante(@PathVariable Integer id,
                                      RedirectAttributes redirectAttributes) {
         service.deleteEstudiante(id);
-        redirectAttributes.addFlashAttribute("mensaje", "Estudiante eliminado correctamente");
+        redirectAttributes.addFlashAttribute("success", "Estudiante eliminado correctamente");
         return "redirect:/estudiantes";
     }
 }
