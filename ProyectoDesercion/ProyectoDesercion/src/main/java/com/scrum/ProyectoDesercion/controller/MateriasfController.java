@@ -2,64 +2,77 @@ package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.MateriasF;
 import com.scrum.ProyectoDesercion.service.MateriasfService;
-import com.scrum.ProyectoDesercion.validator.MateriasFValidator;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/materiasf")
+@Controller
 public class MateriasfController {
 
-    private final MateriasfService materiasfService;
-    private final MateriasFValidator validator;
+    @Autowired
+    private MateriasfService materiasFService;
 
-    public MateriasfController(MateriasfService materiasfService,
-                               MateriasFValidator validator) {
-        this.materiasfService = materiasfService;
-        this.validator = validator;
+    @GetMapping("/materiasf")
+    public String cargarMaterias(Model model){
+        if(!model.containsAttribute("materiasf")){
+            model.addAttribute("materiasf", materiasFService.getAllMateriasF());
+        }
+        return "MateriasF"; // tu HTML debe llamarse MateriasF.html
     }
 
-    @GetMapping
-    public List<MateriasF> getAllMateriasF() {
-        return materiasfService.getAllMateriasF();
+    @GetMapping("/materiasf/listar")
+    public String listarMaterias(RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute(
+                "materiasf",
+                materiasFService.getAllMateriasF()
+        );
+        return "redirect:/materiasf";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<MateriasF> getMateriasFById(@PathVariable Integer id) {
-        MateriasF materia = validator.validarMateriaExistente(id);
+    @GetMapping("/materiasf/buscar")
+    public String buscarMaterias(RedirectAttributes redirectAttributes,
+                                 @RequestParam Integer id){
+        MateriasF materia = materiasFService.getMateriasFById(id)
+                .orElse(null);
 
-        return ResponseEntity.ok(materia);
+        if (materia != null) {
+            redirectAttributes.addFlashAttribute(
+                    "materiasf",
+                    List.of(materia)
+            );
+        } else {
+            redirectAttributes.addFlashAttribute(
+                    "materiasf",
+                    materiasFService.getAllMateriasF()
+            );
+        }
+
+        return "redirect:/materiasf";
     }
 
-    @PostMapping
-    public ResponseEntity<MateriasF> createMateriasF(@Valid @RequestBody MateriasF materiasF) {
-
-        validator.validarRegistro(materiasF);
-
-        MateriasF created = materiasfService.saveMateriasF(materiasF);
-
-        return ResponseEntity.status(HttpStatus.CREATED).body(created);
+    @PostMapping("/materiasf/crear")
+    public String crearMateria(@Valid @ModelAttribute MateriasF materia){
+        materiasFService.saveMateriasF(materia);
+        return "redirect:/materiasf";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<MateriasF> updateMateriasF(@PathVariable Integer id, @Valid @RequestBody MateriasF materiasF) {
-        validator.validarMateriaExistente(id);
-
-        MateriasF updated = materiasfService.updateMateriasF(id, materiasF);
-
-        return ResponseEntity.ok(updated);
+    @PostMapping("/materiasf/editar")
+    public String editarMateria(@Valid @ModelAttribute MateriasF materia){
+        materiasFService.updateMateriasF(
+                materia.getIdMateriasF(),
+                materia
+        );
+        return "redirect:/materiasf";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<String> deleteMateriasF(@PathVariable Integer id) {
-        validator.validarMateriaExistente(id);
-
-        materiasfService.deleteMateriasF(id);
-
-        return ResponseEntity.ok("Materia eliminada con éxito");
+    @GetMapping("/materiasf/eliminar/{id}")
+    public String eliminarMateria(@PathVariable Integer id){
+        materiasFService.deleteMateriasF(id);
+        return "redirect:/materiasf";
     }
 }
