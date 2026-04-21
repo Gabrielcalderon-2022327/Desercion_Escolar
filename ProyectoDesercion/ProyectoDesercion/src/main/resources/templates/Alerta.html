@@ -50,7 +50,7 @@
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/alertas/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
             <form class="crud-search" th:action="@{/alertas/buscar}" method="get">
-               <input type="number" placeholder="Buscar por ID..." name="idUsuario">
+               <input type="number" placeholder="Buscar por ID..." name="idAlerta">
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
@@ -112,7 +112,7 @@
                </thead>
 
                <tbody> <!-- Contenido de la tabla-->
-                  <tr th:each=" a: ${alertas}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                  <tr th:each="a: ${alertas}"> <!-- Filas de ejemplo (tr representa una fila)-->
                      <td th:text="${a.id_alerta}"></td>
                      <td th:text="${a.fecha_alerta}"></td>
                      <td th:text="${a.tipo_alerta}"></td>
@@ -121,7 +121,7 @@
                      <td>
                         <div class="actions">
                            <button class="btn-crud btn-actualizar" popovertarget="datos"
-                              th:data-id="${{a.id_alerta}" th:data-fecha="${a.fecha_alerta}"
+                              th:data-id="${a.id_alerta}" th:data-fecha="${a.fecha_alerta}"
                               th:data-tipo="${a.tipo_alerta}" th:data-incidente="${a.incidente_alerta}"
                               th:data-riesgo="${a.fk_id_riesgo}" onclick="cargarData(this)">Actualizar</button>
                            <a th:href="@{/alertas/eliminar/{id}(id=${a.id_alerta})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
