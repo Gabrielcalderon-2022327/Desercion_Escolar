@@ -73,6 +73,7 @@ public class AlertaController {
         newAlerta.setTipo_alerta(tipo_alerta);
         newAlerta.setIncidente_alerta(incidente_alerta);
         newAlerta.setFk_id_riesgo(fk_id_riesgo);
+        alertaValidator.validar(newAlerta);
         alertaService.updateAlerta(id_alerta, newAlerta);
         redirectAttributes.addFlashAttribute("success", "Se editó el registro no: " + id_alerta + "!");
         return "redirect:/alertas";
