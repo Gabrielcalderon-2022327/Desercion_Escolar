@@ -5,6 +5,8 @@ import com.scrum.ProyectoDesercion.repository.MateriasfRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class MateriasfServiceImplements implements MateriasfService{
     private final MateriasfRepository materiasfRepository;
@@ -17,9 +19,7 @@ public class MateriasfServiceImplements implements MateriasfService{
     }
 
     @Override
-    public MateriasF getMateriasFById(Integer id) {
-        return materiasfRepository.findById(id).orElse(null);
-    }
+    public Optional<MateriasF> getMateriasFById(Integer id) {return materiasfRepository.findById(id);}
 
     @Override
     public MateriasF saveMateriasF(MateriasF materiasf) throws RuntimeException {
