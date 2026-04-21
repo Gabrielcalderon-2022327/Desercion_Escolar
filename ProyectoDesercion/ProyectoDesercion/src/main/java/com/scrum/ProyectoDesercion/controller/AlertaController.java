@@ -32,6 +32,7 @@ public class AlertaController {
     @GetMapping("/alertas/listar")
     public String listarAlertas(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute("alertas", alertaService.getAllAlerta());
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
         return "redirect:/alertas";
     }
 
@@ -39,11 +40,13 @@ public class AlertaController {
     public String buscarAlertas(RedirectAttributes redirectAttributes, @RequestParam Integer idAlerta){
         Alerta alerta = alertaService.getAlertaById(idAlerta);
         redirectAttributes.addFlashAttribute("alertas", List.of(alerta));
+        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
         return "redirect:/alertas";
     }
 
     @PostMapping("/alertas/crear")
-    public String crearAlerta(@Valid @RequestParam LocalDate fecha_alerta,
+    public String crearAlerta(RedirectAttributes redirectAttributes,
+                              @Valid @RequestParam LocalDate fecha_alerta,
                               @Valid @RequestParam String tipo_alerta,
                               @Valid @RequestParam String incidente_alerta,
                               @Valid @RequestParam Integer fk_id_riesgo){
@@ -54,11 +57,13 @@ public class AlertaController {
         newAlerta.setFk_id_riesgo(fk_id_riesgo);
         alertaValidator.validar(newAlerta);
         alertaService.saveAlerta(newAlerta);
+        redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
         return "redirect:/alertas";
     }
 
     @PostMapping("/alertas/editar")
-    public String editarAlerta( @Valid @RequestParam Integer id_alerta,
+    public String editarAlerta(RedirectAttributes redirectAttributes,
+                                @Valid @RequestParam Integer id_alerta,
                                 @Valid @RequestParam LocalDate fecha_alerta,
                                 @Valid @RequestParam String tipo_alerta,
                                 @Valid @RequestParam String incidente_alerta,
@@ -69,12 +74,14 @@ public class AlertaController {
         newAlerta.setIncidente_alerta(incidente_alerta);
         newAlerta.setFk_id_riesgo(fk_id_riesgo);
         alertaService.updateAlerta(id_alerta, newAlerta);
+        redirectAttributes.addFlashAttribute("success", "Se editó el registro no: " + id_alerta + "!");
         return "redirect:/alertas";
     }
 
     @GetMapping("/alertas/eliminar/{id}")
-    public String eliminarAlerta(@PathVariable Integer id){
+    public String eliminarAlerta(RedirectAttributes redirectAttributes, @PathVariable Integer id){
         alertaService.deleteAlerta(id);
+        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro!");
         return "redirect:/alertas";
     }
 
