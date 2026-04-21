@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.NotNull;
 
 import java.sql.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name ="Usuario")
@@ -71,7 +72,7 @@ public class Usuario {
         return creacionUsuario;
     }
 
-    public void setCreacionUsuario(Date creacionUsuario) {
+    public void setCreacionUsuario(LocalDate creacionUsuario) {
         this.creacionUsuario = creacionUsuario;
     }
 
