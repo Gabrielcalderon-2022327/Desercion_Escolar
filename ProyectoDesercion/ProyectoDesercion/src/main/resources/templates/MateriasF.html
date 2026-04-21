@@ -50,7 +50,7 @@
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/materiasf/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
             <form class="crud-search" th:action="@{/materiasf/buscar}" method="get">
-               <input type="number" placeholder="Buscar por ID..." name="idUsuario">
+                <input type="number" placeholder="Buscar por ID..." name="id">
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
@@ -79,7 +79,7 @@
                   </div>
                   <div>
                      <label for="fechaAlertaMateriaF">Fecha:</label>
-                     <input type="date" id="fechaAlertaMateriaF" name="fechaAlertaMateriaF" required>
+                      <input type="date" id="fechaAlertaMateriaF" name="fechaAlertaMateriaF">
                   </div>
                   <div>
                      <label for="idMaestro">ID Maestro:</label>
