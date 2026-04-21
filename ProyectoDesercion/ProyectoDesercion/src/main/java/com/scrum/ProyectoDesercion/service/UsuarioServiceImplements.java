@@ -21,6 +21,10 @@ public class UsuarioServiceImplements implements UsuarioService {
 
     @Override
     public Usuario getUsuarioById(Integer id) {
+        Usuario searchedUsuario = usuarioRepository.findById(id).orElse(null);
+        if (searchedUsuario == null){
+            throw new ResourceNotFoundException("Usuario no encontrado");
+        }
         return usuarioRepository.findById(id).orElse(null);
     }
 
