@@ -56,23 +56,26 @@ public class MateriasfController {
     }
 
     @PostMapping("/materiasf/crear")
-    public String crearMateria(@Valid @ModelAttribute MateriasF materia){
+    public String crearMateria(@Valid @ModelAttribute MateriasF materia,RedirectAttributes redirectAttributes){
         materiasFService.saveMateriasF(materia);
+        redirectAttributes.addFlashAttribute("success", "Materia creada correctamente");
         return "redirect:/materiasf";
     }
 
     @PostMapping("/materiasf/editar")
-    public String editarMateria(@Valid @ModelAttribute MateriasF materia){
+    public String editarMateria(@Valid @ModelAttribute MateriasF materia, RedirectAttributes redirectAttributes){
         materiasFService.updateMateriasF(
                 materia.getIdMateriasF(),
                 materia
         );
+        redirectAttributes.addFlashAttribute("success", "Materia actualizada correctamente");
         return "redirect:/materiasf";
     }
 
     @GetMapping("/materiasf/eliminar/{id}")
-    public String eliminarMateria(@PathVariable Integer id){
+    public String eliminarMateria(@PathVariable Integer id, RedirectAttributes redirectAttributes){
         materiasFService.deleteMateriasF(id);
+        redirectAttributes.addFlashAttribute("success", "Materia eliminada correctamente");
         return "redirect:/materiasf";
     }
 }
