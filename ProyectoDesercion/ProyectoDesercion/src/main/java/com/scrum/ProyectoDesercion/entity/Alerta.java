@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+
 import java.time.LocalDate;
 
 @Entity
@@ -19,7 +21,7 @@ public class Alerta {
 
     @Column(name = "fecha_alerta")
     @NotNull(message = "La fecha no puede ser nula")
-    @Past(message = "Error: la fecha no puede ser futura")
+    @PastOrPresent(message = "Error: la fecha no puede ser futura")
     private LocalDate fecha_alerta;
 
     @Column(name = "tipo_alerta")
