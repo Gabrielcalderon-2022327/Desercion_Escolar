@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 
@@ -24,8 +25,9 @@ public class Estudiante {
     private String apellido_estudiante;
 
     @Column(name = "fecha_nacimiento_estudiante")
-    @NotNull(message = "La fecha de nacimiento del estudiante es un campo  obligatorio")
-    @Past(message = "La fecha no puede ser futura")
+    @NotNull(message = "La fecha del nacimiento no puede ser nula")
+    @Past(message = "Error: la fecha no puede ser futura")
+    @PastOrPresent(message = "Error: la fecha no puede ser futura")
     private LocalDate fecha_nacimiento_estudiante;
 
     @Column(name = "direccion_estudiante")
