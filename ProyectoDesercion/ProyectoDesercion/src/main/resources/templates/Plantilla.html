@@ -4,7 +4,7 @@
 <head>
    <meta charset="UTF-8">
    <title>Gestión de Entidad</title>
-   <link rel="stylesheet" href="../static/Plantilla.css">
+   <link rel="stylesheet" href="Plantilla.css">
 </head>
 
 <body>
@@ -12,7 +12,7 @@
       <!-- Encabezado de la página-->
       <header class="header">
          <div class="logo">
-            <img src="../static/img/LogoUsuario.png" alt="Imagen que describa la entidad + logo de la aplicacion">
+            <img src="/img/LogoUsuario.png" alt="Imagen que describa la entidad + logo de la aplicacion">
          </div>
          <!-- Navegacion por la pagina-->
          <ul class="navegacion">
@@ -53,7 +53,7 @@
             <form class="crud-search" th:action="@{/usuarios/buscar}" method="get">
                <input type="text" placeholder="Buscar por ID..." name="idUsuario">
                <button type="submit" class="btn-crud" id="btn-buscar">
-                  <img src="../static/img/buscar.png" alt="Logo de busqueda">
+                  <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
             </form>
             <div class="message-container">
