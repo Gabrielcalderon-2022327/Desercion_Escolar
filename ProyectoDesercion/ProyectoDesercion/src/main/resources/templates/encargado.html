@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Gestión de Encargado</title>
+   <link rel="stylesheet" href="Plantilla.css">
+</head>
+
+<body>
+   <div class="layout">
+      <!-- Encabezado de la página-->
+      <header class="header">
+         <div class="logo">
+            <img src="/img/Encargado.png" alt="Imagen que describa la entidad + logo de la aplicacion">
+         </div>
+         <!-- Navegacion por la pagina-->
+         <ul class="navegacion">
+            <li><a href="@{/index}">Inicio</a></li>
+            <li>
+               <!--Menu desplegable para las entidades-->
+               <ul class="entidades-menu">
+                  <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
+                  <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                  <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
+                  <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
+                  <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
+                  <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
+                  <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
+                  <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
+                  <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
+               </ul>
+            </li>
+         </ul>
+
+         <!--Informacion del usuario y boton para cerrar sesion-->
+         <div class="user-info">
+            <span>Gabriel</span>
+            <form th:action="@{/logout}" method="post">
+               <button class="btn-cerrarSesion">Cerrar sesión</button>
+            </form>
+         </div>
+      </header>
+
+      <main class="main-content">
+         <h1 class="titulo-entidad">Gestión de Encargado</h1>
+
+         <!-- Botones para el put, post, delete y get-->
+         <div class="crud-actions">
+            <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/encargado/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/encargado/buscar}" method="get">
+               <input type="number" placeholder="Buscar por ID..." name="idUsuario">
+               <button type="submit" class="btn-crud" id="btn-buscar">
+                  <img src="/img/buscar.png" alt="Logo de busqueda">
+               </button>
+            </form>
+         </div>
+
+         <!-- Formulario para crear o actualizar una entidad-->
+         <div id="datos" class="crud-form" popover>
+            <form id="popup-form" th:action="@{/encargado}" method="post">
+
+               <div class="input-group">
+
+                  <div id="user-container">
+                     <label for="id_encargado">ID:</label>
+                     <input type="number" id="id_encargado" name="id_encargado" readonly required>
+                  </div>
+
+                  <div>
+                     <label for="nombre_encargado">Nombre:</label>
+                     <input type="text" id="nombre_encargado" name="nombre_encargado" required>
+                  </div>
+
+                  <div>
+                     <label for="apellido_encargado">Apellido:</label>
+                     <input type="text" id="apellido_encargado" name="apellido_encargado" required>
+                  </div>
+
+                   <div>
+                       <label for="fecha_nacimiento_encargado">Fecha:</label>
+                       <input type="date" id="fecha_nacimiento_encargado" name="fecha_nacimiento_encargado" required>
+                   </div>
+
+                   <div>
+                       <label for="direccion_encargado">Direccion:</label>
+                       <input type="text" id="direccion_encargado" name="direccion_encargado" required>
+                   </div>
+
+                   <div>
+                       <label for="telefono_encargado">Telefono:</label>
+                       <input type="number" id="telefono_encargado" name="telefono_encargado" required>
+                   </div>
+
+               </div>
+               <div class="btn-container">
+                  <button type="submit" class="btn-crud" id="btn-crear-popoup">Crear</button>
+                  <button type="submit" class="btn-crud" id="btn-actualizar-popoup">Actualizar</button>
+               </div>
+            </form>
+         </div>
+
+         <!-- Tabla de las entidades-->
+         <div class=" table-container">
+            <table class="crud-table">
+
+               <thead> <!-- Encabezado de las columnas-->
+                  <tr>
+                     <th>ID</th>
+                     <th>Nombre</th>
+                     <th>Apellido</th>
+                     <th>Fecha</th>
+                     <th>Direccion</th>
+                      <th>Telefono</th>
+                     <th>Acciones</th>
+                  </tr>
+               </thead>
+
+               <tbody> <!-- Contenido de la tabla-->
+                  <tr th:each=" e: ${encargado}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                     <td th:text="${e.id_encargado}"></td>
+                     <td th:text="${e.nombre_encargado}"></td>
+                     <td th:text="${e.apellido_encargado}"></td>
+                     <td th:text="${e.fecha_nacimiento_encargado}"></td>
+                     <td th:text="${e.direccion_encargado}"></td>
+                      <td th:text="${e.telefono_encargado}"></td>
+
+                      <td>
+                        <div class="actions">
+                           <button class="btn-crud btn-actualizar" popovertarget="datos"
+                              th:data-id="${e.id_encargado}" th:data-nombre="${e.nombre_encargado}"
+                              th:data-apellido="${e.apellido_encargado}" th:data-fecha="${e.fecha_nacimiento_encargado}"
+                              th:data-direccion="${e.direccion_encargado}" th:data-telefono="${e.telefono_encargado}"onclick="cargarData(this)">Actualizar</button>
+                           <a th:href="@{/encargado/eliminar/{id}(id=${e.id_encargado})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </main>
+   </div>
+
+   <script>
+      //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
+      function cargarData(button) {
+         document.getElementById("id_encargado").value = button.dataset.id;
+         document.getElementById("nombre_encargado").value = button.dataset.nombre;
+         document.getElementById("apellido_encargado").value = button.dataset.apellido;
+         document.getElementById("fecha_nacimiento_encargado").value = button.dataset.fecha;
+         document.getElementById("direccion_encargado").value = button.dataset.direccion;
+         document.getElementById("telefono_encargado").value = button.dataset.telefono;
+
+         toggleIdInput(true);
+      }
+
+      //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
+      function toggleIdInput(isUpdate) {
+         const idInput = document.getElementById("id_encargado");
+         const userContainer = document.getElementById("user-container");
+         const dateContainer = document.getElementById("date-container");
+         const btnActualizar = document.getElementById("btn-actualizar-popoup");
+         const btnCrear = document.getElementById("btn-crear-popoup");
+         const popupForm = document.getElementById("popup-form");
+         if (isUpdate) {
+            idInput.setAttribute("type", "number");
+            userContainer.style.display = "block";
+            btnActualizar.style.display = "inline-block";
+            btnCrear.style.display = "none";
+            dateContainer.style.display = "block";
+            popupForm.setAttribute("action", "/encargado/editar");
+         } else {
+            userContainer.style.display = "none";
+            dateContainer.style.display = "none";
+            btnActualizar.style.display = "none";
+            btnCrear.style.display = "inline-block";
+            popupForm.setAttribute("action", "/encargado/crear");
+         }
+
+      }
+   </script>
+
+</body>
+
+</html>
