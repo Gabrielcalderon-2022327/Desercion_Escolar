@@ -42,7 +42,7 @@
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/encargado/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
             <form class="crud-search" th:action="@{/encargado/buscar}" method="get">
-                <input type="number" placeholder="Buscar por ID..." name="idUsuario">
+                <input type="number" placeholder="Buscar por ID..." name="idUsuario" required>
                 <button type="submit" class="btn-crud" id="btn-buscar">
                     <img src="/img/buscar.png" alt="Buscar">
                 </button>
