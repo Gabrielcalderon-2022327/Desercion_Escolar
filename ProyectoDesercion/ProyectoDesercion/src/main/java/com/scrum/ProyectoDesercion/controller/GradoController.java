@@ -32,9 +32,18 @@ public class GradoController {
     }
 
     @GetMapping("/buscar")
-    public String buscarGrado(RedirectAttributes redirectAttributes, @RequestParam Integer idUsuario) {
+    public String buscarGrado(RedirectAttributes redirectAttributes,
+                              @RequestParam(required = false) Integer idUsuario) {
+        if (idUsuario == null) {
+            return "redirect:/grados/";
+        }
         Grado grado = service.getGradoById(idUsuario);
-        redirectAttributes.addFlashAttribute("grados", List.of(grado));
+        if (grado != null) {
+            redirectAttributes.addFlashAttribute("grados", List.of(grado));
+        } else {
+            redirectAttributes.addFlashAttribute("mensaje", "No se encontró el grado con ID: " + idUsuario);
+        }
+
         return "redirect:/grados/";
     }
 
