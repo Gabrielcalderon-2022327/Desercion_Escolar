@@ -22,7 +22,7 @@ public class MateriasfController {
         if(!model.containsAttribute("materiasf")){
             model.addAttribute("materiasf", materiasFService.getAllMateriasF());
         }
-        return "MateriasF"; // tu HTML debe llamarse MateriasF.html
+        return "MateriasF";
     }
 
     @GetMapping("/materiasf/listar")
@@ -31,6 +31,7 @@ public class MateriasfController {
                 "materiasf",
                 materiasFService.getAllMateriasF()
         );
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
         return "redirect:/materiasf";
     }
 
@@ -41,17 +42,14 @@ public class MateriasfController {
                 .orElse(null);
 
         if (materia != null) {
-            redirectAttributes.addFlashAttribute(
-                    "materiasf",
-                    List.of(materia)
-            );
+            redirectAttributes.addFlashAttribute("materiasf", List.of(materia));
+            redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
         } else {
             redirectAttributes.addFlashAttribute(
                     "materiasf",
                     materiasFService.getAllMateriasF()
             );
         }
-
         return "redirect:/materiasf";
     }
 
