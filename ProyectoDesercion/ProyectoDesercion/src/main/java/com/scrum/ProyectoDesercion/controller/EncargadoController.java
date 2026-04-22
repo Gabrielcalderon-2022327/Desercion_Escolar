@@ -51,18 +51,25 @@ public class EncargadoController {
                                  @RequestParam String fecha_nacimiento_encargado,
                                  @RequestParam String direccion_encargado,
                                  @RequestParam String telefono_encargado) {
+        try {
+            Encargado newEncargado = new Encargado();
+            newEncargado.setNombre_encargado(nombre_encargado);
+            newEncargado.setApellido_encargado(apellido_encargado);
+            newEncargado.setFecha_nacimiento_encargado(LocalDate.parse(fecha_nacimiento_encargado));
+            newEncargado.setDireccion_encargado(direccion_encargado);
+            newEncargado.setTelefono_encargado(Integer.parseInt(telefono_encargado));
 
-        Encargado newEncargado = new Encargado();
-        newEncargado.setNombre_encargado(nombre_encargado);
-        newEncargado.setApellido_encargado(apellido_encargado);
-        newEncargado.setFecha_nacimiento_encargado(LocalDate.parse(fecha_nacimiento_encargado));
-        newEncargado.setDireccion_encargado(direccion_encargado);
-        newEncargado.setTelefono_encargado(Integer.parseInt(telefono_encargado));
+            // Aquí es donde salta el error
+            encargadoValidator.validar(newEncargado);
 
-        encargadoValidator.validar(newEncargado);
-        encargadoService.saveEncargado(newEncargado);
+            encargadoService.saveEncargado(newEncargado);
+            redirectAttributes.addFlashAttribute("success", "Registro creado exitosamente");
 
-        redirectAttributes.addFlashAttribute("success", "Registro creado exitosamente");
+        } catch (RuntimeException e) {
+
+            redirectAttributes.addFlashAttribute("error", e.getMessage());
+        }
+
         return "redirect:/encargado";
     }
 
@@ -82,7 +89,6 @@ public class EncargadoController {
         editEncargado.setDireccion_encargado(direccion_encargado);
         editEncargado.setTelefono_encargado(Integer.parseInt(telefono_encargado));
 
-        encargadoValidator.validar(editEncargado);
         encargadoService.updateEncargado(id_encargado, editEncargado);
 
         redirectAttributes.addFlashAttribute("success", "Registro " + id_encargado + " actualizado");
