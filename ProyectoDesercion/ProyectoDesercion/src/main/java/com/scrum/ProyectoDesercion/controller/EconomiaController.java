@@ -57,7 +57,7 @@ public class EconomiaController {
         newEconomia.setIngresosEconomia(ingresosEconomia);
         newEconomia.setFechaEconomia(fechaEconomia);
         newEconomia.setIdEstudiante(idEstudiante);
-        
+
         economiaService.saveEconomia(newEconomia);
 
         redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
