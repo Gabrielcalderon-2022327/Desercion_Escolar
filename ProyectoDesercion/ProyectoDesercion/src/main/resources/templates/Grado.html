@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
    <meta charset="UTF-8">
    <title>Grado</title>
-   <link rel="stylesheet" href="Plantilla.css">
+    <link rel="stylesheet" th:href="@{/Plantilla.css}">
 </head>
 
 <body>
@@ -49,7 +49,7 @@
          <div class="crud-actions">
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/grados/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <form class="crud-search" th:action="@{/alertas/buscar}" method="get">
+            <form class="crud-search" th:action="@{/grados/buscar}" method="get">
                <input type="text" placeholder="Buscar por ID..." name="idUsuario">
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
@@ -108,7 +108,7 @@
                      <td>
                         <div class="actions">
                            <button class="btn-crud btn-actualizar" popovertarget="datos"
-                              th:data-id="${{g.id_grado}"
+                              th:data-id="${g.id_grado}"
                               th:data-nombre="${g.nombre_grado}" th:data-maestro="${g.fk_id_maestro}"
                               onclick="cargarData(this)">Actualizar</button>
                            <a th:href="@{/grados/eliminar/{id}(id=${g.id_grado})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
