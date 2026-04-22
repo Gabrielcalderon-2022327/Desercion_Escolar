@@ -21,7 +21,7 @@ public class EncargadoController {
     @Autowired
     private EncargadoValidator encargadoValidator;
 
-    @GetMapping("/encargado")
+    @GetMapping("/encargados")
     public String cargarEncargado(Model model) {
         if (!model.containsAttribute("encargado")) {
             model.addAttribute("encargado", encargadoService.getAllEncargado());
@@ -33,7 +33,7 @@ public class EncargadoController {
     public String listarEncargado(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("encargado", encargadoService.getAllEncargado());
         redirectAttributes.addFlashAttribute("success", "Lista actualizada correctamente");
-        return "redirect:/encargado";
+        return "redirect:/encargados";
     }
 
     @GetMapping("/encargado/buscar")
@@ -41,37 +41,26 @@ public class EncargadoController {
         Encargado encargado = encargadoService.getEncargadoById(idUsuario);
         redirectAttributes.addFlashAttribute("encargado", List.of(encargado));
         redirectAttributes.addFlashAttribute("success", "Encargado encontrado");
-        return "redirect:/encargado";
+        return "redirect:/encargados";
     }
 
     @PostMapping("/encargado/crear")
-    public String crearEncargado(RedirectAttributes redirectAttributes,
-                                 @RequestParam String nombre_encargado,
-                                 @RequestParam String apellido_encargado,
-                                 @RequestParam String fecha_nacimiento_encargado,
-                                 @RequestParam String direccion_encargado,
-                                 @RequestParam String telefono_encargado) {
-        try {
-            Encargado newEncargado = new Encargado();
-            newEncargado.setNombre_encargado(nombre_encargado);
-            newEncargado.setApellido_encargado(apellido_encargado);
-            newEncargado.setFecha_nacimiento_encargado(LocalDate.parse(fecha_nacimiento_encargado));
-            newEncargado.setDireccion_encargado(direccion_encargado);
-            newEncargado.setTelefono_encargado(Integer.parseInt(telefono_encargado));
+    public String crearEncargado(RedirectAttributes redirectAttributes, @RequestParam String nombre_encargado, @RequestParam String apellido_encargado, @RequestParam String fecha_nacimiento_encargado, @RequestParam String direccion_encargado, @RequestParam String telefono_encargado) {
 
-            // Aquí es donde salta el error
-            encargadoValidator.validar(newEncargado);
+        Encargado newEncargado = new Encargado();
+        newEncargado.setNombre_encargado(nombre_encargado);
+        newEncargado.setApellido_encargado(apellido_encargado);
+        newEncargado.setFecha_nacimiento_encargado(LocalDate.parse(fecha_nacimiento_encargado));
+        newEncargado.setDireccion_encargado(direccion_encargado);
+        newEncargado.setTelefono_encargado(Integer.parseInt(telefono_encargado));
 
-            encargadoService.saveEncargado(newEncargado);
-            redirectAttributes.addFlashAttribute("success", "Registro creado exitosamente");
+        encargadoValidator.validar(newEncargado);
+        encargadoService.saveEncargado(newEncargado);
 
-        } catch (RuntimeException e) {
-
-            redirectAttributes.addFlashAttribute("error", e.getMessage());
-        }
-
-        return "redirect:/encargado";
+        redirectAttributes.addFlashAttribute("success", "¡Registro creado exitosamente!");
+        return "redirect:/encargados";
     }
+
 
     @PostMapping("/encargado/editar")
     public String editarEncargado(RedirectAttributes redirectAttributes,
@@ -91,14 +80,14 @@ public class EncargadoController {
 
         encargadoService.updateEncargado(id_encargado, editEncargado);
 
-        redirectAttributes.addFlashAttribute("success", "Registro " + id_encargado + " actualizado");
-        return "redirect:/encargado";
+        redirectAttributes.addFlashAttribute("success", "¡Registro actualizado exitosamente!");
+        return "redirect:/encargados";
     }
 
     @GetMapping("/encargado/eliminar/{id}")
     public String eliminarEncargado(RedirectAttributes redirectAttributes, @PathVariable Integer id) {
         encargadoService.deleteEncargado(id);
-        redirectAttributes.addFlashAttribute("success", "Registro eliminado");
-        return "redirect:/encargado";
+        redirectAttributes.addFlashAttribute("success", "¡Registro eliminado exitosamente!");
+        return "redirect:/encargados";
     }
 }
