@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class IndexController {
 
-    // Página principal (Dashboard)
     @GetMapping({"/", "/paginaprincipal"})
     public String dashboard() {
         return "Pagina principal";
