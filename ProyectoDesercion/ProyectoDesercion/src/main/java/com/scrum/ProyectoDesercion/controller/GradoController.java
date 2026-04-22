@@ -38,6 +38,10 @@ public class GradoController {
         return "redirect:/grados/";
     }
 
+    @GetMapping("/listar")
+    public String listarGrados() {
+        return "redirect:/grados/";
+    }
 
     @PostMapping("/crear")
     public String crearGrado(
