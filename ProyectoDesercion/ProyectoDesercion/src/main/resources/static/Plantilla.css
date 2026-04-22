@@ -457,3 +457,32 @@ th:last-child {
 #btn-actualizar-popoup::after {
     content: "Actualizar";
 }
+
+.message-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.message-container h2 {
+    font-size: 14px;
+    font-weight: 500;
+    padding: 10px 15px;
+    border-radius: 8px;
+    margin: 0;
+    cursor: default;
+    display: inline-block;
+}
+
+#error-text {
+    border: 1px solid var(--rojo-eliminar);
+    color: var(--rojo-eliminar);
+    background-color: rgba(255, 82, 82, 0.1);
+}
+
+#success-text {
+    border: 1px solid #61E786;
+    color: #61E786;
+    background-color: rgba(97, 231, 134, 0.1);
+}
