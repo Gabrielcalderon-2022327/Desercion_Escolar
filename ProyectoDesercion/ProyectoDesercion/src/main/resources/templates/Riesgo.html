@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Riesgo</title>
+    <link rel="stylesheet" href="Plantilla.css">
+</head>
+
+<body>
+<div class="layout">
+    <!-- Encabezado de la página-->
+    <header class="header">
+        <div class="logo">
+            <img src="#" alt="Imagen que describa la entidad + logo de la aplicacion">
+        </div>
+        <!-- Navegacion por la pagina-->
+        <ul class="navegacion">
+            <li><a th:href="@{/index}">Inicio</a></li>
+            <li>
+                <!--Menu desplegable para las entidades-->
+                <ul class="entidades-menu">
+                    <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
+                    <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                    <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
+                    <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
+                    <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
+                    <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
+                    <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
+                    <li id="asistencia-link"><a th:href="@{/asistencias}">Asistencia</a></li>
+                    <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <!--Informacion del usuario y boton para cerrar sesion-->
+        <div class="user-info">
+            <span>Gabriel</span>
+            <form th:action="@{/logout}" method="post">
+                <button class="btn-cerrarSesion">Cerrar sesión</button>
+            </form>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="titulo-entidad">Gestión de Riesgos</h1>
+
+        <!-- Botones para el put, post, delete y get-->
+        <div class="crud-actions">
+            <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/riesgos/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/riesgos/buscar}" method="get">
+                <input type="number" placeholder="Buscar por ID..." name="id_riesgo">
+                <button type="submit" class="btn-crud" id="btn-buscar">
+                    <img src="/img/buscar.png" alt="Logo de busqueda">
+                </button>
+            </form>
+        </div>
+
+        <!-- Formulario para crear o actualizar una entidad-->
+        <div id="datos" class="crud-form" popover>
+            <form id="popup-form" th:action="@{/riesgos}" method="post">
+
+                <div class="input-group">
+
+                    <div id="user-container">
+                        <label for="id_riesgo">ID:</label>
+                        <input type="number" id="id_riesgo" name="id_riesgo" readonly required>
+                    </div>
+
+                    <div>
+                        <label for="nivel_riesgo">Nivel Riesgo:</label>
+                        <input type="text" id="nivel_riesgo" name="nivel_riesgo" required>
+                    </div>
+
+                    <div>
+                        <label for="descripcion_riesgo">Descripción Riesgo:</label>
+                        <input type="text" id="descripcion_riesgo" name="descripcion_riesgo" required>
+                    </div>
+
+                    <div>
+                        <label for="fk_id_estudiante">ID Estudiante:</label>
+                        <input type="number" id="fk_id_estudiante" name="fk_id_estudiante" required>
+                    </div>
+
+                </div>
+                <div class="btn-container">
+                    <button type="submit" class="btn-crud" id="btn-crear-popoup">Crear</button>
+                    <button type="submit" class="btn-crud" id="btn-actualizar-popoup">Actualizar</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Tabla de las entidades-->
+        <div class=" table-container">
+            <table class="crud-table">
+
+                <thead> <!-- Encabezado de las columnas-->
+                <tr>
+                    <th>ID Riesgo</th>
+                    <th>Nivel de Riesgo</th>
+                    <th>Descripción Riesgo</th>
+                    <th>ID Estudiante</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody> <!-- Contenido de la tabla-->
+                <tr th:each=" a: ${riesgos}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                    <td th:text="${a.id_riesgo}"></td>
+                    <td th:text="${a.nivel_riesgo}"></td>
+                    <td th:text="${a.descripcion_riesgo}"></td>
+                    <td th:text="${a.fk_id_estudiante}"></td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-crud btn-actualizar" popovertarget="datos"
+                                    th:data-id="${a.id_riesgo}" th:data-nivel="${a.nivel_riesgo}"
+                                    th:data-descripcion="${a.descripcion_riesgo}" th:data-id-estudiante="${a.fk_id_estudiante}" onclick="cargarData(this)">Actualizar</button>
+                            <a th:href="@{/riesgos/eliminar/{id}(id=${a.id_riesgo})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script>
+    //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
+    function cargarData(button) {
+       document.getElementById("id_riesgo").value = button.dataset.id;
+       document.getElementById("nivel_riesgo").value = button.dataset.nivel;
+       document.getElementById("descripcion_riesgo").value = button.dataset.descripcion;
+       document.getElementById("fk_id_estudiante").value = button.dataset.idEstudiante;
+       toggleIdInput(true);
+    }
+
+    //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
+    function toggleIdInput(isUpdate) {
+       const userContainer = document.getElementById("user-container");
+       const btnActualizar = document.getElementById("btn-actualizar-popoup");
+       const btnCrear = document.getElementById("btn-crear-popoup");
+       const popupForm = document.getElementById("popup-form");
+       if (isUpdate) {
+          userContainer.style.display = "block";
+          btnActualizar.style.display = "inline-block";
+          btnCrear.style.display = "none";
+          popupForm.setAttribute("action", "/riesgos/editar");
+       } else {
+          userContainer.style.display = "none";
+          btnActualizar.style.display = "none";
+          btnCrear.style.display = "inline-block";
+          popupForm.setAttribute("action", "/riesgos/crear");
+       }
+
+    }
+</script>
+
+</body>
+
+</html>
