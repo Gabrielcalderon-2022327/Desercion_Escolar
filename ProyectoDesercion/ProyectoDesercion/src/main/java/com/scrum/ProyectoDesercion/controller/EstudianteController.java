@@ -21,7 +21,7 @@ public class EstudianteController {
         if (!model.containsAttribute("estudiantes")) {
             model.addAttribute("estudiantes", service.getAllEstudiantes());
         }
-        return "Estudiantes"; // Tu HTML debe llamarse Estudiantes.html
+        return "Estudiantes";
     }
 
     @GetMapping("/estudiantes/listar")
@@ -30,6 +30,7 @@ public class EstudianteController {
                 "estudiantes",
                 service.getAllEstudiantes()
         );
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
         return "redirect:/estudiantes";
     }
 
@@ -43,6 +44,7 @@ public class EstudianteController {
             Estudiante estudiante = service.getEstudianteById(id).orElse(null);
             if (estudiante != null) {
                 redirectAttributes.addFlashAttribute("estudiantes", List.of(estudiante));
+                redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
             } else {
                 redirectAttributes.addFlashAttribute("estudiantes", service.getAllEstudiantes());
             }
@@ -50,7 +52,6 @@ public class EstudianteController {
             // Si no se pasa ID, listar todos
             redirectAttributes.addFlashAttribute("estudiantes", service.getAllEstudiantes());
         }
-
         return "redirect:/estudiantes";
     }
 
