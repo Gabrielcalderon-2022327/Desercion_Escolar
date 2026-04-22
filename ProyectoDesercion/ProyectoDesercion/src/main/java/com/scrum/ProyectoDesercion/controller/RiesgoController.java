@@ -3,14 +3,14 @@ package com.scrum.ProyectoDesercion.controller;
 import com.scrum.ProyectoDesercion.entity.Riesgo;
 import com.scrum.ProyectoDesercion.service.RiesgoService;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
-@RestController
-@RequestMapping("/api/riesgo")
+@Controller
 public class RiesgoController {
 
     private final RiesgoService riesgoService;
@@ -19,31 +19,77 @@ public class RiesgoController {
         this.riesgoService = riesgoService;
     }
 
-    @GetMapping
-    public ResponseEntity<List<Riesgo>> listarRiesgos() {
-        return new ResponseEntity<>(riesgoService.listarRiesgos(), HttpStatus.OK);
-    }
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> buscarPorId(@PathVariable Integer id) {
-        Riesgo searchedRiesgo = riesgoService.buscarRiesgo(id);
-        return new ResponseEntity<>(searchedRiesgo, HttpStatus.OK);
-    }
-
-    @PostMapping
-    public ResponseEntity<Object> createRiesgo(@Valid @RequestBody Riesgo riesgo) {
-        Riesgo createdRiesgo = riesgoService.crearRiesgo(riesgo);
-        return new ResponseEntity<>(createdRiesgo, HttpStatus.CREATED);
+    // Cargar vista principal
+    @GetMapping("/riesgos")
+    public String cargarRiesgos(Model model){
+        if(!model.containsAttribute("riesgos")){
+            model.addAttribute("riesgos", riesgoService.listarRiesgos());
+        }
+        return "Riesgo";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateRiesgo(@PathVariable Integer id, @Valid @RequestBody Riesgo riesgo) {
-        Riesgo updatedRiesgo = riesgoService.actualizarRiesgo(id, riesgo);
-        return ResponseEntity.ok(updatedRiesgo);
+    // Listar riesgos
+    @GetMapping("riesgos/listar")
+    public String listarRiesgos(RedirectAttributes redirectAttributes){
+        redirectAttributes.addFlashAttribute("riesgos", riesgoService.listarRiesgos());
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
+        return "redirect:/riesgos";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteRiesgo(@PathVariable Integer id) {
+    // Buscar riesgo
+    @GetMapping("/riesgos/buscar")
+    public String buscarRiesgo(@RequestParam Integer id_riesgo,
+                               RedirectAttributes redirectAttributes){
+        Riesgo riesgo = riesgoService.buscarRiesgo(id_riesgo);
+        redirectAttributes.addFlashAttribute("riesgos", List.of(riesgo));
+        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+        return "redirect:/riesgos";
+    }
+
+    // Crear riesgo
+    @PostMapping("/riesgos/crear")
+    public String crearRiesgo(RedirectAttributes redirectAttributes,
+                              @Valid @RequestParam String descripcion_riesgo,
+                              @Valid @RequestParam String nivel_riesgo,
+                              @Valid @RequestParam Integer fk_id_estudiante){
+
+        Riesgo riesgo = new Riesgo();
+        riesgo.setDescripcion_riesgo(descripcion_riesgo);
+        riesgo.setNivel_riesgo(nivel_riesgo);
+        riesgo.setFk_id_estudiante(fk_id_estudiante);
+
+        riesgoService.crearRiesgo(riesgo);
+
+        redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+        return "redirect:/riesgos";
+    }
+
+    // Editar riesgo
+    @PostMapping("/riesgos/editar")
+    public String editarRiesgo(RedirectAttributes redirectAttributes,
+                               @Valid @RequestParam Integer id_riesgo,
+                               @Valid @RequestParam String descripcion_riesgo,
+                               @Valid @RequestParam String nivel_riesgo,
+                               @Valid @RequestParam Integer fk_id_estudiante){
+
+        Riesgo riesgo = new Riesgo();
+        riesgo.setDescripcion_riesgo(descripcion_riesgo);
+        riesgo.setNivel_riesgo(nivel_riesgo);
+        riesgo.setFk_id_estudiante(fk_id_estudiante);
+
+        riesgoService.actualizarRiesgo(id_riesgo, riesgo);
+
+        redirectAttributes.addFlashAttribute("success", "Se actualizó el registro no: " + id_riesgo + "!");
+        return "redirect:/riesgos";
+    }
+
+    // Eliminar riesgo
+    @GetMapping("/riesgos/eliminar/{id}")
+    public String eliminarRiesgo(@PathVariable Integer id,
+                                 RedirectAttributes redirectAttributes){
+
         riesgoService.eliminarRiesgo(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro correctamente!");
+        return "redirect:/riesgos";
     }
 }
