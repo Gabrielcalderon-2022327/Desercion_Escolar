@@ -19,7 +19,13 @@ public class MateriasfServiceImplements implements MateriasfService{
     }
 
     @Override
-    public Optional<MateriasF> getMateriasFById(Integer id) {return materiasfRepository.findById(id);}
+    public Optional<MateriasF> getMateriasFById(Integer id) {
+        MateriasF searchedmateria = materiasfRepository.findById(id).orElse(null);
+        if (searchedmateria == null){
+            throw new ResourceNotFoundException("Materia no encontrado");
+        }
+        return materiasfRepository.findById(id);
+    }
 
     @Override
     public MateriasF saveMateriasF(MateriasF materiasf) throws RuntimeException {
