@@ -1,60 +1,96 @@
 package com.scrum.ProyectoDesercion.controller;
 
-
 import com.scrum.ProyectoDesercion.entity.Asistencia;
-import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.service.AsistenciaService;
-import com.scrum.ProyectoDesercion.validator.AsistenciaValidator;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
 
-@RestController
-@RequestMapping("/api/asistencia")
+@Controller
 public class AsistenciaController {
-    private final AsistenciaService service;
-    private final AsistenciaValidator validator;
 
-    public AsistenciaController(AsistenciaService service, AsistenciaValidator validator) {
-        this.service = service;
-        this.validator = validator;
+    private final AsistenciaService asistenciaService;
+
+    public AsistenciaController(AsistenciaService asistenciaService) {
+        this.asistenciaService = asistenciaService;
     }
 
-    @GetMapping
-    public List<Asistencia> getAllAsistencias() {
-        return service.getAllAsistencia();
+    // Cargar vista principal
+    @GetMapping("/asistencias")
+    public String cargarAsistencias(Model model) {
+        if (!model.containsAttribute("asistencias")) {
+            model.addAttribute("asistencias", asistenciaService.getAllAsistencia());
+        }
+        return "Asistencia";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getAsistenciaById(@PathVariable int id) {
-        Asistencia searchedAsistencia = service.getAsistenciaById(id);
-        return new ResponseEntity<>(searchedAsistencia, HttpStatus.OK);
+    // Listar asistencias
+    @GetMapping("/asistencias/listar")
+    public String listarAsistencias(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("asistencias", asistenciaService.getAllAsistencia());
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
+        return "redirect:/asistencias";
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createAsistencia(@Valid @RequestBody Asistencia asistencia) {
-        validator.validar(asistencia);
-        Asistencia createdAsistencia = service.saveAsistencia(asistencia);
-        return new ResponseEntity<>(createdAsistencia, HttpStatus.CREATED);
-
+    // Buscar asistencia
+    @GetMapping("/asistencias/buscar")
+    public String buscarAsistencia(@RequestParam Integer idAsistencia,
+                                   RedirectAttributes redirectAttributes) {
+        Asistencia asistencia = asistenciaService.getAsistenciaById(idAsistencia);
+        redirectAttributes.addFlashAttribute("asistencias", List.of(asistencia));
+        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+        return "redirect:/asistencias";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateAsistencia(@PathVariable int id, @Valid @RequestBody Asistencia asistencia) {
-        validator.validar(asistencia);
-        Asistencia updatedAsistencia = service.updateAsistencia(id, asistencia);
-        return new ResponseEntity<>(updatedAsistencia, HttpStatus.OK);
+    // Crear asistencia
+    @PostMapping("/asistencias/crear")
+    public String crearAsistencia(@Valid @RequestParam LocalDate fecha_asistencia,
+                                  @Valid @RequestParam String estado_asistencia,
+                                  @Valid @RequestParam Integer fk_id_estudiante,
+                                  RedirectAttributes redirectAttributes) {
 
+        Asistencia asistencia = new Asistencia();
+        asistencia.setFecha_asistencia(fecha_asistencia);
+        asistencia.setEstado_asistencia(estado_asistencia);
+        asistencia.setFk_id_estudiante(fk_id_estudiante);
+
+        asistenciaService.saveAsistencia(asistencia);
+
+        redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+        return "redirect:/asistencias";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteAsistencia(@PathVariable int id) {
-        service.deleteAsistencia(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+    // Editar asistencia
+    @PostMapping("/asistencias/editar")
+    public String editarAsistencia(@Valid @RequestParam Integer id_asistencia,
+                                   @Valid @RequestParam LocalDate fecha_asistencia,
+                                   @Valid @RequestParam String estado_asistencia,
+                                   @Valid @RequestParam Integer fk_id_estudiante,
+                                   RedirectAttributes redirectAttributes) {
+
+        Asistencia asistencia = new Asistencia();
+        asistencia.setFecha_asistencia(fecha_asistencia);
+        asistencia.setEstado_asistencia(estado_asistencia);
+        asistencia.setFk_id_estudiante(fk_id_estudiante);
+
+        asistenciaService.updateAsistencia(id_asistencia, asistencia);
+
+        redirectAttributes.addFlashAttribute("success", "Se actualizó el registro no: " + id_asistencia + "!");
+        return "redirect:/asistencias";
+    }
+
+    // Eliminar asistencia
+    @GetMapping("/asistencias/eliminar/{id}")
+    public String eliminarAsistencia(@PathVariable Integer id,
+                                     RedirectAttributes redirectAttributes) {
+
+        asistenciaService.deleteAsistencia(id);
+        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro correctamente!");
+        return "redirect:/asistencias";
     }
 }
