@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
+
 import java.time.LocalDate;
 
 @Entity
@@ -19,7 +21,7 @@ public class Alerta {
 
     @Column(name = "fecha_alerta")
     @NotNull(message = "La fecha no puede ser nula")
-    @Past(message = "Error: la fecha no puede ser futura")
+    @PastOrPresent(message = "La fecha no puede ser futura")
     private LocalDate fecha_alerta;
 
     @Column(name = "tipo_alerta")
@@ -34,9 +36,6 @@ public class Alerta {
     @NotNull(message = "El ID de riesgo es obligatorio")
     private Integer fk_id_riesgo;
 
-    @Column(name = "id_empleado")
-    @NotNull(message = "El ID del empleado es obligatorio")
-    private Integer id_empleado;
 
     public Integer getId_alerta() {
         return id_alerta;
@@ -76,13 +75,5 @@ public class Alerta {
 
     public void setFk_id_riesgo(Integer fk_id_riesgo) {
         this.fk_id_riesgo = fk_id_riesgo;
-    }
-
-    public Integer getId_empleado() {
-        return id_empleado;
-    }
-
-    public void setId_empleado(Integer id_empleado) {
-        this.id_empleado = id_empleado;
     }
 }
