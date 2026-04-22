@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+   <meta charset="UTF-8">
+   <title>Economia</title>
+   <link rel="stylesheet" href="Plantilla.css">
+</head>
+
+<body>
+   <div class="layout">
+      <!-- Encabezado de la página-->
+      <header class="header">
+         <div class="logo">
+            <img src="/img/economia.png" alt="Imagen que describa la entidad + logo de la aplicacion">
+         </div>
+         <!-- Navegacion por la pagina-->
+         <ul class="navegacion">
+            <li><a th:href="@{/index}">Inicio</a></li>
+            <li>
+               <!--Menu desplegable para las entidades-->
+               <ul class="entidades-menu">
+                  <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
+                  <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                  <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
+                  <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
+                  <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
+                  <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
+                  <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
+                  <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
+                  <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
+               </ul>
+            </li>
+         </ul>
+
+         <!--Informacion del usuario y boton para cerrar sesion-->
+         <div class="user-info">
+            <span>Gabriel</span>
+            <form th:action="@{/logout}" method="post">
+               <button class="btn-cerrarSesion">Cerrar sesión</button>
+            </form>
+         </div>
+      </header>
+
+      <main class="main-content">
+         <h1 class="titulo-entidad">Gestión de Economia</h1>
+
+         <!-- Botones para el put, post, delete y get-->
+         <div class="crud-actions">
+            <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/economia/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/economia/buscar}" method="get">
+               <input type="number" placeholder="Buscar por ID..." name="idUsuario">
+               <button type="submit" class="btn-crud" id="btn-buscar">
+                  <img src="/img/buscar.png" alt="Logo de busqueda">
+               </button>
+            </form>
+         </div>
+
+         <!-- Formulario para crear o actualizar una entidad-->
+         <div id="datos" class="crud-form" popover>
+            <form id="popup-form" th:action="@{/economia}" method="post">
+
+               <div class="input-group">
+
+                  <div id="user-container">
+                     <label for="idEconomia">ID:</label>
+                     <input type="number" id="idEconomia" name="idEconomia" readonly required>
+                  </div>
+
+                  <div>
+                     <label for="ingresosEconomia">Ingresos:</label>
+                     <input type="step" id="ingresosEconomia" name="ingresosEconomia" required>
+                  </div>
+
+                  <div>
+                     <label for="fechaEconomia">Fecha:</label>
+                     <input type="date" id="fechaEconomia" name="fechaEconomia" required>
+                  </div>
+
+                   <div>
+                       <label for="idEstudiante">Fecha:</label>
+                       <input type="number" id="idEstudiante" name="idEstudiante" required>
+                   </div>
+
+
+               </div>
+               <div class="btn-container">
+                  <button type="submit" class="btn-crud" id="btn-crear-popoup">Crear</button>
+                  <button type="submit" class="btn-crud" id="btn-actualizar-popoup">Actualizar</button>
+               </div>
+            </form>
+         </div>
+
+         <!-- Tabla de las entidades-->
+         <div class=" table-container">
+            <table class="crud-table">
+
+               <thead> <!-- Encabezado de las columnas-->
+                  <tr>
+                     <th>ID</th>
+                     <th>Ingresos</th>
+                     <th>Fecha</th>
+                     <th>FK-ID-Estudiante</th>
+                     <th>Acciones</th>
+                  </tr>
+               </thead>
+
+               <tbody> <!-- Contenido de la tabla-->
+                  <tr th:each=" e: ${economia}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                     <td th:text="${e.idEconomia}"></td>
+                     <td th:text="${e.ingresosEconomia}"></td>
+                     <td th:text="${e.fechaEconomia}"></td>
+                     <td th:text="${e.idEstudiante}"></td>
+                     <td>
+                        <div class="actions">
+                           <button class="btn-crud btn-actualizar" popovertarget="datos"
+                              th:data-id="${e.idEconomia}" th:data-ingresos="${e.ingresosEconomia}"
+                              th:data-fecha="${e.fechaEconomia}" th:data-estudiante="${e.idEstudiante}" onclick="cargarData(this)">Actualizar</button>
+                           <a th:href="@{/economia/eliminar/{id}(id=${e.idEconomia})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </main>
+   </div>
+
+   <script>
+      //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
+      function cargarData(button) {
+         document.getElementById("idEconomia").value = button.dataset.id;
+         document.getElementById("ingresosEconomia").value = button.dataset.ingresos;
+         document.getElementById("fechaEconomia").value = button.dataset.fecha;
+         document.getElementById("idEstudiante").value = button.dataset.estudiante;
+         toggleIdInput(true);
+      }
+
+      //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
+      function toggleIdInput(isUpdate) {
+         const userContainer = document.getElementById("user-container");
+         const btnActualizar = document.getElementById("btn-actualizar-popoup");
+         const btnCrear = document.getElementById("btn-crear-popoup");
+         const popupForm = document.getElementById("popup-form");
+         const idInput = document.getElementById("idEconomia");
+
+         if (isUpdate) {
+            idInput.setAttribute("type", "number");
+            userContainer.style.display = "block";
+            btnActualizar.style.display = "inline-block";
+            btnCrear.style.display = "none";
+            popupForm.setAttribute("action", "/economia/editar");
+         } else {
+            userContainer.style.display = "none";
+            btnActualizar.style.display = "none";
+            btnCrear.style.display = "inline-block";
+            popupForm.setAttribute("action", "/economia/crear");
+         }
+      }
+   </script>
+
+</body>
+
+</html>
