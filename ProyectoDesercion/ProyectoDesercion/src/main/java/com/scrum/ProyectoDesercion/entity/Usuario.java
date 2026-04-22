@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.PastOrPresent;
 
-import java.sql.Date;
 import java.time.LocalDate;
 
 @Entity
@@ -30,8 +30,8 @@ public class Usuario {
 
     @Column(name = "creacion_usuario")
     @NotNull(message = "La fecha de creacion es un campo obligatorio")
-    @Past(message = "La fecha no puede ser futura")
-    private Date creacionUsuario;
+    @PastOrPresent(message = "La fecha no puede ser futura")
+    private LocalDate creacionUsuario;
 
     //Generar getter and setter a todos
 
@@ -68,12 +68,11 @@ public class Usuario {
         this.rolUsuario = rolUsuario;
     }
 
-    public Date getCreacionUsuario() {
+    public LocalDate getCreacionUsuario() {
         return creacionUsuario;
     }
 
     public void setCreacionUsuario(LocalDate creacionUsuario) {
         this.creacionUsuario = creacionUsuario;
     }
-
 }
