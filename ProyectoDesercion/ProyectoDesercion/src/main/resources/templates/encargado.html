@@ -47,6 +47,12 @@
                     <img src="/img/buscar.png" alt="Buscar">
                 </button>
             </form>
+
+            <div class="message-container">
+                <h2 id="error-text" th:if="${error != null}" th:text="${error}"></h2>
+                <h2 id="success-text" th:if="${success != null}" th:text="${success}"></h2>
+            </div>
+
         </div>
 
         <div id="datos" class="crud-form" popover>
@@ -77,6 +83,7 @@
                         <input type="number" id="telefono_encargado" name="telefono_encargado" required>
                     </div>
                 </div>
+
                 <div class="btn-container">
                     <button type="submit" class="btn-crud" id="btn-crear-popoup" th:formaction="@{/encargado/crear}">Crear</button>
                     <button type="submit" class="btn-crud" id="btn-actualizar-popoup" th:formaction="@{/encargado/editar}">Actualizar</button>
