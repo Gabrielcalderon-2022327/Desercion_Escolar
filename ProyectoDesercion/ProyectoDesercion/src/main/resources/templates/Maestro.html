@@ -11,22 +11,22 @@
 <div class="layout">
    <header class="header">
       <div class="logo">
-         <img th:src="@{/img/Grado.png}" alt="Logo Maestros">
+         <img th:src="@{/img/Grado.png}" alt="Logo de la aplicación">
       </div>
       <ul class="navegacion">
          <li><a th:href="@{/index}">Inicio</a></li>
          <li>
             <ul class="entidades-menu">
-               <li id="usuarios-link"><a th:href="@{/usuarios/}">Usuarios</a></li>
-               <li id="maestros-link"><a th:href="@{/maestros/}">Maestros</a></li>
-               <li id="grado-link"><a th:href="@{/grados/}">Grados</a></li>
-               <li id="encargado-link"><a th:href="@{/encargados/}">Encargado</a></li>
-               <li id="estudiante-link"><a th:href="@{/estudiantes/}">Estudiante</a></li>
-               <li id="asistencia-link"><a th:href="@{/asistencia/}">Asistencia</a></li>
-               <li id="materiasF-link"><a th:href="@{/materiasf/}">Materias perdidas</a></li>
-               <li id="economia-link"><a th:href="@{/economia/}">Economia</a></li>
-               <li id="riesgo-link"><a th:href="@{/riesgos/}">Riesgo</a></li>
-               <li id="alerta-link"><a th:href="@{/alertas/}">Alerta</a></li>
+               <li><a th:href="@{/usuarios/}">Usuarios</a></li>
+               <li><a th:href="@{/maestros/}">Maestros</a></li>
+               <li><a th:href="@{/grados/}">Grados</a></li>
+               <li><a th:href="@{/encargados/}">Encargado</a></li>
+               <li><a th:href="@{/estudiantes/}">Estudiante</a></li>
+               <li><a th:href="@{/asistencia/}">Asistencia</a></li>
+               <li><a th:href="@{/materiasf/}">Materias perdidas</a></li>
+               <li><a th:href="@{/economia/}">Economía</a></li>
+               <li><a th:href="@{/riesgos/}">Riesgo</a></li>
+               <li><a th:href="@{/alertas/}">Alerta</a></li>
             </ul>
          </li>
       </ul>
@@ -43,10 +43,11 @@
       <h1 class="titulo-entidad">Gestión de Maestros</h1>
 
       <div class="crud-actions">
-         <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-         <a th:href="@{/maestros/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+         <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear Maestro</button>
+         <a th:href="@{/maestros/listar}"><button class="btn-crud" id="btn-listar">Listar Todos</button></a>
+
          <form class="crud-search" th:action="@{/maestros/buscar}" method="get">
-            <input type="text" placeholder="Buscar por ID..." name="idMaestro">
+            <input type="number" placeholder="Buscar por ID..." name="idMaestro">
             <button type="submit" class="btn-crud" id="btn-buscar">
                <img th:src="@{/img/buscar.png}" alt="Buscar">
             </button>
@@ -54,27 +55,32 @@
       </div>
 
       <div id="datos" class="crud-form" popover>
-         <form id="popup-form" th:action="@{/maestros}" method="post">
+         <form id="popup-form" th:action="@{/maestros/crear}" method="post">
 
             <div class="input-group">
                <div id="id-container">
-                  <label for="idMaestro">ID Maestro:</label>
-                  <input type="number" id="idMaestro" name="idMaestro" readonly>
+                  <label for="id_maestro">ID Maestro:</label>
+                  <input type="number" id="id_maestro" name="id_maestro" readonly>
                </div>
 
                <div>
-                  <label for="nombreMaestro">Nombre:</label>
-                  <input type="text" id="nombreMaestro" name="nombreMaestro" required>
+                  <label for="nombre_maestro">Nombre:</label>
+                  <input type="text" id="nombre_maestro" name="nombre_maestro" required>
                </div>
 
                <div>
-                  <label for="apellidoMaestro">Apellido:</label>
-                  <input type="text" id="apellidoMaestro" name="apellidoMaestro" required>
+                  <label for="especialidad_maestro">Especialidad:</label>
+                  <input type="text" id="especialidad_maestro" name="especialidad_maestro" required>
                </div>
 
                <div>
-                  <label for="correoMaestro">Correo:</label>
-                  <input type="email" id="correoMaestro" name="correoMaestro" required>
+                  <label for="telefono_maestro">Teléfono:</label>
+                  <input type="number" id="telefono_maestro" name="telefono_maestro" required>
+               </div>
+
+               <div>
+                  <label for="fk_id_usuario">ID Usuario (FK):</label>
+                  <input type="number" id="fk_id_usuario" name="fk_id_usuario" required>
                </div>
             </div>
 
@@ -91,25 +97,27 @@
             <tr>
                <th>ID</th>
                <th>Nombre</th>
-               <th>Apellido</th>
-               <th>Correo</th>
+               <th>Especialidad</th>
+               <th>Teléfono</th>
                <th>Acciones</th>
             </tr>
             </thead>
             <tbody>
             <tr th:each="m : ${maestros}">
-               <td th:text="${m.idMaestro}">1</td>
-               <td th:text="${m.nombreMaestro}">Juan</td>
-               <td th:text="${m.apellidoMaestro}">Pérez</td>
-               <td th:text="${m.correoMaestro}">juan@kinal.edu.gt</td>
+               <td th:text="${m.idMaestro}"></td>
+               <td th:text="${m.nombreMaestro}"></td>
+               <td th:text="${m.especialidadMaestro}"></td>
+               <td th:text="${m.telefonoMaestro}"></td>
                <td>
                   <div class="actions">
                      <button class="btn-crud btn-actualizar" popovertarget="datos"
                              th:data-id="${m.idMaestro}"
                              th:data-nombre="${m.nombreMaestro}"
-                             th:data-apellido="${m.apellidoMaestro}"
-                             th:data-correo="${m.correoMaestro}"
+                             th:data-especialidad="${m.especialidadMaestro}"
+                             th:data-telefono="${m.telefonoMaestro}"
+                             th:data-usuario="${m.idUsuario}"
                              onclick="cargarData(this)">Actualizar</button>
+
                      <a th:href="@{/maestros/eliminar/{id}(id=${m.idMaestro})}">
                         <button class="btn-crud btn-eliminar">Eliminar</button>
                      </a>
@@ -123,16 +131,15 @@
 </div>
 
 <script>
-   // Cargar datos en el popover
    function cargarData(button) {
-      document.getElementById("idMaestro").value = button.dataset.id;
-      document.getElementById("nombreMaestro").value = button.dataset.nombre;
-      document.getElementById("apellidoMaestro").value = button.dataset.apellido;
-      document.getElementById("correoMaestro").value = button.dataset.correo;
+      document.getElementById("id_maestro").value = button.dataset.id;
+      document.getElementById("nombre_maestro").value = button.dataset.nombre;
+      document.getElementById("especialidad_maestro").value = button.dataset.especialidad;
+      document.getElementById("telefono_maestro").value = button.dataset.telefono;
+      document.getElementById("fk_id_usuario").value = button.dataset.usuario;
       toggleIdInput(true);
    }
 
-   // Configurar el formulario para Crear o Editar
    function toggleIdInput(isUpdate) {
       const idContainer = document.getElementById("id-container");
       const btnActualizar = document.getElementById("btn-actualizar-popoup");
@@ -143,13 +150,11 @@
          idContainer.style.display = "block";
          btnActualizar.style.display = "inline-block";
          btnCrear.style.display = "none";
-         // Ruta para el controlador de maestros
          popupForm.setAttribute("action", "/maestros/editar");
       } else {
          idContainer.style.display = "none";
          btnActualizar.style.display = "none";
          btnCrear.style.display = "inline-block";
-         // Limpiar campos al crear
          document.getElementById("popup-form").reset();
          popupForm.setAttribute("action", "/maestros/crear");
       }
