@@ -197,28 +197,26 @@ body {
 }
 
 .btn-logout {
-    width: 36px; height: 36px;
-    border-radius: 8px;
-    background: rgba(251,133,0,.15);
-    border: 1.5px solid rgba(251,133,0,.4);
-    color: var(--naranja);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 1rem;
-    text-decoration: none;
-    transition: .25s ease;
+    color: var(--marino);
+    font-family: "DM Sans", sans-serif;
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.04em;
+    width: 130px;
+    border-radius: 6px;
+    height: 36px;
+    border: 2px solid var(--naranja);
+    cursor: pointer;
+    background-color: var(--naranja);
+    transition: 0.3s ease-in-out;
 }
 
 .btn-logout:hover {
-    background: var(--naranja);
-    color: #fff;
-    box-shadow: 0 0 12px rgba(251,133,0,.45);
+    background-color: transparent;
+    color: var(--naranja);
 }
 
-/* ─────────────────────────────────────────
-   LAYOUT PRINCIPAL
-───────────────────────────────────────── */
+/* LAYOUT PRINCIPAL*/
 .dashboard-container {
     display: flex;
     flex-direction: column;
@@ -233,9 +231,7 @@ body {
     gap: 52px;
 }
 
-/* ─────────────────────────────────────────
-   HÉROE + STATS
-───────────────────────────────────────── */
+/* STATS*/
 .hero-section {
     display: flex;
     align-items: center;
@@ -345,9 +341,7 @@ body {
 .stat-orange > i { color: var(--naranja); }
 .stat-teal  > i { color: var(--amarillo); }
 
-/* ─────────────────────────────────────────
-   ENCABEZADO DE SECCIÓN
-───────────────────────────────────────── */
+/* ENCABEZADO DE SECCIÓN*/
 .section-block {
     display: flex;
     flex-direction: column;
@@ -392,9 +386,7 @@ body {
     color: var(--naranja);
 }
 
-/* ─────────────────────────────────────────
-   TARJETAS DE ENTIDAD
-───────────────────────────────────────── */
+/*  TARJETAS DE ENTIDAD*/
 .entity-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
@@ -488,9 +480,7 @@ body {
     transform: translateX(3px);
 }
 
-/* ─────────────────────────────────────────
-   TARJETAS DE ALERTA
-───────────────────────────────────────── */
+/* TARJETAS DE ALERTA */
 .alerts-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -617,9 +607,7 @@ body {
     border: 1px solid rgba(255,183,3,.4);
 }
 
-/* ─────────────────────────────────────────
-   EMPTY STATE
-───────────────────────────────────────── */
+/* EMPTY STATE DE TARJETAS */
 .empty-state {
     display: flex;
     flex-direction: column;
@@ -643,9 +631,7 @@ body {
     font-weight: 500;
 }
 
-/* ─────────────────────────────────────────
-   ANIMACIÓN
-───────────────────────────────────────── */
+/* ANIMACIÓN*/
 @keyframes cardIn {
     from { opacity: 0; transform: translateY(16px); }
     to   { opacity: 1; transform: translateY(0); }
