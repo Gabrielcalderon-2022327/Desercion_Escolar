@@ -204,13 +204,13 @@
                 </div>
 
                 <!-- Sin alertas -->
-                <div class="empty-state" th:if="${alertas.isEmpty}">
+                <div class="empty-state" th:if="${alertas.size() == 0}">
                     <i class="bi bi-check-circle-fill"></i>
                     <p>Sin alertas activas. ¡Todo bajo control!</p>
                 </div>
 
                 <!-- Grid de alertas -->
-                <div class="alerts-grid" th:if="${!alertas.isEmpty}">
+                <div class="alerts-grid" th:if="${alertas.size() > 0}">
                     <div th:each="alerta : ${alertas}" th:classappend="${alerta.riesgo.nivel_riesgo == 'Alto'} ? 'alert-card alert-card--critical' : 'alert-card alert-card--warning'">
                         <div class="alert-card-icon">
                             <i th:classappend="${alerta.riesgo.nivel_riesgo == 'Alto'} ? 'bi bi-exclamation-octagon-fill' : 'bi bi-exclamation-triangle-fill'" class="bi"></i>
