@@ -36,6 +36,17 @@ public class Alerta {
     @NotNull(message = "El ID de riesgo es obligatorio")
     private Integer fk_id_riesgo;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_id_riesgo", insertable = false, updatable = false)
+    private Riesgo riesgo;
+
+    public Riesgo getRiesgo() {
+        return riesgo;
+    }
+
+    public void setRiesgo(Riesgo riesgo) {
+        this.riesgo = riesgo;
+    }
 
     public Integer getId_alerta() {
         return id_alerta;
