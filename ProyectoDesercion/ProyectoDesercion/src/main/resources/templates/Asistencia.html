@@ -48,15 +48,17 @@
         <!-- Botones para el put, post, delete y get-->
         <div class="crud-actions">
             <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <!-- CORREGIDO: /asistencia/listar -> /asistencias/listar -->
             <a th:href="@{/asistencias/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <!-- CORREGIDO: /asistencia/buscar -> /asistencias/buscar -->
             <form class="crud-search" th:action="@{/asistencias/buscar}" method="get">
                 <input type="number" placeholder="Buscar por ID..." name="idAsistencia">
                 <button type="submit" class="btn-crud" id="btn-buscar">
                     <img src="/img/buscar.png" alt="Logo de busqueda">
                 </button>
             </form>
+            <div class="message-container">
+                <h2 id="error-text" th:if="${error!=null}" th:text="${error}">ERROR</h2>
+                <h2 id="success-text" th:if="${success!=null}" th:text="${success}">EXITO</h2>
+            </div>
         </div>
 
         <!-- Formulario para crear o actualizar una entidad-->
