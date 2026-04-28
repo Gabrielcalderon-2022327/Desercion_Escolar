@@ -55,6 +55,10 @@
                     <img src="/img/buscar.png" alt="Logo de busqueda">
                 </button>
             </form>
+            <div class="message-container">
+                <h2 id="error-text" th:if="${error!=null}" th:text="${error}">ERROR</h2>
+                <h2 id="success-text" th:if="${success!=null}" th:text="${success}">EXITO</h2>
+            </div>
         </div>
 
         <!-- Formulario para crear o actualizar una entidad-->

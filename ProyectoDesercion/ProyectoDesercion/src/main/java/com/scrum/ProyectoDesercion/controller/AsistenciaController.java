@@ -41,9 +41,13 @@ public class AsistenciaController {
     @GetMapping("/asistencias/buscar")
     public String buscarAsistencia(@RequestParam Integer idAsistencia,
                                    RedirectAttributes redirectAttributes) {
-        Asistencia asistencia = asistenciaService.getAsistenciaById(idAsistencia);
-        redirectAttributes.addFlashAttribute("asistencias", List.of(asistencia));
-        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+        try {
+            Asistencia asistencia = asistenciaService.getAsistenciaById(idAsistencia);
+            redirectAttributes.addFlashAttribute("asistencias", List.of(asistencia));
+            redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "No se encontró el registro: " + e.getMessage());
+        }
         return "redirect:/asistencias";
     }
 
@@ -53,15 +57,16 @@ public class AsistenciaController {
                                   @Valid @RequestParam String estado_asistencia,
                                   @Valid @RequestParam Integer fk_id_estudiante,
                                   RedirectAttributes redirectAttributes) {
-
-        Asistencia asistencia = new Asistencia();
-        asistencia.setFecha_asistencia(fecha_asistencia);
-        asistencia.setEstado_asistencia(estado_asistencia);
-        asistencia.setFk_id_estudiante(fk_id_estudiante);
-
-        asistenciaService.saveAsistencia(asistencia);
-
-        redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+        try {
+            Asistencia asistencia = new Asistencia();
+            asistencia.setFecha_asistencia(fecha_asistencia);
+            asistencia.setEstado_asistencia(estado_asistencia);
+            asistencia.setFk_id_estudiante(fk_id_estudiante);
+            asistenciaService.saveAsistencia(asistencia);
+            redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al crear el registro: " + e.getMessage());
+        }
         return "redirect:/asistencias";
     }
 
@@ -72,15 +77,16 @@ public class AsistenciaController {
                                    @Valid @RequestParam String estado_asistencia,
                                    @Valid @RequestParam Integer fk_id_estudiante,
                                    RedirectAttributes redirectAttributes) {
-
-        Asistencia asistencia = new Asistencia();
-        asistencia.setFecha_asistencia(fecha_asistencia);
-        asistencia.setEstado_asistencia(estado_asistencia);
-        asistencia.setFk_id_estudiante(fk_id_estudiante);
-
-        asistenciaService.updateAsistencia(id_asistencia, asistencia);
-
-        redirectAttributes.addFlashAttribute("success", "Se actualizó el registro no: " + id_asistencia + "!");
+        try {
+            Asistencia asistencia = new Asistencia();
+            asistencia.setFecha_asistencia(fecha_asistencia);
+            asistencia.setEstado_asistencia(estado_asistencia);
+            asistencia.setFk_id_estudiante(fk_id_estudiante);
+            asistenciaService.updateAsistencia(id_asistencia, asistencia);
+            redirectAttributes.addFlashAttribute("success", "Se actualizó el registro no: " + id_asistencia + "!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar el registro: " + e.getMessage());
+        }
         return "redirect:/asistencias";
     }
 
@@ -88,9 +94,12 @@ public class AsistenciaController {
     @GetMapping("/asistencias/eliminar/{id}")
     public String eliminarAsistencia(@PathVariable Integer id,
                                      RedirectAttributes redirectAttributes) {
-
-        asistenciaService.deleteAsistencia(id);
-        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro correctamente!");
+        try {
+            asistenciaService.deleteAsistencia(id);
+            redirectAttributes.addFlashAttribute("success", "Se eliminó el registro correctamente!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al eliminar el registro: " + e.getMessage());
+        }
         return "redirect:/asistencias";
     }
 }

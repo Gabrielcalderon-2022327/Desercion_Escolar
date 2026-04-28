@@ -39,57 +39,63 @@ public class RiesgoController {
     // Buscar riesgo
     @GetMapping("/riesgos/buscar")
     public String buscarRiesgo(@RequestParam Integer id_riesgo,
-                               RedirectAttributes redirectAttributes){
-        Riesgo riesgo = riesgoService.buscarRiesgo(id_riesgo);
-        redirectAttributes.addFlashAttribute("riesgos", List.of(riesgo));
-        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+                               RedirectAttributes redirectAttributes) {
+        try {
+            Riesgo riesgo = riesgoService.buscarRiesgo(id_riesgo);
+            redirectAttributes.addFlashAttribute("riesgos", List.of(riesgo));
+            redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "No se encontró el registro: " + e.getMessage());
+        }
         return "redirect:/riesgos";
     }
 
-    // Crear riesgo
     @PostMapping("/riesgos/crear")
     public String crearRiesgo(RedirectAttributes redirectAttributes,
                               @Valid @RequestParam String descripcion_riesgo,
                               @Valid @RequestParam String nivel_riesgo,
-                              @Valid @RequestParam Integer fk_id_estudiante){
-
-        Riesgo riesgo = new Riesgo();
-        riesgo.setDescripcion_riesgo(descripcion_riesgo);
-        riesgo.setNivel_riesgo(nivel_riesgo);
-        riesgo.setFk_id_estudiante(fk_id_estudiante);
-
-        riesgoService.crearRiesgo(riesgo);
-
-        redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+                              @Valid @RequestParam Integer fk_id_estudiante) {
+        try {
+            Riesgo riesgo = new Riesgo();
+            riesgo.setDescripcion_riesgo(descripcion_riesgo);
+            riesgo.setNivel_riesgo(nivel_riesgo);
+            riesgo.setFk_id_estudiante(fk_id_estudiante);
+            riesgoService.crearRiesgo(riesgo);
+            redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al crear el registro: " + e.getMessage());
+        }
         return "redirect:/riesgos";
     }
 
-    // Editar riesgo
     @PostMapping("/riesgos/editar")
     public String editarRiesgo(RedirectAttributes redirectAttributes,
                                @Valid @RequestParam Integer id_riesgo,
                                @Valid @RequestParam String descripcion_riesgo,
                                @Valid @RequestParam String nivel_riesgo,
-                               @Valid @RequestParam Integer fk_id_estudiante){
-
-        Riesgo riesgo = new Riesgo();
-        riesgo.setDescripcion_riesgo(descripcion_riesgo);
-        riesgo.setNivel_riesgo(nivel_riesgo);
-        riesgo.setFk_id_estudiante(fk_id_estudiante);
-
-        riesgoService.actualizarRiesgo(id_riesgo, riesgo);
-
-        redirectAttributes.addFlashAttribute("success", "Se actualizó el registro no: " + id_riesgo + "!");
+                               @Valid @RequestParam Integer fk_id_estudiante) {
+        try {
+            Riesgo riesgo = new Riesgo();
+            riesgo.setDescripcion_riesgo(descripcion_riesgo);
+            riesgo.setNivel_riesgo(nivel_riesgo);
+            riesgo.setFk_id_estudiante(fk_id_estudiante);
+            riesgoService.actualizarRiesgo(id_riesgo, riesgo);
+            redirectAttributes.addFlashAttribute("success", "Se actualizó el registro no: " + id_riesgo + "!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al actualizar el registro: " + e.getMessage());
+        }
         return "redirect:/riesgos";
     }
 
-    // Eliminar riesgo
     @GetMapping("/riesgos/eliminar/{id}")
     public String eliminarRiesgo(@PathVariable Integer id,
-                                 RedirectAttributes redirectAttributes){
-
-        riesgoService.eliminarRiesgo(id);
-        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro correctamente!");
+                                 RedirectAttributes redirectAttributes) {
+        try {
+            riesgoService.eliminarRiesgo(id);
+            redirectAttributes.addFlashAttribute("success", "Se eliminó el registro correctamente!");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Error al eliminar el registro: " + e.getMessage());
+        }
         return "redirect:/riesgos";
     }
 }
