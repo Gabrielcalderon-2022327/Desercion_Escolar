@@ -47,11 +47,11 @@
 
         <!-- Botones para el put, post, delete y get-->
         <div class="crud-actions">
-            <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <a th:href="@{/asistencias/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)"></button>
+            <a th:href="@{/asistencias/listar}"><button class="btn-crud" id="btn-listar"></button></a>
             <form class="crud-search" th:action="@{/asistencias/buscar}" method="get">
                 <input type="number" placeholder="Buscar por ID..." name="idAsistencia">
-                <button type="submit" class="btn-crud" id="btn-buscar">
+                <button type="submit" id="btn-buscar">
                     <img src="/img/buscar.png" alt="Logo de busqueda">
                 </button>
             </form>
@@ -89,8 +89,8 @@
 
                 </div>
                 <div class="btn-container">
-                    <button type="submit" class="btn-crud" id="btn-crear-popoup">Crear</button>
-                    <button type="submit" class="btn-crud" id="btn-actualizar-popoup">Actualizar</button>
+                    <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup"></button>
+                    <button type="submit" class="btn-crud btn-actualizar" id="btn-actualizar-popoup"></button>
                 </div>
             </form>
         </div>
@@ -120,8 +120,10 @@
                             <button class="btn-crud btn-actualizar" popovertarget="datos"
                                     th:data-id="${a.id_asistencia}" th:data-fecha="${a.fecha_asistencia}"
                                     th:data-estado="${a.estado_asistencia}" th:data-id-estudiante="${a.fk_id_estudiante}"
-                                    onclick="cargarData(this)">Actualizar</button>
-                            <a th:href="@{/asistencias/eliminar/{id}(id=${a.id_asistencia})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
+                                    onclick="cargarData(this)"></button>
+                            <a th:href="@{/asistencias/eliminar/{id}(id=${a.id_asistencia})}">
+                                <button class="btn-crud btn-eliminar"></button>
+                            </a>
                         </div>
                     </td>
                 </tr>
