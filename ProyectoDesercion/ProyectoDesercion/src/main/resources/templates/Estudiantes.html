@@ -41,7 +41,7 @@
         <h1 class="titulo-entidad">Gestión de Estudiantes</h1>
 
         <div class="crud-actions">
-            <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <button class="btn-crud btn-crear" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/estudiantes/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
             <form class="crud-search" th:action="@{/estudiantes/buscar}" method="get">
                 <input type="number" placeholder="Buscar por ID..." name="id_estudiante">
