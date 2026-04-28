@@ -47,11 +47,11 @@
 
         <!-- Botones para el put, post, delete y get-->
         <div class="crud-actions">
-            <button class="btn-crud" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <a th:href="@{/riesgos/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)"></button>
+            <a th:href="@{/riesgos/listar}"><button class="btn-crud" id="btn-listar"></button></a>
             <form class="crud-search" th:action="@{/riesgos/buscar}" method="get">
                 <input type="number" placeholder="Buscar por ID..." name="id_riesgo">
-                <button type="submit" class="btn-crud" id="btn-buscar">
+                <button type="submit" id="btn-buscar">
                     <img src="/img/buscar.png" alt="Logo de busqueda">
                 </button>
             </form>
@@ -89,17 +89,17 @@
 
                 </div>
                 <div class="btn-container">
-                    <button type="submit" class="btn-crud" id="btn-crear-popoup">Crear</button>
-                    <button type="submit" class="btn-crud" id="btn-actualizar-popoup">Actualizar</button>
+                    <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup"></button>
+                    <button type="submit" class="btn-crud btn-actualizar" id="btn-actualizar-popoup"></button>
                 </div>
             </form>
         </div>
 
         <!-- Tabla de las entidades-->
-        <div class=" table-container">
+        <div class="table-container">
             <table class="crud-table">
 
-                <thead> <!-- Encabezado de las columnas-->
+                <thead>
                 <tr>
                     <th>ID Riesgo</th>
                     <th>Nivel de Riesgo</th>
@@ -109,8 +109,8 @@
                 </tr>
                 </thead>
 
-                <tbody> <!-- Contenido de la tabla-->
-                <tr th:each=" a: ${riesgos}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                <tbody>
+                <tr th:each="a: ${riesgos}">
                     <td th:text="${a.id_riesgo}"></td>
                     <td th:text="${a.nivel_riesgo}"></td>
                     <td th:text="${a.descripcion_riesgo}"></td>
@@ -119,8 +119,11 @@
                         <div class="actions">
                             <button class="btn-crud btn-actualizar" popovertarget="datos"
                                     th:data-id="${a.id_riesgo}" th:data-nivel="${a.nivel_riesgo}"
-                                    th:data-descripcion="${a.descripcion_riesgo}" th:data-id-estudiante="${a.fk_id_estudiante}" onclick="cargarData(this)">Actualizar</button>
-                            <a th:href="@{/riesgos/eliminar/{id}(id=${a.id_riesgo})}"><button class="btn-crud btn-eliminar">Eliminar</button></a>
+                                    th:data-descripcion="${a.descripcion_riesgo}" th:data-id-estudiante="${a.fk_id_estudiante}"
+                                    onclick="cargarData(this)"></button>
+                            <a th:href="@{/riesgos/eliminar/{id}(id=${a.id_riesgo})}">
+                                <button class="btn-crud btn-eliminar"></button>
+                            </a>
                         </div>
                     </td>
                 </tr>
@@ -131,7 +134,6 @@
 </div>
 
 <script>
-    //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
     function cargarData(button) {
        document.getElementById("id_riesgo").value = button.dataset.id;
        document.getElementById("nivel_riesgo").value = button.dataset.nivel;
@@ -140,7 +142,6 @@
        toggleIdInput(true);
     }
 
-    //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
     function toggleIdInput(isUpdate) {
        const userContainer = document.getElementById("user-container");
        const btnActualizar = document.getElementById("btn-actualizar-popoup");
@@ -157,7 +158,6 @@
           btnCrear.style.display = "inline-block";
           popupForm.setAttribute("action", "/riesgos/crear");
        }
-
     }
 </script>
 
