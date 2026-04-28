@@ -62,16 +62,15 @@ public class IndexController {
             }
         }
         double promedio = totalPresente /totalAsistencia * 100;
-        System.out.println(promedio);
         return (int) Math.round(promedio);
     }
 
     private List<Alerta> alertaPorFecha(){
-        int limiteAlertas = 9;
+        int limiteAlertas = 10;
         List<Alerta> alertas = alertaService.getAllAlerta();
         alertas.sort(Comparator.comparing(Alerta::getFecha_alerta).reversed());
         if (alertas.size() < 10){
-            limiteAlertas = alertas.size()-1;
+            limiteAlertas = alertas.size();
         }
         if (alertas.size() == 0){
             return alertas;
