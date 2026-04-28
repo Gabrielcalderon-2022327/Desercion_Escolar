@@ -1,5 +1,6 @@
 package com.scrum.ProyectoDesercion.controller;
 
+import com.scrum.ProyectoDesercion.entity.Alerta;
 import com.scrum.ProyectoDesercion.entity.Asistencia;
 import com.scrum.ProyectoDesercion.entity.Riesgo;
 import com.scrum.ProyectoDesercion.service.AlertaService;
@@ -11,6 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
+import java.util.List;
 
 
 @Controller
@@ -29,7 +35,7 @@ public class IndexController {
         model.addAttribute("totalEstudiantes", estudianteService.getAllEstudiantes().size());
         model.addAttribute("riesgoAlto", getRiesgoAlto());
         model.addAttribute("asistenciaPromedio", getAsistencia());
-        model.addAttribute("alertas", alertaService.getAllAlerta());
+        model.addAttribute("alertas", alertaPorFecha());
         return "Pagina principal";
     }
 
@@ -58,6 +64,20 @@ public class IndexController {
         double promedio = totalPresente /totalAsistencia * 100;
         System.out.println(promedio);
         return (int) Math.round(promedio);
+    }
+
+    private List<Alerta> alertaPorFecha(){
+        int limiteAlertas = 9;
+        List<Alerta> alertas = alertaService.getAllAlerta();
+        alertas.sort(Comparator.comparing(Alerta::getFecha_alerta).reversed());
+        if (alertas.size() < 10){
+            limiteAlertas = alertas.size()-1;
+        }
+        if (alertas.size() == 0){
+            return alertas;
+        }
+        alertas = alertas.subList(0,limiteAlertas);
+        return alertas;
     }
 
 }
