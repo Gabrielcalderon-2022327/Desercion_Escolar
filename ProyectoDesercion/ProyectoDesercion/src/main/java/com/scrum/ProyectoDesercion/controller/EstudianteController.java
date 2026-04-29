@@ -15,7 +15,7 @@ public class EstudianteController {
 
     @Autowired
     private EstudianteService service;
-
+    //Carga la vista principal con la lista de estudiantes
     @GetMapping("/estudiantes")
     public String cargarEstudiantes(Model model) {
         if (!model.containsAttribute("estudiantes")) {
@@ -24,6 +24,7 @@ public class EstudianteController {
         return "Estudiantes";
     }
 
+    //Lista todos los datos
     @GetMapping("/estudiantes/listar")
     public String listarEstudiantes(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute(
@@ -34,6 +35,7 @@ public class EstudianteController {
         return "redirect:/estudiantes";
     }
 
+    //Busca un estudiante por su id
     @GetMapping("/estudiantes/buscar")
     public String buscarEstudiante(
             RedirectAttributes redirectAttributes,
@@ -55,6 +57,7 @@ public class EstudianteController {
         return "redirect:/estudiantes";
     }
 
+    //Crear Estudiante
     @PostMapping("/estudiantes/crear")
     public String crearEstudiante(@ModelAttribute Estudiante estudiante,
                                   RedirectAttributes redirectAttributes) {
@@ -63,6 +66,7 @@ public class EstudianteController {
         return "redirect:/estudiantes";
     }
 
+    //Editar estudiante
     @PostMapping("/estudiantes/editar")
     public String editarEstudiante(@ModelAttribute Estudiante estudiante,
                                    RedirectAttributes redirectAttributes) {
@@ -71,6 +75,7 @@ public class EstudianteController {
         return "redirect:/estudiantes";
     }
 
+    //Eliminar Estudiante
     @GetMapping("/estudiantes/eliminar/{id}")
     public String eliminarEstudiante(@PathVariable Integer id,
                                      RedirectAttributes redirectAttributes) {
