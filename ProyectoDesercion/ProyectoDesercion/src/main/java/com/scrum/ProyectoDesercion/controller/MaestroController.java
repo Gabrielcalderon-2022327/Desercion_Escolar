@@ -32,7 +32,7 @@ public class MaestroController {
 
     @GetMapping("/maestros/listar")
     public String listarMaestros(RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("alertas", service.getAllMaestros());
+        redirectAttributes.addFlashAttribute("maestros", service.getAllMaestros());
         redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
         return "redirect:/maestros";
     }
