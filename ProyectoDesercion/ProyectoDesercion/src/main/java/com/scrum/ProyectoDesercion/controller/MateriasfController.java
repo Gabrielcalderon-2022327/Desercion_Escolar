@@ -1,5 +1,6 @@
 package com.scrum.ProyectoDesercion.controller;
 
+import com.scrum.ProyectoDesercion.entity.Estudiante;
 import com.scrum.ProyectoDesercion.entity.MateriasF;
 import com.scrum.ProyectoDesercion.service.MateriasfService;
 import jakarta.validation.Valid;
@@ -54,8 +55,9 @@ public class MateriasfController {
     }
 
     @PostMapping("/materiasf/crear")
-    public String crearMateria(@Valid @ModelAttribute MateriasF materia,RedirectAttributes redirectAttributes){
-        materiasFService.saveMateriasF(materia);
+    public String crearEstudiante(@ModelAttribute MateriasF materiasF,
+                                  RedirectAttributes redirectAttributes) {
+        materiasFService.saveMateriasF(materiasF);
         redirectAttributes.addFlashAttribute("success", "Materia creada correctamente");
         return "redirect:/materiasf";
     }
