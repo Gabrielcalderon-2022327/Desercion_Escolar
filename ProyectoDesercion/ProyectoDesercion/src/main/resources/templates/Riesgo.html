@@ -120,13 +120,14 @@
                     <td th:text="${a.fk_id_estudiante}"></td>
                     <td>
                         <div class="actions">
-                            <button class="btn-crud btn-actualizar" popovertarget="datos"
-                                    th:data-id="${a.id_riesgo}" th:data-nivel="${a.nivel_riesgo}"
-                                    th:data-descripcion="${a.descripcion_riesgo}" th:data-id-estudiante="${a.fk_id_estudiante}"
-                                    onclick="cargarData(this)"></button>
-                            <a th:href="@{/riesgos/eliminar/{id}(id=${a.id_riesgo})}">
-                                <button class="btn-crud btn-eliminar"></button>
-                            </a>
+                           <button class="btn-crud btn-actualizar" popovertarget="datos"
+                              th:data-id="${a.id_riesgo}" th:data-nivel="${a.nivel_riesgo}"
+                              th:data-descripcion="${a.descripcion_riesgo}" th:data-id-estudiante="${a.fk_id_estudiante}"
+                              onclick="cargarData(this)">Actualizar</button>
+                           <button class="btn-crud btn-eliminar"
+                              th:data-url="@{/riesgos/eliminar/{id}(id=${a.id_riesgo})}"
+                              th:data-id="${a.id_riesgo}"
+                              onclick="confirmarEliminar(this.dataset.url, this.dataset.id)">Eliminar</button>
                         </div>
                     </td>
                 </tr>
@@ -135,6 +136,19 @@
         </div>
     </main>
 </div>
+
+<!-- CONFIRMACIÓN ELIMINAR -->
+   <div class="confirm-backdrop" id="confirm-backdrop">
+      <div class="confirm-modal">
+         <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
+         <h3>¿Eliminar registro?</h3>
+         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar el riesgo <strong id="confirm-nombre"></strong>?</p>
+         <div class="confirm-modal-actions">
+            <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
+            <a id="confirm-link" href="#" class="btn-confirm-delete"><i class="bi bi-trash3-fill"></i> Eliminar</a>
+         </div>
+      </div>
+   </div>
 
 <script>
     function cargarData(button) {
@@ -162,6 +176,22 @@
           popupForm.setAttribute("action", "/riesgos/crear");
        }
     }
+
+    // CONFIRMACIÓN DE ELIMINACIÓN
+      function confirmarEliminar(url, nombre) {
+         document.getElementById("confirm-nombre").textContent = nombre;
+         document.getElementById("confirm-link").setAttribute("href", url);
+         document.getElementById("confirm-backdrop").classList.add("show");
+      }
+
+      function cerrarConfirm() {
+         document.getElementById("confirm-backdrop").classList.remove("show");
+      }
+
+      // Cerrar al hacer clic fuera del modal
+      document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
+         if (e.target === this) cerrarConfirm();
+      });
 </script>
 
 </body>
