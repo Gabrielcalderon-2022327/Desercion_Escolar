@@ -18,6 +18,7 @@ public class MateriasfController {
     @Autowired
     private MateriasfService materiasFService;
 
+    //Carga la vista principal con la lista de Materias Perdidas
     @GetMapping("/materiasf")
     public String cargarMaterias(Model model){
         if(!model.containsAttribute("materiasf")){
@@ -26,6 +27,7 @@ public class MateriasfController {
         return "MateriasF";
     }
 
+    //Lista todos los datos
     @GetMapping("/materiasf/listar")
     public String listarMaterias(RedirectAttributes redirectAttributes){
         redirectAttributes.addFlashAttribute(
@@ -36,6 +38,7 @@ public class MateriasfController {
         return "redirect:/materiasf";
     }
 
+    //Busca una Materia por su ID
     @GetMapping("/materiasf/buscar")
     public String buscarMaterias(RedirectAttributes redirectAttributes,
                                  @RequestParam Integer id){
@@ -54,6 +57,7 @@ public class MateriasfController {
         return "redirect:/materiasf";
     }
 
+    //Crear Materia
     @PostMapping("/materiasf/crear")
     public String crearEstudiante(@ModelAttribute MateriasF materiasF,
                                   RedirectAttributes redirectAttributes) {
@@ -62,6 +66,7 @@ public class MateriasfController {
         return "redirect:/materiasf";
     }
 
+    //Editar Materia
     @PostMapping("/materiasf/editar")
     public String editarMateria(@Valid @ModelAttribute MateriasF materia, RedirectAttributes redirectAttributes){
         materiasFService.updateMateriasF(
@@ -72,6 +77,7 @@ public class MateriasfController {
         return "redirect:/materiasf";
     }
 
+    //Eliminar Materia por su ID
     @GetMapping("/materiasf/eliminar/{id}")
     public String eliminarMateria(@PathVariable Integer id, RedirectAttributes redirectAttributes){
         materiasFService.deleteMateriasF(id);
