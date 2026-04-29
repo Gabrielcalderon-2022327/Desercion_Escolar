@@ -6,6 +6,8 @@ import com.scrum.ProyectoDesercion.repository.UsuarioRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
+
 @Service
 public class UsuarioServiceImplements implements UsuarioService {
     private final UsuarioRepository usuarioRepository;
@@ -53,6 +55,19 @@ public class UsuarioServiceImplements implements UsuarioService {
             throw new ResourceNotFoundException("Usuario no encontrado");
         }
         usuarioRepository.delete(usuario);
+    }
+
+    @Override
+    public Usuario login(String email, String password) {
+        Optional<Usuario> user = usuarioRepository.findByCorreoUsuario(email);
+        if (!user.isPresent()){
+            return null;
+        }
+        if(user.get().getContraUsuario().equals(password)){
+            return user.get();
+        } else {
+            return null;
+        }
     }
 }
 
