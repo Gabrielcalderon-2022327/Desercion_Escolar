@@ -7,74 +7,68 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
     <link rel="stylesheet" href="../static/styleLogin.css">
 </head>
 <body>
 
-    <!-- Fondo animado con partículas / formas -->
-    <div class="bg-layer">
-        <div class="shape shape--1"></div>
-        <div class="shape shape--2"></div>
-        <div class="shape shape--3"></div>
-        <div class="shape shape--4"></div>
-        <div class="dots-grid"></div>
-    </div>
+<!-- Fondo animado con partículas / formas -->
+<div class="bg-layer">
+    <div class="shape shape--1"></div>
+    <div class="shape shape--2"></div>
+    <div class="shape shape--3"></div>
+    <div class="shape shape--4"></div>
+    <div class="dots-grid"></div>
+</div>
 
-    <div class="scene">
+<div class="scene">
 
-        <!-- Panel izquierdo: identidad del sistema -->
-        <aside class="panel-left">
-            <div class="brand">
-                <div class="brand__icon">
-                    <svg viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="24" cy="24" r="22" stroke="#FFB703" stroke-width="2.5"/>
-                        <path d="M14 34 C14 24 24 18 24 18 C24 18 34 24 34 34" stroke="#FFB703" stroke-width="2.5" stroke-linecap="round"/>
-                        <circle cx="24" cy="14" r="4" fill="#FFB703"/>
-                        <path d="M18 34 L24 28 L30 34" stroke="#8ECAE6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-                    </svg>
-                </div>
-                <span class="brand__name">EduGuard</span>
+    <!-- Panel izquierdo: identidad del sistema -->
+    <aside class="panel-left">
+        <div class="topbar-brand">
+            <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+            <span class="brand-name">EduGuard</span>
+        </div>
+
+        <div class="panel-left__copy">
+            <h1 class="headline">
+                Cada estudiante<br>
+                <em>importa.</em>
+            </h1>
+            <p class="subline">
+                Plataforma integral para el monitoreo, análisis y prevención de la deserción escolar en Guatemala.
+            </p>
+        </div>
+
+        <div class="panel-left__footer">
+            <div class="badge">
+                <span class="badge__dot"></span>
+                Sistema en línea
+            </div>
+        </div>
+    </aside>
+
+    <!-- Panel derecho: formulario -->
+    <main class="panel-right">
+        <div class="card">
+
+            <div class="card__header">
+                <p class="card__eyebrow">Bienvenido de vuelta</p>
+                <h2 class="card__title">Iniciar Sesión</h2>
             </div>
 
-            <div class="panel-left__copy">
-                <h1 class="headline">
-                    Cada estudiante<br>
-                    <em>importa.</em>
-                </h1>
-                <p class="subline">
-                    Plataforma integral para el monitoreo, análisis y prevención de la deserción escolar en Guatemala.
-                </p>
-            </div>
+            <form class="login-form" id="loginForm" action="#" method="post">
 
-            <div class="panel-left__footer">
-                <div class="badge">
-                    <span class="badge__dot"></span>
-                    Sistema en línea
-                </div>
-            </div>
-        </aside>
-
-        <!-- Panel derecho: formulario -->
-        <main class="panel-right">
-            <div class="card">
-
-                <div class="card__header">
-                    <p class="card__eyebrow">Bienvenido</p>
-                    <h2 class="card__title">Iniciar Sesión</h2>
-                </div>
-
-                <form class="login-form" id="loginForm" action="#" method="post">
-
-                    <div class="field">
-                        <label class="field__label" for="email">Correo electrónico</label>
-                        <div class="field__wrap">
+                <div class="field">
+                    <label class="field__label" for="email">Correo electrónico</label>
+                    <div class="field__wrap">
                             <span class="field__icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="2" y="4" width="20" height="16" rx="3"/>
                                     <path d="M2 8l10 6 10-6"/>
                                 </svg>
                             </span>
-                            <input
+                        <input
                                 class="field__input"
                                 type="email"
                                 id="email"
@@ -82,23 +76,22 @@
                                 placeholder="usuario@ejemplo.com"
                                 autocomplete="email"
                                 required
-                            >
-                        </div>
+                        >
                     </div>
+                </div>
 
-                    <div class="field">
-                        <div class="field__label-row">
-                            <label class="field__label" for="password">Contraseña</label>
-                            <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
-                        </div>
-                        <div class="field__wrap">
+                <div class="field">
+                    <div class="field__label-row">
+                        <label class="field__label" for="password">Contraseña</label>
+                    </div>
+                    <div class="field__wrap">
                             <span class="field__icon">
                                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                                     <rect x="3" y="11" width="18" height="11" rx="2"/>
                                     <path d="M7 11V7a5 5 0 0110 0v4"/>
                                 </svg>
                             </span>
-                            <input
+                        <input
                                 class="field__input"
                                 type="password"
                                 id="password"
@@ -106,37 +99,34 @@
                                 placeholder="••••••••"
                                 autocomplete="current-password"
                                 required
-                            >
-                            <button type="button" class="toggle-pw" aria-label="Mostrar contraseña" onclick="togglePassword()">
-                                <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
-                                    <circle cx="12" cy="12" r="3"/>
-                                </svg>
-                                <svg class="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" style="display:none">
-                                    <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
-                                    <line x1="1" y1="1" x2="23" y2="23"/>
-                                </svg>
-                            </button>
-                        </div>
+                        >
+                        <button type="button" class="toggle-pw" aria-label="Mostrar contraseña" onclick="togglePassword()">
+                            <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                                <circle cx="12" cy="12" r="3"/>
+                            </svg>
+                            <svg class="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                                <line x1="1" y1="1" x2="23" y2="23"/>
+                            </svg>
+                        </button>
                     </div>
+                </div>
 
-                    <button type="submit" class="submit-btn">
-                        <span class="submit-btn__text">Ingresar al Sistema</span>
-                        <span class="submit-btn__arrow">
+                <button type="submit" class="submit-btn">
+                    <span class="submit-btn__text">Ingresar al Sistema</span>
+                    <span class="submit-btn__arrow">
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M5 12h14M12 5l7 7-7 7"/>
                             </svg>
                         </span>
-                    </button>
+                </button>
 
-                </form>
+            </form>
+        </div>
+    </main>
 
-            
-
-            </div>
-        </main>
-
-    </div>
+</div>
 
 </body>
 </html>
