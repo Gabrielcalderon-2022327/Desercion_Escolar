@@ -23,7 +23,7 @@ public class GradoController {
         this.validator = validator;
     }
 
-    @GetMapping("/grados")
+    @GetMapping("/grado")
     public String cargarGrados(Model model) {
         if (!model.containsAttribute("grados")) {
             model.addAttribute("grados", service.getAllGrado());
@@ -31,14 +31,14 @@ public class GradoController {
         return "Grado";
     }
 
-    @GetMapping("/grados/listar")
+    @GetMapping("/grado/listar")
     public String listarGrados(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("grados", service.getAllGrado());
         redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
         return "redirect:/grados";
     }
 
-    @GetMapping("/grados/buscar")
+    @GetMapping("/grado/buscar")
     public String buscarGrado(RedirectAttributes redirectAttributes, @RequestParam Integer idUsuario) {
         Grado grado = service.getGradoById(idUsuario);
         redirectAttributes.addFlashAttribute("grados", List.of(grado));
@@ -46,7 +46,7 @@ public class GradoController {
         return "redirect:/grados";
     }
 
-    @PostMapping("/grados/crear")
+    @PostMapping("/grado/crear")
     public String crearGrado(RedirectAttributes redirectAttributes,
             @Valid @RequestParam String nombre_grado,
             @Valid @RequestParam Integer fk_id_maestro) {
@@ -61,7 +61,7 @@ public class GradoController {
     }
 
 
-    @PostMapping("/grados/editar")
+    @PostMapping("/grado/editar")
     public String editarGrado(RedirectAttributes redirectAttributes,
             @Valid @RequestParam Integer id_grado,
             @Valid @RequestParam String nombre_grado,
