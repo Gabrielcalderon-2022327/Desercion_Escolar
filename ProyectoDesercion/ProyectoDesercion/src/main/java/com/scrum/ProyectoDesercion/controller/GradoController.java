@@ -4,15 +4,15 @@ import com.scrum.ProyectoDesercion.entity.Grado;
 import com.scrum.ProyectoDesercion.service.GradoService;
 import com.scrum.ProyectoDesercion.validator.GradoValidator;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
 
-@RestController
-@RequestMapping("/api/grados")
+@Controller
 public class GradoController {
 
     private final GradoService service;
@@ -23,34 +23,66 @@ public class GradoController {
         this.validator = validator;
     }
 
-    @GetMapping
-    public List<Grado> getAllGrados(){
-        return service.getAllGrado();
+    @GetMapping("/grados")
+    public String cargarGrados(Model model) {
+        if (!model.containsAttribute("grados")) {
+            model.addAttribute("grados", service.getAllGrado());
+        }
+        return "Grado";
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<Object> getGradoById(@PathVariable Integer id){
-        Grado searchedGrado = service.getGradoById(id);
-        return new ResponseEntity<>(searchedGrado, HttpStatus.OK);
+    @GetMapping("/grados/listar")
+    public String listarGrados(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("grados", service.getAllGrado());
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
+        return "redirect:/grados";
     }
 
-    @PostMapping
-    public ResponseEntity<Object> createGrado(@Valid @RequestBody Grado grado){
-        validator.validar(grado);
-        Grado createdGrado = service.saveGrado(grado);
-        return new ResponseEntity<>(createdGrado, HttpStatus.CREATED);
+    @GetMapping("/grados/buscar")
+    public String buscarGrado(RedirectAttributes redirectAttributes, @RequestParam Integer idUsuario) {
+        Grado grado = service.getGradoById(idUsuario);
+        redirectAttributes.addFlashAttribute("grados", List.of(grado));
+        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+        return "redirect:/grados";
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Object> updateGrado(@Valid @RequestBody Grado grado, @PathVariable Integer id){
-        validator.validar(grado);
-        Grado updatedGrado = service.updateGrado(id, grado);
-        return new ResponseEntity<>(updatedGrado, HttpStatus.OK);
+    @PostMapping("/grados/crear")
+    public String crearGrado(RedirectAttributes redirectAttributes,
+            @Valid @RequestParam String nombre_grado,
+            @Valid @RequestParam Integer fk_id_maestro) {
+
+        Grado nuevoGrado = new Grado();
+        nuevoGrado.setNombre_grado(nombre_grado);
+        nuevoGrado.setFk_id_maestro(fk_id_maestro);
+        validator.validar(nuevoGrado);
+        service.saveGrado(nuevoGrado);
+        redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+        return "redirect:/grados";
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<Object> deleteGrado(@PathVariable Integer id){
+
+    @PostMapping("/grados/editar")
+    public String editarGrado(RedirectAttributes redirectAttributes,
+            @Valid @RequestParam Integer id_grado,
+            @Valid @RequestParam String nombre_grado,
+            @Valid @RequestParam Integer fk_id_maestro) {
+
+        Grado nuevoGrado = new Grado();
+        nuevoGrado.setId_grado(id_grado);
+        nuevoGrado.setNombre_grado(nombre_grado);
+        nuevoGrado.setFk_id_maestro(fk_id_maestro);
+
+        validator.validar(nuevoGrado);
+        service.updateGrado(id_grado, nuevoGrado);
+        redirectAttributes.addFlashAttribute("success", "Se editó el registro no: " + id_grado + "!");
+        return "redirect:/grados";
+    }
+
+
+    @GetMapping("/grados/eliminar/{id}")
+    public String eliminarGrado(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         service.deleteGrado(id);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro!");
+        return "redirect:/grados";
     }
 }
