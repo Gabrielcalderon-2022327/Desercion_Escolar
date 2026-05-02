@@ -1,11 +1,8 @@
 package com.scrum.ProyectoDesercion.entity;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Past;
 import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
@@ -36,6 +33,17 @@ public class Alerta {
     @NotNull(message = "El ID de riesgo es obligatorio")
     private Integer fk_id_riesgo;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_id_riesgo", insertable = false, updatable = false)
+    private Riesgo riesgo;
+
+    public Riesgo getRiesgo() {
+        return riesgo;
+    }
+
+    public void setRiesgo(Riesgo riesgo) {
+        this.riesgo = riesgo;
+    }
 
     public Integer getId_alerta() {
         return id_alerta;

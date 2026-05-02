@@ -3,6 +3,7 @@ package com.scrum.ProyectoDesercion.controller;
 import com.scrum.ProyectoDesercion.entity.Grado;
 import com.scrum.ProyectoDesercion.service.GradoService;
 import com.scrum.ProyectoDesercion.validator.GradoValidator;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -12,7 +13,6 @@ import java.util.List;
 
 
 @Controller
-@RequestMapping("/grados")
 public class GradoController {
 
     private final GradoService service;
@@ -23,7 +23,7 @@ public class GradoController {
         this.validator = validator;
     }
 
-    @GetMapping("/")
+    @GetMapping("/grado")
     public String cargarGrados(Model model) {
         if (!model.containsAttribute("grados")) {
             model.addAttribute("grados", service.getAllGrado());
@@ -31,47 +31,41 @@ public class GradoController {
         return "Grado";
     }
 
-    @GetMapping("/buscar")
-    public String buscarGrado(RedirectAttributes redirectAttributes,
-                              @RequestParam(required = false) Integer idUsuario) {
-        if (idUsuario == null) {
-            return "redirect:/grados/";
-        }
+    @GetMapping("/grado/listar")
+    public String listarGrados(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("grados", service.getAllGrado());
+        redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
+        return "redirect:/grados";
+    }
+
+    @GetMapping("/grado/buscar")
+    public String buscarGrado(RedirectAttributes redirectAttributes, @RequestParam Integer idUsuario) {
         Grado grado = service.getGradoById(idUsuario);
-        if (grado != null) {
-            redirectAttributes.addFlashAttribute("grados", List.of(grado));
-        } else {
-            redirectAttributes.addFlashAttribute("mensaje", "No se encontró el grado con ID: " + idUsuario);
-        }
-
-        return "redirect:/grados/";
+        redirectAttributes.addFlashAttribute("grados", List.of(grado));
+        redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
+        return "redirect:/grados";
     }
 
-    @GetMapping("/listar")
-    public String listarGrados() {
-        return "redirect:/grados/";
-    }
-
-    @PostMapping("/crear")
-    public String crearGrado(
-            @RequestParam String nombre_grado,
-            @RequestParam Integer fk_id_maestro) {
+    @PostMapping("/grado/crear")
+    public String crearGrado(RedirectAttributes redirectAttributes,
+            @Valid @RequestParam String nombre_grado,
+            @Valid @RequestParam Integer fk_id_maestro) {
 
         Grado nuevoGrado = new Grado();
         nuevoGrado.setNombre_grado(nombre_grado);
         nuevoGrado.setFk_id_maestro(fk_id_maestro);
-
         validator.validar(nuevoGrado);
         service.saveGrado(nuevoGrado);
-        return "redirect:/grados/";
+        redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
+        return "redirect:/grados";
     }
 
 
-    @PostMapping("/editar")
-    public String editarGrado(
-            @RequestParam Integer id_grado,
-            @RequestParam String nombre_grado,
-            @RequestParam Integer fk_id_maestro) {
+    @PostMapping("/grado/editar")
+    public String editarGrado(RedirectAttributes redirectAttributes,
+            @Valid @RequestParam Integer id_grado,
+            @Valid @RequestParam String nombre_grado,
+            @Valid @RequestParam Integer fk_id_maestro) {
 
         Grado nuevoGrado = new Grado();
         nuevoGrado.setId_grado(id_grado);
@@ -80,13 +74,15 @@ public class GradoController {
 
         validator.validar(nuevoGrado);
         service.updateGrado(id_grado, nuevoGrado);
-        return "redirect:/grados/";
+        redirectAttributes.addFlashAttribute("success", "Se editó el registro no: " + id_grado + "!");
+        return "redirect:/grados";
     }
 
 
-    @GetMapping("/eliminar/{id}")
-    public String eliminarGrado(@PathVariable Integer id) {
+    @GetMapping("/grados/eliminar/{id}")
+    public String eliminarGrado(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         service.deleteGrado(id);
-        return "redirect:/grados/";
+        redirectAttributes.addFlashAttribute("success", "Se eliminó el registro!");
+        return "redirect:/grados";
     }
 }

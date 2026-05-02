@@ -1,106 +1,230 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Prevención de Deserción</title>
-
-    <!-- CSS -->
+    <title>Dashboard - EduGuard</title>
     <link rel="stylesheet" href="style-home.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-<div class="dashboard-container">
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="logo">
-            <h2>EduGuard</h2>
-        </div>
+    <div class="dashboard-container">
 
-        <nav class="menu">
-            <a th:href="@{/dashboard}" class="active">Resumen General</a>
-            <a th:href="@{/estudiantes}">Estudiantes</a>
-            <a th:href="@{/encargados}">Encargados</a>
-            <a th:href="@{/grados}">Grados</a>
-            <a th:href="@{/maestros}">Maestros</a>
-            <a th:href="@{/usuarios}">Usuarios</a>
-            <a th:href="@{/asistencias}">Asistencias</a>
-            <a th:href="@{/materiasf}">Materias F</a>
-            <a th:href="@{/economia}">Economía</a>
-            <a th:href="@{/riesgo}">Riesgo</a>
-            <a th:href="@{/alertas}">Alerta</a>
-        </nav>
+        <!-- TOPBAR -->
+        <header class="topbar">
+            <div class="topbar-brand">
+                <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+                <span class="brand-name">EduGuard</span>
+            </div>
 
-        <div class="sidebar-footer">
-            <a th:href="@{/logout}" class="logout-link">Cerrar Sesión</a>
-        </div>
-    </aside>
+            <nav class="topbar-nav">
+                <a th:href="@{/dashboard}" class="nav-link active">
+                    <i class="bi bi-grid-1x2"></i> Dashboard
+                </a>
+            </nav>
 
-    <!-- CONTENIDO -->
-    <main class="main-content">
-
-        <!-- HEADER -->
-        <header class="top-bar">
-            <h1>Panel de Monitoreo</h1>
-            <div class="user-info" th:text="${usuarioNombre}">Administrador Escolar</div>
+            <div class="topbar-user">
+                <div class="user-avatar">
+                    <i class="bi bi-person-fill"></i>
+                </div>
+                <span class="user-name" th:text="${username}">Admin</span>
+                <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button></a>
+            </div>
         </header>
 
-        <!-- TARJETAS -->
-        <section class="stats-grid">
-            <div class="card card-blue">
-                <h3>Total Estudiantes</h3>
-                <p class="number" th:text="${totalEstudiantes}">0</p>
-            </div>
+        <main class="main-content">
 
-            <div class="card card-red">
-                <h3>Riesgo Alto</h3>
-                <p class="number" th:text="${riesgoAlto}">0</p>
-                <span>Requieren atención inmediata</span>
-            </div>
+            <!-- ESTADISTICAS -->
+            <section class="hero-section">
+                <div class="hero-text">
+                    <p class="hero-eyebrow">Panel de Monitoreo</p>
+                    <h1 class="hero-title">Prevención de<br><em>Deserción Escolar</em></h1>
+                </div>
 
-            <div class="card card-green">
-                <h3>Asistencia Promedio</h3>
-                <p class="number" th:text="${asistenciaPromedio + '%'}">0%</p>
-            </div>
-        </section>
+                <div class="stats-strip">
+                    <div class="stat-pill stat-blue">
+                        <i class="bi bi-people-fill"></i>
+                        <div>
+                            <span class="stat-num" th:text="${totalEstudiantes}">0</span>
+                            <span class="stat-label">Estudiantes</span>
+                        </div>
+                    </div>
+                    <div class="stat-pill stat-orange">
+                        <i class="bi bi-exclamation-triangle-fill"></i>
+                        <div>
+                            <span class="stat-num" th:text="${riesgoAlto}">0</span>
+                            <span class="stat-label">Riesgo Alto</span>
+                        </div>
+                    </div>
+                    <div class="stat-pill stat-teal">
+                        <i class="bi bi-calendar-check-fill"></i>
+                        <div>
+                            <span class="stat-num" th:text="${asistenciaPromedio + '%'}">0%</span>
+                            <span class="stat-label">Asistencia</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- TABLA -->
-        <section class="table-section">
-            <h3>Alertas Recientes</h3>
+            <!-- ENTIDADES -->
+            <section class="section-block">
+                <div class="section-header">
+                    <h2 class="section-title">Módulos del Sistema</h2>
+                    <span class="section-line"></span>
+                </div>
 
-            <table class="alert-table">
-                <thead>
-                <tr>
-                    <th>Estudiante</th>
-                    <th>Grado</th>
-                    <th>Días Ausente</th>
-                    <th>Estado</th>
-                </tr>
-                </thead>
+                <div class="entity-grid">
 
-                <tbody>
-                <tr th:each="alerta : ${alertas}">
-                    <td th:text="${alerta.estudianteNombre}">Nombre</td>
-                    <td th:text="${alerta.grado}">Grado</td>
-                    <td th:text="${alerta.diasAusente + ' días'}">0 días</td>
+                    <a th:href="@{/estudiantes}" class="entity-card" style="--card-accent: #023047;">
+                        <div class="entity-icon">
+                            <i class="bi bi-mortarboard-fill"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Estudiantes</h3>
+                            <p>Gestión completa de estudiantes inscritos, historial y seguimiento individual.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
 
-                    <td>
-                        <span th:text="${alerta.estado}"
-                              th:classappend="${alerta.estado == 'Crítico'} ? 'status critical' : 'status warning'">
-                            Estado
-                        </span>
-                    </td>
-                </tr>
+                    <a th:href="@{/encargados}" class="entity-card" style="--card-accent: #219EBC;">
+                        <div class="entity-icon">
+                            <i class="bi bi-person-arms-up"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Encargados</h3>
+                            <p>Registro y contacto de padres o tutores responsables de cada estudiante.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
 
-                <!-- Mensaje si no hay datos -->
-                <tr th:if="${#lists.isEmpty(alertas)}">
-                    <td colspan="4">No hay alertas recientes</td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
+                    <a th:href="@{/grados}" class="entity-card" style="--card-accent: #FFB703;">
+                        <div class="entity-icon">
+                            <i class="bi bi-building-fill"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Grados</h3>
+                            <p>Administración de grados escolares y asignación de secciones y docentes.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
 
-    </main>
-</div>
+                    <a th:href="@{/maestros}" class="entity-card" style="--card-accent: #FB8500;">
+                        <div class="entity-icon">
+                            <i class="bi bi-person-badge-fill"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Maestros</h3>
+                            <p>Control del cuerpo docente, materias asignadas y carga académica.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+
+                    <a th:href="@{/usuarios}" class="entity-card" style="--card-accent: #023047;">
+                        <div class="entity-icon">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Usuarios</h3>
+                            <p>Gestión de accesos, roles y permisos del sistema EduGuard.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+
+                    <a th:href="@{/asistencias}" class="entity-card" style="--card-accent: #219EBC;">
+                        <div class="entity-icon">
+                            <i class="bi bi-calendar3-fill"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Asistencias</h3>
+                            <p>Registro diario de asistencia, ausencias justificadas e injustificadas.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+
+                    <a th:href="@{/materiasf}" class="entity-card" style="--card-accent: #FB8500;">
+                        <div class="entity-icon">
+                            <i class="bi bi-journal-x"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Materias Pérdidas</h3>
+                            <p>Monitoreo de materias reprobadas y su impacto en la permanencia escolar.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+
+                    <a th:href="@{/economia}" class="entity-card" style="--card-accent: #FFB703;">
+                        <div class="entity-icon">
+                            <i class="bi bi-cash-coin"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Economía</h3>
+                            <p>Seguimiento de pagos, deudas y situación económica de las familias.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+
+                    <a th:href="@{/riesgo}" class="entity-card" style="--card-accent: #FB8500;">
+                        <div class="entity-icon">
+                            <i class="bi bi-graph-up-arrow"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Riesgo</h3>
+                            <p>Evaluación del nivel de riesgo de deserción por estudiante o grupo.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+
+                    <a th:href="@{/alertas}" class="entity-card" style="--card-accent: #023047;">
+                        <div class="entity-icon">
+                            <i class="bi bi-bell-fill"></i>
+                        </div>
+                        <div class="entity-body">
+                            <h3>Alertas</h3>
+                            <p>Notificaciones automáticas ante situaciones críticas que requieren intervención.</p>
+                        </div>
+                        <span class="entity-arrow"><i class="bi bi-arrow-right"></i></span>
+                    </a>
+
+                </div>
+            </section>
+
+            <!-- ALERTAS RECIENTES -->
+            <section class="section-block">
+                <div class="section-header">
+                    <h2 class="section-title">Alertas Recientes</h2>
+                    <a th:href="@{/alertas}" class="section-link">Ver todas <i class="bi bi-arrow-right"></i></a>
+                </div>
+
+                <!-- Sin alertas -->
+                <div class="empty-state" th:if="${alertas.size() == 0}">
+                    <i class="bi bi-check-circle-fill"></i>
+                    <p>Sin alertas activas. ¡Todo bajo control!</p>
+                </div>
+
+                <!-- Grid de alertas -->
+                <div class="alerts-grid" th:if="${alertas.size() > 0}">
+                    <div th:each="alerta : ${alertas}" th:classappend="${alerta.riesgo.nivel_riesgo == 'Alto'} ? 'alert-card alert-card--critical' : 'alert-card alert-card--warning'">
+                        <div class="alert-card-icon">
+                            <i th:classappend="${alerta.riesgo.nivel_riesgo == 'Alto'} ? 'bi bi-exclamation-octagon-fill' : 'bi bi-exclamation-triangle-fill'" class="bi"></i>
+                        </div>
+                        <div class="alert-card-body">
+                            <h1 class="alert-card-name" th:text="${alerta.tipo_alerta}"></h1>
+                            <h2 class="alert-card-meta" th:text="${alerta.fecha_alerta}"></h2>
+                            <p class="alert-card-badge" th:text="${alerta.incidente_alerta}"></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
 </body>
+
 </html>

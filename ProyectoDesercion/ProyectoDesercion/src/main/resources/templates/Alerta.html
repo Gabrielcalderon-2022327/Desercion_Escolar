@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 
 <head>
    <meta charset="UTF-8">
-   <title>Grado</title>
+   <title>Alerta</title>
    <link rel="stylesheet" href="Plantilla.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
@@ -14,7 +14,7 @@
       <header class="header">
          <div class="topbar-brand">
             <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
-            <span class="brand-name">Grados</span>
+            <span class="brand-name">Alertas</span>
          </div>
          <!-- Navegacion por la pagina-->
          <ul class="navegacion">
@@ -24,37 +24,36 @@
                <ul class="entidades-menu">
                   <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
                   <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                  <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
                   <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
                   <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
                   <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
                   <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
                   <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
                   <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
-                  <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
                </ul>
             </li>
          </ul>
 
          <!--Informacion del usuario y boton para cerrar sesion-->
          <div class="topbar-user">
-            <div class="user-avatar">
-               <i class="bi bi-person-fill"></i>
-            </div>
-            <span class="user-name" th:text="${username}">Admin</span>
-            <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i
-                     class="bi bi-box-arrow-right"></i></button></a>
+               <div class="user-avatar">
+                  <i class="bi bi-person-fill"></i>
+               </div>
+               <span class="user-name" th:text="${username}">Admin</span>
+               <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button></a>
          </div>
       </header>
 
       <main class="main-content">
-         <h1 class="titulo-entidad">Gestión de Grados</h1>
+         <h1 class="titulo-entidad">Gestión de Alertas</h1>
 
          <!-- Botones para el put, post, delete y get-->
          <div class="crud-actions">
-            <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <a th:href="@{/grados/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <form class="crud-search" th:action="@{/grados/buscar}" method="get">
-               <input type="number" placeholder="Buscar por ID..." name="idUsuario" required>
+            <button class="btn-crud btn-crear"popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/alertas/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/alertas/buscar}" method="get">
+               <input type="number" placeholder="Buscar por ID..." name="idAlerta" required>
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
@@ -67,59 +66,75 @@
 
          <!-- Formulario para crear o actualizar una entidad-->
          <div id="datos" class="crud-form" popover>
-            <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide"
-               aria-label="Cerrar">✕</button>
-            <form id="popup-form" th:action="@{/grados}" method="post">
+            <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide" aria-label="Cerrar">✕</button>
+            <form id="popup-form" th:action="@{/alertas}" method="post">
                <div class="input-group">
 
                   <div id="user-container">
-                     <label for="id_grado">ID Alerta:</label>
-                     <input type="number" id="id_grado" name="id_grado" readonly required>
+                     <label for="id_alerta">ID Alerta:</label>
+                     <input type="number" id="id_alerta" name="id_alerta" readonly required>
                   </div>
 
                   <div>
-                     <label for="nombre_grado">Nombre:</label>
-                     <input type="text" id="nombre_grado" name="nombre_grado" required>
+                     <label for="fecha_alerta">Fecha:</label>
+                     <input type="date" id="fecha_alerta" name="fecha_alerta" required>
                   </div>
 
                   <div>
-                     <label for="fk_id_maestro">ID Maestro:</label>
-                     <input type="number" id="fk_id_maestro" name="fk_id_maestro" required>
+                     <label for="tipo_alerta">Tipo:</label>
+                     <input type="text" id="tipo_alerta" name="tipo_alerta" required>
                   </div>
+
+                  <div>
+                     <label for="incidente_alerta">Incidente:</label>
+                     <input type="text" id="incidente_alerta" name="incidente_alerta" required>
+                  </div>
+
+                  <div>
+                     <label for="fk_id_riesgo">ID Riesgo:</label>
+                     <input type="number" id="fk_id_riesgo" name="fk_id_riesgo" required>
+                  </div>
+
                </div>
                <div class="btn-container">
                   <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup">Crear</button>
                   <button type="submit" class="btn-crud btn-actualizar" id="btn-actualizar-popoup">Actualizar</button>
                </div>
-               </form>
+            </form>
          </div>
 
          <!-- Tabla de las entidades-->
-         <div class="table-container">
+         <div class=" table-container">
             <table class="crud-table">
+
                <thead> <!-- Encabezado de las columnas-->
                   <tr>
                      <th>ID</th>
-                     <th>Nombre Grado</th>
-                     <th>ID Maestro</th>
+                     <th>Fecha Alerta</th>
+                     <th>Tipo Alerta</th>
+                     <th>Incidente Alerta</th>
+                     <th>ID Riesgo</th>
                      <th>Acciones</th>
                   </tr>
                </thead>
+
                <tbody> <!-- Contenido de la tabla-->
-                  <tr th:each=" g: ${grados}"> <!-- Filas de ejemplo (tr representa una fila)-->
-                     <td th:text="${g.id_grado}"></td>
-                     <td th:text="${g.nombre_grado}"></td>
-                     <td th:text="${g.fk_id_maestro}"></td>
+                  <tr th:each="a: ${alertas}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                     <td th:text="${a.id_alerta}"></td>
+                     <td th:text="${a.fecha_alerta}"></td>
+                     <td th:text="${a.tipo_alerta}"></td>
+                     <td th:text="${a.incidente_alerta}"></td>
+                     <td th:text="${a.fk_id_riesgo}"></td>
                      <td>
                         <div class="actions">
-                           <button class="btn-crud btn-actualizar" popovertarget="datos" th:data-id="${g.id_grado}"
-                              th:data-nombre="${g.nombre_grado}" th:data-maestro="${g.fk_id_maestro}"
-                              onclick="cargarData(this)">Actualizar</button>
-
+                           <button class="btn-crud btn-actualizar" popovertarget="datos"
+                              th:data-id="${a.id_alerta}" th:data-fecha="${a.fecha_alerta}"
+                              th:data-tipo="${a.tipo_alerta}" th:data-incidente="${a.incidente_alerta}"
+                              th:data-riesgo="${a.fk_id_riesgo}" onclick="cargarData(this)">Actualizar</button>
                            <button class="btn-crud btn-eliminar"
-                              th:data-url="@{/grados/eliminar/{id}(id=${g.id_grado})}"
-                              th:data-nombre="${g.nombre_grado}"
-                              onclick="confirmarEliminar(this.dataset.url, this.dataset.nombre)">Eliminar</button>
+                              th:data-url="@{/alertas/eliminar/{id}(id=${a.id_alerta})}"
+                              th:data-id="${a.id_alerta}"
+                              onclick="confirmarEliminar(this.dataset.url, this.dataset.id)">Eliminar</button>
                         </div>
                      </td>
                   </tr>
@@ -134,7 +149,7 @@
       <div class="confirm-modal">
          <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
          <h3>¿Eliminar registro?</h3>
-         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar al maestro <strong id="confirm-nombre"></strong>?</p>
+         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar la alerta <strong id="confirm-nombre"></strong>?</p>
          <div class="confirm-modal-actions">
             <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
             <a id="confirm-link" href="#" class="btn-confirm-delete"><i class="bi bi-trash3-fill"></i> Eliminar</a>
@@ -145,9 +160,11 @@
    <script>
       //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
       function cargarData(button) {
-         document.getElementById("id_grado").value = button.dataset.id;
-         document.getElementById("nombre_grado").value = button.dataset.nombre;
-         document.getElementById("fk_id_maestro").value = button.dataset.maestro;
+         document.getElementById("id_alerta").value = button.dataset.id;
+         document.getElementById("fecha_alerta").value = button.dataset.fecha;
+         document.getElementById("tipo_alerta").value = button.dataset.tipo;
+         document.getElementById("incidente_alerta").value = button.dataset.incidente;
+         document.getElementById("fk_id_riesgo").value = button.dataset.riesgo;
          toggleIdInput(true);
       }
 
@@ -161,12 +178,12 @@
             userContainer.style.display = "block";
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
-            popupForm.setAttribute("action", "/grados/editar");
+            popupForm.setAttribute("action", "/alertas/editar");
          } else {
             userContainer.style.display = "none";
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
-            popupForm.setAttribute("action", "/grados/crear");
+            popupForm.setAttribute("action", "/alertas/crear");
          }
 
       }
@@ -183,7 +200,7 @@
       }
 
       // Cerrar al hacer clic fuera del modal
-      document.getElementById("confirm-backdrop").addEventListener("click", function (e) {
+      document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
          if (e.target === this) cerrarConfirm();
       });
    </script>

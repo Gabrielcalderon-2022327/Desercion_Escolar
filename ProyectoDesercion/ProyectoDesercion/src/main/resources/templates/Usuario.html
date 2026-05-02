@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<html lang="es">
 
 <head>
    <meta charset="UTF-8">
-   <title>Grado</title>
+   <title>Usuario</title>
    <link rel="stylesheet" href="Plantilla.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
@@ -14,16 +14,16 @@
       <header class="header">
          <div class="topbar-brand">
             <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
-            <span class="brand-name">Grados</span>
+            <span class="brand-name">Usuarios</span>
          </div>
          <!-- Navegacion por la pagina-->
          <ul class="navegacion">
-            <li><a th:href="@{/index}">Inicio</a></li>
+            <li><a th:href="@{/index}">Inicio</a></li> <!--Agregar referencia al index-->
             <li>
-               <!--Menu desplegable para las entidades-->
+               <!--Menu desplegable para las entidades--> <!--Eliminar Referencia a página propia-->
                <ul class="entidades-menu">
-                  <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
                   <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                  <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
                   <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
                   <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
                   <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
@@ -37,23 +37,22 @@
 
          <!--Informacion del usuario y boton para cerrar sesion-->
          <div class="topbar-user">
-            <div class="user-avatar">
-               <i class="bi bi-person-fill"></i>
-            </div>
-            <span class="user-name" th:text="${username}">Admin</span>
-            <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i
-                     class="bi bi-box-arrow-right"></i></button></a>
+               <div class="user-avatar">
+                  <i class="bi bi-person-fill"></i>
+               </div>
+               <span class="user-name" th:text="${username}">Admin</span>
+               <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button></a>
          </div>
       </header>
 
       <main class="main-content">
-         <h1 class="titulo-entidad">Gestión de Grados</h1>
+         <h1 class="titulo-entidad">Gestión de Usuarios</h1>
 
          <!-- Botones para el put, post, delete y get-->
          <div class="crud-actions">
-            <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <a th:href="@{/grados/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <form class="crud-search" th:action="@{/grados/buscar}" method="get">
+            <button class="btn-crud btn-crear"popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/usuarios/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/usuarios/buscar}" method="get">
                <input type="number" placeholder="Buscar por ID..." name="idUsuario" required>
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
@@ -67,58 +66,79 @@
 
          <!-- Formulario para crear o actualizar una entidad-->
          <div id="datos" class="crud-form" popover>
-            <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide"
-               aria-label="Cerrar">✕</button>
-            <form id="popup-form" th:action="@{/grados}" method="post">
+            <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide" aria-label="Cerrar">✕</button>
+            <form id="popup-form" th:action="@{/usuarios}" method="post">
+
                <div class="input-group">
 
                   <div id="user-container">
-                     <label for="id_grado">ID Alerta:</label>
-                     <input type="number" id="id_grado" name="id_grado" readonly required>
+                     <label for="idUsuario">ID:</label>
+                     <input type="hidden" id="idUsuario" name="idUsuario" readonly required>
                   </div>
 
                   <div>
-                     <label for="nombre_grado">Nombre:</label>
-                     <input type="text" id="nombre_grado" name="nombre_grado" required>
+                     <label for="correoUsuario">Correo:</label>
+                     <input type="email" id="correoUsuario" name="correoUsuario" required>
                   </div>
 
                   <div>
-                     <label for="fk_id_maestro">ID Maestro:</label>
-                     <input type="number" id="fk_id_maestro" name="fk_id_maestro" required>
+                     <label for="contraUsuario">Contraseña:</label>
+                     <input type="password" id="contraUsuario" name="contraUsuario" required>
                   </div>
+
+                  <div>
+                     <label for="rolUsuario">Rol:</label>
+                     <select id="rolUsuario" name="rolUsuario" required>
+                        <option value="Administrador">Administrador</option>
+                        <option value="Orientador">Orientador</option>
+                        <option value="Maestro">Maestro</option>
+                     </select>
+                  </div>
+
+                  <div id="date-container">
+                     <label for="creacionUsuario">Fecha de Creación:</label>
+                     <input type="date" id="creacionUsuario" name="creacionUsuario" readonly required>
+                  </div>
+
                </div>
                <div class="btn-container">
                   <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup">Crear</button>
                   <button type="submit" class="btn-crud btn-actualizar" id="btn-actualizar-popoup">Actualizar</button>
                </div>
-               </form>
+            </form>
          </div>
 
          <!-- Tabla de las entidades-->
-         <div class="table-container">
+         <div class=" table-container">
             <table class="crud-table">
+
                <thead> <!-- Encabezado de las columnas-->
                   <tr>
                      <th>ID</th>
-                     <th>Nombre Grado</th>
-                     <th>ID Maestro</th>
+                     <th>Correo</th>
+                     <th>Contraseña</th>
+                     <th>Rol</th>
+                     <th>Fecha Creación</th>
                      <th>Acciones</th>
                   </tr>
                </thead>
+
                <tbody> <!-- Contenido de la tabla-->
-                  <tr th:each=" g: ${grados}"> <!-- Filas de ejemplo (tr representa una fila)-->
-                     <td th:text="${g.id_grado}"></td>
-                     <td th:text="${g.nombre_grado}"></td>
-                     <td th:text="${g.fk_id_maestro}"></td>
+                  <tr th:each=" u: ${usuarios}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                     <td th:text="${u.idUsuario}">1</td>
+                     <td th:text="${u.correoUsuario}">gabriel@email.com</td>
+                     <td>************</td>
+                     <td th:text="${u.rolUsuario}">ADMIN</td>
+                     <td th:text="${u.creacionUsuario}">2024-01-15</td>
                      <td>
                         <div class="actions">
-                           <button class="btn-crud btn-actualizar" popovertarget="datos" th:data-id="${g.id_grado}"
-                              th:data-nombre="${g.nombre_grado}" th:data-maestro="${g.fk_id_maestro}"
+                           <button class="btn-crud btn-actualizar" popovertarget="datos" th:data-id="${u.idUsuario}"
+                              th:data-correo="${u.correoUsuario}" th:data-contra="${u.contraUsuario}"
+                              th:data-rol="${u.rolUsuario}" th:data-fecha="${u.creacionUsuario}"
                               onclick="cargarData(this)">Actualizar</button>
-
                            <button class="btn-crud btn-eliminar"
-                              th:data-url="@{/grados/eliminar/{id}(id=${g.id_grado})}"
-                              th:data-nombre="${g.nombre_grado}"
+                              th:data-url="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"
+                              th:data-nombre="${u.correoUsuario}"
                               onclick="confirmarEliminar(this.dataset.url, this.dataset.nombre)">Eliminar</button>
                         </div>
                      </td>
@@ -134,7 +154,7 @@
       <div class="confirm-modal">
          <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
          <h3>¿Eliminar registro?</h3>
-         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar al maestro <strong id="confirm-nombre"></strong>?</p>
+         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar al usuario <strong id="confirm-nombre"></strong>?</p>
          <div class="confirm-modal-actions">
             <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
             <a id="confirm-link" href="#" class="btn-confirm-delete"><i class="bi bi-trash3-fill"></i> Eliminar</a>
@@ -145,28 +165,36 @@
    <script>
       //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
       function cargarData(button) {
-         document.getElementById("id_grado").value = button.dataset.id;
-         document.getElementById("nombre_grado").value = button.dataset.nombre;
-         document.getElementById("fk_id_maestro").value = button.dataset.maestro;
+         document.getElementById("idUsuario").value = button.dataset.id;
+         document.getElementById("correoUsuario").value = button.dataset.correo;
+         document.getElementById("contraUsuario").value = button.dataset.contra;
+         document.getElementById("rolUsuario").value = button.dataset.rol;
+         document.getElementById("creacionUsuario").value = button.dataset.fecha;
          toggleIdInput(true);
       }
 
       //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
       function toggleIdInput(isUpdate) {
+         const idInput = document.getElementById("idUsuario");
          const userContainer = document.getElementById("user-container");
+         const dateContainer = document.getElementById("date-container");
          const btnActualizar = document.getElementById("btn-actualizar-popoup");
          const btnCrear = document.getElementById("btn-crear-popoup");
          const popupForm = document.getElementById("popup-form");
          if (isUpdate) {
+            idInput.setAttribute("type", "number");
             userContainer.style.display = "block";
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
-            popupForm.setAttribute("action", "/grados/editar");
+            dateContainer.style.display = "block";
+            popupForm.setAttribute("action", "/usuarios/editar");
          } else {
+            idInput.setAttribute("type", "hidden");
             userContainer.style.display = "none";
+            dateContainer.style.display = "none";
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
-            popupForm.setAttribute("action", "/grados/crear");
+            popupForm.setAttribute("action", "/usuarios/crear");
          }
 
       }
@@ -183,11 +211,10 @@
       }
 
       // Cerrar al hacer clic fuera del modal
-      document.getElementById("confirm-backdrop").addEventListener("click", function (e) {
+      document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
          if (e.target === this) cerrarConfirm();
       });
    </script>
-
 </body>
 
 </html>
