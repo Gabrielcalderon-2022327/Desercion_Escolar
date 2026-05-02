@@ -29,9 +29,7 @@ body {
     min-height: 100vh;
 }
 
-/* ─────────────────────────────────────────
-   HEADER
-───────────────────────────────────────── */
+/* HEADER*/
 .header {
     background-color: var(--marino);
     padding: 0 36px;
@@ -177,21 +175,31 @@ body {
 }
 
 /* ── Info usuario y cierre de sesión ── */
-.user-info {
+.topbar-user {
     display: flex;
     align-items: center;
-    gap: 14px;
-    color: #fff;
-    font-weight: 500;
-    font-size: 0.9rem;
+    gap: 12px;
 }
 
-.user-info > span {
+.user-avatar {
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: rgba(142,202,230,.18);
+    border: 1.5px solid rgba(142,202,230,.35);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--cielo);
+    font-size: 1rem;
+}
+
+.user-name {
     color: var(--cielo);
     font-weight: 600;
+    font-size: 0.88rem;
 }
 
-.btn-cerrarSesion {
+.btn-logout {
     color: var(--marino);
     font-family: "DM Sans", sans-serif;
     font-weight: 700;
@@ -203,17 +211,15 @@ body {
     border: 2px solid var(--naranja);
     cursor: pointer;
     background-color: var(--naranja);
-    transition: 0.3s ease;
+    transition: 0.3s ease-in-out;
 }
 
-.btn-cerrarSesion:hover {
+.btn-logout:hover {
     background-color: transparent;
     color: var(--naranja);
 }
 
-/* ─────────────────────────────────────────
-   CONTENIDO PRINCIPAL
-───────────────────────────────────────── */
+/* CONTENIDO PRINCIPAL*/
 .main-content { padding: 40px 48px; }
 
 .titulo-entidad {
@@ -236,9 +242,7 @@ body {
     border-radius: 2px;
 }
 
-/* ─────────────────────────────────────────
-   BOTONES CRUD (barra de acciones)
-───────────────────────────────────────── */
+/*BOTONES CRUD (barra de acciones)*/
 .crud-actions {
     display: flex;
     gap: 12px;
@@ -306,7 +310,7 @@ body {
 .btn-crud:hover::before { width: 100%; }
 .btn-crud:hover::after  { opacity: 0; }
 
-/* ── Buscador ── */
+/*  Buscador */
 .crud-search {
     display: flex;
     gap: 5px;
@@ -345,9 +349,7 @@ body {
 
 #btn-buscar:hover img { transform: scale(1.15); }
 
-/* ─────────────────────────────────────────
-    TABLA 
-───────────────────────────────────────── */
+/* TABLA */
 .table-container {
     background-color: var(--fondo-tarjeta);
     border-radius: 16px;
@@ -436,9 +438,7 @@ th:last-child {
 
 .btn-eliminar::after { content: "Eliminar"; }
 
-/* ─────────────────────────────────────────
-   MENSAJES
-───────────────────────────────────────── */
+/* MENSAJES */
 .message-container {
     display: flex;
     gap: 10px;
@@ -485,9 +485,7 @@ th:last-child {
     to   { opacity: 1; transform: translateY(0)    scale(1); }
 }
 
-/* ─────────────────────────────────────────
-   MODAL CONFIRMACIÓN ELIMINAR
-───────────────────────────────────────── */
+/* MODAL CONFIRMACIÓN ELIMINAR */
 .confirm-backdrop {
     display: none;
     position: fixed;
@@ -615,9 +613,7 @@ th:last-child {
     transform: translateY(-1px);
 }
 
-/* ─────────────────────────────────────────
-   POPUP FORMULARIO
-───────────────────────────────────────── */
+/* POPUP FORMULARIO */
 #datos {
     background-color: var(--fondo-tarjeta);
     border: 1px solid var(--borde);
@@ -756,9 +752,7 @@ th:last-child {
 #btn-crear-popoup,
 #btn-actualizar-popoup { transform: scale(1); }
 
-/* ─────────────────────────────────────────
-   MISC
-───────────────────────────────────────── */
+/* ADICIONALES */
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
     -webkit-appearance: none;
@@ -771,7 +765,7 @@ input[type="number"]::-webkit-inner-spin-button {
     justify-content: center;
 }
 
-/* ── Botón cerrar popup (X) ── */
+/* ── Botón cerrar popup  ── */
 .btn-cerrar-popup {
     position: absolute;
     top: 14px;
@@ -820,4 +814,92 @@ input[type="number"]::-webkit-inner-spin-button {
 /* En la tabla popup, tamaño normal */
 .popup-table .btn-elegir {
     transform: scale(1);
+}
+
+/*  LOGO DE LA PÁGINA */
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+}
+
+.topbar-brand {
+    cursor: pointer;
+}
+
+.brand-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--teal), var(--marino));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.1rem;
+    border: 1.5px solid rgba(142,202,230,.3);
+    position: relative;
+    animation: logoEntrada 0.7s cubic-bezier(.34,1.56,.64,1) both;
+    transition: transform .3s ease, box-shadow .3s ease;
+}
+
+/* Anillo de pulso continuo */
+.brand-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 14px;
+    border: 2px solid var(--teal);
+    opacity: 0;
+    animation: logoPulse 2.8s ease-out infinite 1.2s;
+}
+
+/* Ícono rota suavemente al hacer hover en la marca */
+.topbar-brand:hover .brand-icon {
+    transform: rotate(-12deg) scale(1.12);
+    box-shadow: 0 0 18px rgba(33,158,188,.55), 0 0 36px rgba(33,158,188,.2);
+}
+
+.topbar-brand:hover .brand-icon i {
+    animation: shieldShake .5s ease;
+}
+
+.brand-name {
+    font-family: "Inter", sans-serif;
+    font-size: 1.4em;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.03em;
+    animation: logoNombreEntrada 0.6s cubic-bezier(.34,1.56,.64,1) .15s both;
+    transition: letter-spacing .3s ease, color .3s ease;
+}
+
+.topbar-brand:hover .brand-name {
+    letter-spacing: 0.09em;
+    color: var(--cielo);
+}
+
+/* ── Keyframes del logo ── */
+@keyframes logoEntrada {
+    from { opacity: 0; transform: rotate(-20deg) scale(.6); }
+    to   { opacity: 1; transform: rotate(0deg)   scale(1); }
+}
+
+@keyframes logoNombreEntrada {
+    from { opacity: 0; transform: translateX(-10px); }
+    to   { opacity: 1; transform: translateX(0); }
+}
+
+@keyframes logoPulse {
+    0%   { opacity: .7; inset: -3px; }
+    70%  { opacity: 0;  inset: -12px; }
+    100% { opacity: 0;  inset: -12px; }
+}
+
+@keyframes shieldShake {
+    0%   { transform: rotate(0deg); }
+    25%  { transform: rotate(-15deg) scale(1.1); }
+    50%  { transform: rotate(12deg) scale(1.15); }
+    75%  { transform: rotate(-8deg); }
+    100% { transform: rotate(0deg); }
 }

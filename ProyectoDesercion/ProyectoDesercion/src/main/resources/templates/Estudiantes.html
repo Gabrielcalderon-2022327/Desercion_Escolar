@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Estudiante</title>
+    <link rel="stylesheet" href="Plantilla.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+</head>
+
+<body>
+<div class="layout">
+
+    <!-- HEADER COMPLETO -->
+    <header class="header">
+        <div class="topbar-brand">
+            <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+            <span class="brand-name">Estudiantes</span>
+        </div>
+
+        <ul class="navegacion">
+            <li><a th:href="@{/paginaprincipal}">Inicio</a></li>
+            <li>
+                <ul class="entidades-menu">
+                    <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
+                    <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                    <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
+                    <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
+                    <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
+                    <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
+                    <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
+                    <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
+                    <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
+                </ul>
+            </li>
+        </ul>
+
+        <div class="topbar-user">
+            <div class="user-avatar">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <span class="user-name" th:text="${username}">Admin</span>
+            <a th:href="@{/logout}">
+                <button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="titulo-entidad">Gestión de Estudiantes</h1>
+
+        <div class="crud-actions">
+            <button class="btn-crud btn-crear" id="btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/estudiantes/listar}">
+                <button class="btn-crud" id="btn-listar">Listar</button>
+            </a>
+
+            <form class="crud-search" th:action="@{/estudiantes/buscar}" method="get">
+                <input type="number" placeholder="Buscar por ID..." name="id_estudiante">
+                <button type="submit" class="btn-crud" id="btn-buscar">
+                    <img src="/img/buscar.png" alt="Logo de busqueda">
+                </button>
+            </form>
+
+            <div class="message-container">
+                <h2 id="error-text" th:if="${error!=null}" th:text="${error}">ERROR</h2>
+                <h2 id="success-text" th:if="${success!=null}" th:text="${success}">EXITO</h2>
+            </div>
+        </div>
+
+        <!-- FORMULARIO -->
+        <div id="datos" class="crud-form" popover>
+            <form id="popup-form" th:action="@{/estudiantes}" method="post">
+
+                <div class="input-group">
+
+                    <div id="user-container">
+                        <label for="id_estudiante">ID Estudiante:</label>
+                        <input type="number" id="id_estudiante" name="id_estudiante" readonly required>
+                    </div>
+
+                    <div>
+                        <label for="nombre_estudiante">Nombre:</label>
+                        <input type="text" id="nombre_estudiante" name="nombre_estudiante" required>
+                    </div>
+
+                    <div>
+                        <label for="apellido_estudiante">Apellido:</label>
+                        <input type="text" id="apellido_estudiante" name="apellido_estudiante" required>
+                    </div>
+
+                    <div>
+                        <label for="fecha_nacimiento_estudiante">Fecha nacimiento:</label>
+                        <input type="date" id="fecha_nacimiento_estudiante" name="fecha_nacimiento_estudiante" required>
+                    </div>
+
+                    <div>
+                        <label for="direccion_estudiante">Direccion:</label>
+                        <input type="text" id="direccion_estudiante" name="direccion_estudiante" required>
+                    </div>
+
+                    <div>
+                        <label for="telefono_estudiante">Telefono:</label>
+                        <input type="number" id="telefono_estudiante" name="telefono_estudiante" required>
+                    </div>
+
+                    <div>
+                        <label for="fk_id_encargado">ID Encargado:</label>
+                        <input type="number" id="fk_id_encargado" name="fk_id_encargado" required>
+                    </div>
+
+                    <div>
+                        <label for="fk_id_grado">ID Grado:</label>
+                        <input type="number" id="fk_id_grado" name="fk_id_grado" required>
+                    </div>
+
+                </div>
+
+                <div class="btn-container">
+                    <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup">Crear</button>
+                    <button type="submit" class="btn-crud btn-actualizar" id="btn-actualizar-popoup">Actualizar</button>
+                </div>
+
+            </form>
+        </div>
+
+        <!-- TABLA -->
+        <div class="table-container">
+            <table class="crud-table">
+
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha Nacimiento</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>ID Encargado</th>
+                    <th>ID Grado</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="e : ${estudiantes}">
+                    <td th:text="${e.id_estudiante}"></td>
+                    <td th:text="${e.nombre_estudiante}"></td>
+                    <td th:text="${e.apellido_estudiante}"></td>
+                    <td th:text="${e.fecha_nacimiento_estudiante}"></td>
+                    <td th:text="${e.direccion_estudiante}"></td>
+                    <td th:text="${e.telefono_estudiante}"></td>
+                    <td th:text="${e.fk_id_encargado}"></td>
+                    <td th:text="${e.fk_id_grado}"></td>
+
+                    <td>
+                        <div class="actions">
+
+                            <button class="btn-crud btn-actualizar"
+                                    popovertarget="datos"
+                                    th:data-id="${e.id_estudiante}"
+                                    th:data-nombre="${e.nombre_estudiante}"
+                                    th:data-apellido="${e.apellido_estudiante}"
+                                    th:data-fechan="${e.fecha_nacimiento_estudiante}"
+                                    th:data-direccion="${e.direccion_estudiante}"
+                                    th:data-telefono="${e.telefono_estudiante}"
+                                    th:data-encargado="${e.fk_id_encargado}"
+                                    th:data-grado="${e.fk_id_grado}"
+                                    onclick="cargarData(this)">
+                                Actualizar
+                            </button>
+
+                            <!--ELIMINAR CON CONFIRMACIÓN -->
+                            <button class="btn-crud btn-eliminar"
+                                    th:data-url="@{/estudiantes/eliminar/{id}(id=${e.id_estudiante})}"
+                                    th:data-nombre="${e.nombre_estudiante}"
+                                    onclick="confirmarEliminar(this.dataset.url, this.dataset.nombre)">
+                                Eliminar
+                            </button>
+
+                        </div>
+                    </td>
+
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<!-- MODAL CONFIRMACIÓN -->
+<div class="confirm-backdrop" id="confirm-backdrop">
+    <div class="confirm-modal">
+
+        <div class="confirm-modal-icon">
+            <i class="bi bi-trash3-fill"></i>
+        </div>
+
+        <h3>¿Eliminar registro?</h3>
+
+        <p>
+            Esta acción no se puede deshacer.<br>
+            ¿Deseas eliminar al estudiante <strong id="confirm-nombre"></strong>?
+        </p>
+
+        <div class="confirm-modal-actions">
+            <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
+            <a id="confirm-link" href="#" class="btn-confirm-delete">
+                <i class="bi bi-trash3-fill"></i> Eliminar
+            </a>
+        </div>
+
+    </div>
+</div>
+
+<!-- JS -->
+<script>
+    function cargarData(button) {
+        document.getElementById("id_estudiante").value = button.dataset.id;
+        document.getElementById("nombre_estudiante").value = button.dataset.nombre;
+        document.getElementById("apellido_estudiante").value = button.dataset.apellido;
+        document.getElementById("fecha_nacimiento_estudiante").value = button.dataset.fechan;
+        document.getElementById("direccion_estudiante").value = button.dataset.direccion;
+        document.getElementById("telefono_estudiante").value = button.dataset.telefono;
+        document.getElementById("fk_id_encargado").value = button.dataset.encargado;
+        document.getElementById("fk_id_grado").value = button.dataset.grado;
+
+        toggleIdInput(true);
+    }
+
+    function toggleIdInput(isUpdate) {
+        const userContainer = document.getElementById("user-container");
+        const btnActualizar = document.getElementById("btn-actualizar-popoup");
+        const btnCrear = document.getElementById("btn-crear-popoup");
+        const popupForm = document.getElementById("popup-form");
+
+        if (isUpdate) {
+            userContainer.style.display = "block";
+            btnActualizar.style.display = "inline-block";
+            btnCrear.style.display = "none";
+            popupForm.setAttribute("action", "/estudiantes/editar");
+        } else {
+            userContainer.style.display = "none";
+            btnActualizar.style.display = "none";
+            btnCrear.style.display = "inline-block";
+            popupForm.setAttribute("action", "/estudiantes/crear");
+        }
+    }
+
+    // CONFIRMAR ELIMINAR
+    function confirmarEliminar(url, nombre) {
+        document.getElementById("confirm-nombre").textContent = nombre;
+        document.getElementById("confirm-link").setAttribute("href", url);
+        document.getElementById("confirm-backdrop").classList.add("show");
+    }
+
+    function cerrarConfirm() {
+        document.getElementById("confirm-backdrop").classList.remove("show");
+    }
+
+    document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
+        if (e.target === this) cerrarConfirm();
+    });
+</script>
+
+</body>
+</html>

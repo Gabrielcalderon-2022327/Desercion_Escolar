@@ -1,11 +1,13 @@
 package com.scrum.ProyectoDesercion.service;
 
 import com.scrum.ProyectoDesercion.entity.Estudiante;
+import com.scrum.ProyectoDesercion.entity.MateriasF;
 import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.EstudianteRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EstudianteServiceImplements implements EstudianteService{
@@ -21,12 +23,12 @@ public class EstudianteServiceImplements implements EstudianteService{
     }
 
     @Override
-    public Estudiante getEstudianteById(Integer id) {
-        Estudiante estudiante = repository.findById(id).orElse(null);
-        if (estudiante == null) {
+    public Optional <Estudiante> getEstudianteById(Integer id) {
+        Estudiante searchedestudiante = repository.findById(id).orElse(null);
+        if (searchedestudiante == null){
             throw new ResourceNotFoundException("Estudiante no encontrado");
         }
-        return estudiante;
+        return repository.findById(id);
     }
 
     @Override

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Prevención de Deserción</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="style-home.css">
+</head>
+<body>
+<div class="dashboard-container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="logo">
+            <h2>EduGuard</h2>
+        </div>
+
+        <nav class="menu">
+            <a th:href="@{/dashboard}" class="active">Resumen General</a>
+            <a th:href="@{/estudiantes}">Estudiantes</a>
+            <a th:href="@{/encargados}">Encargados</a>
+            <a th:href="@{/grados}">Grados</a>
+            <a th:href="@{/maestros}">Maestros</a>
+            <a th:href="@{/usuarios}">Usuarios</a>
+            <a th:href="@{/asistencias}">Asistencias</a>
+            <a th:href="@{/materiasf}">Materias F</a>
+            <a th:href="@{/economia}">Economía</a>
+            <a th:href="@{/riesgo}">Riesgo</a>
+            <a th:href="@{/alertas}">Alerta</a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <a th:href="@{/logout}" class="logout-link">Cerrar Sesión</a>
+        </div>
+    </aside>
+
+    <!-- CONTENIDO -->
+    <main class="main-content">
+
+        <!-- HEADER -->
+        <header class="top-bar">
+            <h1>Panel de Monitoreo</h1>
+            <div class="user-info" th:text="${usuarioNombre}">Administrador Escolar</div>
+        </header>
+
+        <!-- TARJETAS -->
+        <section class="stats-grid">
+            <div class="card card-blue">
+                <h3>Total Estudiantes</h3>
+                <p class="number" th:text="${totalEstudiantes}">0</p>
+            </div>
+
+            <div class="card card-red">
+                <h3>Riesgo Alto</h3>
+                <p class="number" th:text="${riesgoAlto}">0</p>
+                <span>Requieren atención inmediata</span>
+            </div>
+
+            <div class="card card-green">
+                <h3>Asistencia Promedio</h3>
+                <p class="number" th:text="${asistenciaPromedio + '%'}">0%</p>
+            </div>
+        </section>
+
+        <!-- TABLA -->
+        <section class="table-section">
+            <h3>Alertas Recientes</h3>
+
+            <table class="alert-table">
+                <thead>
+                <tr>
+                    <th>Estudiante</th>
+                    <th>Grado</th>
+                    <th>Días Ausente</th>
+                    <th>Estado</th>
+                </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="alerta : ${alertas}">
+                    <td th:text="${alerta.estudianteNombre}">Nombre</td>
+                    <td th:text="${alerta.grado}">Grado</td>
+                    <td th:text="${alerta.diasAusente + ' días'}">0 días</td>
+
+                    <td>
+                        <span th:text="${alerta.estado}"
+                              th:classappend="${alerta.estado == 'Crítico'} ? 'status critical' : 'status warning'">
+                            Estado
+                        </span>
+                    </td>
+                </tr>
+
+                <!-- Mensaje si no hay datos -->
+                <tr th:if="${#lists.isEmpty(alertas)}">
+                    <td colspan="4">No hay alertas recientes</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+    </main>
+</div>
+</body>
+</html>
