@@ -47,7 +47,7 @@ public class AlertaServiceImplements implements AlertaService {
             alerta1.setTipo_alerta(alerta.getTipo_alerta());
             alerta1.setFk_id_riesgo(alerta.getFk_id_riesgo());
         }
-        return alerta1;
+        return alertaRepository.save(alerta1);
     }
 
     @Override
