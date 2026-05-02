@@ -52,8 +52,8 @@
          <!-- Botones para el put, post, delete y get-->
          <div class="crud-actions">
             <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <a th:href="@{/grados/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <form class="crud-search" th:action="@{/grados/buscar}" method="get">
+            <a th:href="@{/grado/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/grado/buscar}" method="get">
                <input type="number" placeholder="Buscar por ID..." name="idUsuario" required>
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
@@ -73,7 +73,7 @@
                <div class="input-group">
 
                   <div id="user-container">
-                     <label for="id_grado">ID Alerta:</label>
+                     <label for="id_grado">ID Grado:</label>
                      <input type="number" id="id_grado" name="id_grado" readonly required>
                   </div>
 
@@ -117,7 +117,7 @@
                               onclick="cargarData(this)">Actualizar</button>
 
                            <button class="btn-crud btn-eliminar"
-                              th:data-url="@{/grados/eliminar/{id}(id=${g.id_grado})}"
+                              th:data-url="@{/grado/eliminar/{id}(id=${g.id_grado})}"
                               th:data-nombre="${g.nombre_grado}"
                               onclick="confirmarEliminar(this.dataset.url, this.dataset.nombre)">Eliminar</button>
                         </div>
@@ -134,7 +134,7 @@
       <div class="confirm-modal">
          <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
          <h3>¿Eliminar registro?</h3>
-         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar al maestro <strong id="confirm-nombre"></strong>?</p>
+         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar al grado <strong id="confirm-nombre"></strong>?</p>
          <div class="confirm-modal-actions">
             <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
             <a id="confirm-link" href="#" class="btn-confirm-delete"><i class="bi bi-trash3-fill"></i> Eliminar</a>
@@ -161,12 +161,12 @@
             userContainer.style.display = "block";
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
-            popupForm.setAttribute("action", "/grados/editar");
+            popupForm.setAttribute("action", "/grado/editar");
          } else {
             userContainer.style.display = "none";
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
-            popupForm.setAttribute("action", "/grados/crear");
+            popupForm.setAttribute("action", "/grado/crear");
          }
 
       }

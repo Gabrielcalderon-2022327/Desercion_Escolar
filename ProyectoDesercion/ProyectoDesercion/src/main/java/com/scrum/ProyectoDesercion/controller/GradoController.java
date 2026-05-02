@@ -35,7 +35,7 @@ public class GradoController {
     public String listarGrados(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("grados", service.getAllGrado());
         redirectAttributes.addFlashAttribute("success", "Se actualizó la tabla correctamente!");
-        return "redirect:/grados";
+        return "redirect:/grado";
     }
 
     @GetMapping("/grado/buscar")
@@ -43,7 +43,7 @@ public class GradoController {
         Grado grado = service.getGradoById(idUsuario);
         redirectAttributes.addFlashAttribute("grados", List.of(grado));
         redirectAttributes.addFlashAttribute("success", "Se encontró el registro!");
-        return "redirect:/grados";
+        return "redirect:/grado";
     }
 
     @PostMapping("/grado/crear")
@@ -57,7 +57,7 @@ public class GradoController {
         validator.validar(nuevoGrado);
         service.saveGrado(nuevoGrado);
         redirectAttributes.addFlashAttribute("success", "Se creó un nuevo registro!");
-        return "redirect:/grados";
+        return "redirect:/grado";
     }
 
 
@@ -75,7 +75,7 @@ public class GradoController {
         validator.validar(nuevoGrado);
         service.updateGrado(id_grado, nuevoGrado);
         redirectAttributes.addFlashAttribute("success", "Se editó el registro no: " + id_grado + "!");
-        return "redirect:/grados";
+        return "redirect:/grado";
     }
 
 
@@ -83,6 +83,6 @@ public class GradoController {
     public String eliminarGrado(@PathVariable Integer id, RedirectAttributes redirectAttributes) {
         service.deleteGrado(id);
         redirectAttributes.addFlashAttribute("success", "Se eliminó el registro!");
-        return "redirect:/grados";
+        return "redirect:/grado";
     }
 }

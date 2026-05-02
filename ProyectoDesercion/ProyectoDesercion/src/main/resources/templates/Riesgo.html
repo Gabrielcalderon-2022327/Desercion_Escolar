@@ -53,7 +53,7 @@
             <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)"></button>
             <a th:href="@{/riesgos/listar}"><button class="btn-crud" id="btn-listar"></button></a>
             <form class="crud-search" th:action="@{/riesgos/buscar}" method="get">
-                <input type="number" placeholder="Buscar por ID..." name="id_riesgo">
+                <input type="number" placeholder="Buscar por ID..." name="id_riesgo" required>
                 <button type="submit" id="btn-buscar">
                     <img src="/img/buscar.png" alt="Logo de busqueda">
                 </button>
