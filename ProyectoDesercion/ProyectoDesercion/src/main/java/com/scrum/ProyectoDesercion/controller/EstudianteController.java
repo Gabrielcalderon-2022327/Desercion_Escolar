@@ -1,7 +1,10 @@
 package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Estudiante;
+import com.scrum.ProyectoDesercion.service.EncargadoService;
 import com.scrum.ProyectoDesercion.service.EstudianteService;
+import com.scrum.ProyectoDesercion.service.GradoService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -15,12 +18,22 @@ public class EstudianteController {
 
     @Autowired
     private EstudianteService service;
+    @Autowired private EncargadoService encargadoService;
+    @Autowired private GradoService gradoService;
+
     //Carga la vista principal con la lista de estudiantes
     @GetMapping("/estudiantes")
-    public String cargarEstudiantes(Model model) {
+    public String cargarEstudiantes(Model model, HttpSession session) {
+        if(session.getAttribute("username") == null){
+            return "redirect:/login";
+        } else{
+            model.addAttribute("username",  session.getAttribute("username"));
+        }
         if (!model.containsAttribute("estudiantes")) {
             model.addAttribute("estudiantes", service.getAllEstudiantes());
         }
+        model.addAttribute("encargado", encargadoService.getAllEncargado());
+        model.addAttribute("grados", gradoService.getAllGrado());
         return "Estudiantes";
     }
 
