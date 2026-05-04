@@ -7,6 +7,7 @@ import com.scrum.ProyectoDesercion.service.AlertaService;
 import com.scrum.ProyectoDesercion.service.AsistenciaService;
 import com.scrum.ProyectoDesercion.service.EstudianteService;
 import com.scrum.ProyectoDesercion.service.RiesgoService;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,7 +29,12 @@ public class IndexController {
     private AlertaService alertaService;
 
     @GetMapping("/index")
-    public String cargarIndex(Model model){
+    public String cargarIndex(Model model, HttpSession session){
+        if(session.getAttribute("username") == null){
+            return "redirect:/login";
+        } else{
+            model.addAttribute("username",  session.getAttribute("username"));
+        }
         model.addAttribute("totalEstudiantes", estudianteService.getAllEstudiantes().size());
         model.addAttribute("riesgoAlto", getRiesgoAlto());
         model.addAttribute("asistenciaPromedio", getAsistencia());
