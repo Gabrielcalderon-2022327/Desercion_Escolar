@@ -2,7 +2,9 @@ package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Economia;
 import com.scrum.ProyectoDesercion.service.EconomiaService;
+import com.scrum.ProyectoDesercion.service.EstudianteService;
 import com.scrum.ProyectoDesercion.validator.EconomiaValidator;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,13 +24,21 @@ public class EconomiaController {
     @Autowired
     private EconomiaValidator economiaValidator;
 
+    @Autowired
+    private EstudianteService estudianteService;
+
     @GetMapping("/economia")
-    public String cargarEconomia(Model model){
-        // Verificamos si ya existe el atributo para no sobreescribirlo tras un redirect
+    public String cargarEconomia(Model model, HttpSession session){
+        if(session.getAttribute("username") == null){
+            return "redirect:/login";
+        } else{
+            model.addAttribute("username",  session.getAttribute("username"));
+        }
         if(!model.containsAttribute("economia")){
             model.addAttribute("economia", economiaService.getAllEconomias());
         }
-        return "Economia"; // Asegúrate de que tu archivo HTML se llame exactamente Economia.html
+        model.addAttribute("estudiantes", estudianteService.getAllEstudiantes());
+        return "Economia";
     }
 
     @GetMapping("/economia/listar")
