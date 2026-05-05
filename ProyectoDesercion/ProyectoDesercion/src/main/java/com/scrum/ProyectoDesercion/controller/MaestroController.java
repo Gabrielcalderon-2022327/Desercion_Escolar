@@ -2,8 +2,11 @@ package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Maestro;
 import com.scrum.ProyectoDesercion.service.MaestroService;
+import com.scrum.ProyectoDesercion.service.UsuarioService; // 👈
 import com.scrum.ProyectoDesercion.validator.MaestroValidator;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,19 +17,26 @@ import java.util.List;
 @Controller
 public class MaestroController {
 
-    private final MaestroService service;
-    private final MaestroValidator validator;
+    @Autowired
+    private MaestroService service;
 
-    public MaestroController(MaestroService service, MaestroValidator validator) {
-        this.service = service;
-        this.validator = validator;
-    }
+    @Autowired
+    private MaestroValidator validator;
+
+    @Autowired
+    private UsuarioService usuarioService;
 
     @GetMapping("/maestros")
-    public String cargarMaestros(Model model) {
+    public String cargarMaestros(Model model, HttpSession session) {
+        if(session.getAttribute("username") == null){
+            return "redirect:/login";
+        } else {
+            model.addAttribute("username", session.getAttribute("username"));
+        }
         if (!model.containsAttribute("maestros")) {
             model.addAttribute("maestros", service.getAllMaestros());
         }
+        model.addAttribute("usuarios", usuarioService.getAllUsuarios());
         return "Maestro";
     }
 
@@ -46,11 +56,11 @@ public class MaestroController {
     }
 
     @PostMapping("/maestros/crear")
-    public String crearMaestro( RedirectAttributes redirectAttributes,
-            @Valid @RequestParam String nombre_maestro,
-            @Valid @RequestParam String especialidad_maestro,
-            @Valid @RequestParam Integer telefono_maestro,
-            @Valid @RequestParam Integer fk_id_usuario) {
+    public String crearMaestro(RedirectAttributes redirectAttributes,
+                               @Valid @RequestParam String nombre_maestro,
+                               @Valid @RequestParam String especialidad_maestro,
+                               @Valid @RequestParam Integer telefono_maestro,
+                               @Valid @RequestParam Integer fk_id_usuario) {
 
         Maestro nuevoMaestro = new Maestro();
         nuevoMaestro.setNombreMaestro(nombre_maestro);
@@ -64,19 +74,18 @@ public class MaestroController {
     }
 
     @PostMapping("/maestros/editar")
-    public String editarMaestro( RedirectAttributes redirectAttributes,
-            @Valid @RequestParam Integer id_maestro,
-            @Valid @RequestParam String nombre_maestro,
-            @Valid @RequestParam String especialidad_maestro,
-            @Valid @RequestParam Integer telefono_maestro,
-            @Valid @RequestParam Integer fk_id_usuario) {
+    public String editarMaestro(RedirectAttributes redirectAttributes,
+                                @Valid @RequestParam Integer id_maestro,
+                                @Valid @RequestParam String nombre_maestro,
+                                @Valid @RequestParam String especialidad_maestro,
+                                @Valid @RequestParam Integer telefono_maestro,
+                                @Valid @RequestParam Integer fk_id_usuario) {
 
         Maestro nuevoMaestro = new Maestro();
         nuevoMaestro.setNombreMaestro(nombre_maestro);
         nuevoMaestro.setEspecialidadMaestro(especialidad_maestro);
         nuevoMaestro.setTelefonoMaestro(telefono_maestro);
         nuevoMaestro.setIdUsuario(fk_id_usuario);
-
         validator.validarUpdate(nuevoMaestro, id_maestro);
         service.updateMaestro(id_maestro, nuevoMaestro);
         redirectAttributes.addFlashAttribute("success", "Se editó el registro no: " + id_maestro + "!");
