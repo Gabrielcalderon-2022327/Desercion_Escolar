@@ -2,197 +2,123 @@
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
 
 <head>
-    <meta charset="UTF-8">
-    <title>Asistencia</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
-    <link rel="stylesheet" href="Plantilla.css">
+  <meta charset="UTF-8">
+  <title>Asistencia</title>
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+  <link rel="stylesheet" href="asistenciaStyle.css">
 </head>
 
 <body>
-<div class="layout">
-    <!-- Encabezado de la página-->
+  <div class="layout">
     <header class="header">
-        <div class="topbar-brand">
-            <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
-            <span class="brand-name">Asistencia</span>
-        </div>
-        <!-- Navegacion por la pagina-->
-        <ul class="navegacion">
-            <li><a th:href="@{/index}">Inicio</a></li>
-            <li>
-                <!--Menu desplegable para las entidades-->
-                <ul class="entidades-menu">
-                    <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
-                    <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
-                    <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
-                    <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
-                    <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
-                    <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
-                    <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
-                    <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
-                    <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
-                </ul>
-            </li>
-        </ul>
+      <div class="topbar-brand">
+        <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+        <span class="brand-name">Asistencia</span>
+      </div>
 
-        <!--Informacion del usuario y boton para cerrar sesion-->
-        <div class="topbar-user">
-            <div class="user-avatar">
-                <i class="bi bi-person-fill"></i>
-            </div>
-            <span class="user-name" th:text="${username}">Admin</span>
-            <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button></a>
+      <ul class="navegacion">
+        <li><a th:href="@{/index}">Inicio</a></li>
+        <li>
+          <ul class="entidades-menu">
+            <li><a th:href="@{/usuarios}">Usuarios</a></li>
+            <li><a th:href="@{/maestros}">Maestros</a></li>
+            <li><a th:href="@{/grado}">Grado</a></li>
+            <li><a th:href="@{/encargados}">Encargado</a></li>
+            <li><a th:href="@{/estudiantes}">Estudiante</a></li>
+            <li><a th:href="@{/materiasf}">Materias perdidas</a></li>
+            <li><a th:href="@{/economia}">Economia</a></li>
+            <li><a th:href="@{/riesgos}">Riesgo</a></li>
+            <li><a th:href="@{/alertas}">Alerta</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="topbar-user">
+        <div class="user-avatar">
+          <i class="bi bi-person-fill"></i>
         </div>
+        <span class="user-name" th:text="${username}">Admin</span>
+        <a th:href="@{/logout}">
+          <button class="btn-logout">
+            Cerrar sesión <i class="bi bi-box-arrow-right"></i>
+          </button>
+        </a>
+      </div>
     </header>
 
     <main class="main-content">
-        <h1 class="titulo-entidad">Gestión de Asistencia</h1>
 
-        <!-- Botones para el put, post, delete y get-->
-        <div class="crud-actions">
-            <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)"></button>
-            <a th:href="@{/asistencias/listar}"><button class="btn-crud" id="btn-listar"></button></a>
-            <form class="crud-search" th:action="@{/asistencias/buscar}" method="get">
-                <input type="number" placeholder="Buscar por ID..." name="idAsistencia">
-                <button type="submit" id="btn-buscar">
-                    <img src="/img/buscar.png" alt="Logo de busqueda">
-                </button>
-            </form>
-            <div class="message-container">
-                <h2 id="error-text" th:if="${error!=null}" th:text="${error}">ERROR</h2>
-                <h2 id="success-text" th:if="${success!=null}" th:text="${success}">EXITO</h2>
-            </div>
+      <h1 class="titulo-entidad">Gestión de Asistencia</h1>
+
+      <div class="crud-actions">
+        <!-- BUSCAR -->
+        <form class="crud-inputs" th:action="@{/asistencia/listar}" method="get">
+          <div>
+            <label>Fecha Asistencia:</label>
+            <input type="date" name="fecha_asistencia"  required>
+          </div>
+
+          <div>
+            <label>ID Sección:</label>
+            <input type="number" name="id_seccion" required>
+            <button type="button" class="btn-crud btn-elegir" popovertarget="table-grado">Elegir</button>
+          </div>
+
+          <button type="submit" class="btn-crud" id="btn-buscar"> Buscar</button>
+        </form>
+
+        <!-- MENSAJES -->
+        <div class="message-container">
+          <h2 th:if="${error!=null}" th:text="${error}" id="error-text"></h2>
+          <h2 th:if="${success!=null}" th:text="${success}" id="success-text"></h2>
         </div>
 
-        <!-- Formulario para crear o actualizar una entidad-->
-        <div id="datos" class="crud-form" popover>
-            <form id="popup-form" th:action="@{/asistencia}" method="post">
-
-                <div class="input-group">
-
-                    <div id="user-container">
-                        <label for="id_asistencia">ID:</label>
-                        <input type="number" id="id_asistencia" name="id_asistencia" readonly required>
-                    </div>
-
-                    <div>
-                        <label for="fecha_asistencia">Fecha Asistencia:</label>
-                        <input type="date" id="fecha_asistencia" name="fecha_asistencia" required>
-                    </div>
-
-                    <div>
-                        <label for="estado_asistencia">Estado Asistencia:</label>
-                        <input type="text" id="estado_asistencia" name="estado_asistencia" required>
-                    </div>
-
-                    <div>
-                        <label for="fk_id_estudiante">ID Estudiante:</label>
-                        <input type="number" id="fk_id_estudiante" name="fk_id_estudiante" required>
-                    </div>
-
-                </div>
-                <div class="btn-container">
-                    <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup"></button>
-                    <button type="submit" class="btn-crud btn-actualizar" id="btn-actualizar-popoup"></button>
-                </div>
-            </form>
-        </div>
-
-        <!-- Tabla de las entidades-->
-        <div class="table-container">
-            <table class="crud-table">
-
-                <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Fecha Asistencia</th>
-                    <th>Estado Asistencia</th>
-                    <th>ID Estudiante</th>
-                    <th>Acciones</th>
-                </tr>
-                </thead>
-
-                <tbody>
-                <tr th:each="a: ${asistencias}">
-                    <td th:text="${a.id_asistencia}"></td>
-                    <td th:text="${a.fecha_asistencia}"></td>
-                    <td th:text="${a.estado_asistencia}"></td>
-                    <td th:text="${a.fk_id_estudiante}"></td>
-                    <td>
-                        <div class="actions">
-                           <button class="btn-crud btn-actualizar" popovertarget="datos"
-                              th:data-id="${a.id_asistencia}" th:data-fecha="${a.fecha_asistencia}"
-                              th:data-estado="${a.estado_asistencia}" th:data-id-estudiante="${a.fk_id_estudiante}"
-                              onclick="cargarData(this)">Actualizar</button>
-                           <button class="btn-crud btn-eliminar"
-                              th:data-url="@{/asistencias/eliminar/{id}(id=${a.id_asistencia})}"
-                              th:data-id="${a.id_asistencia}"
-                              onclick="confirmarEliminar(this.dataset.url, this.dataset.id)">Eliminar</button>
-                        </div>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </div>
-    </main>
-</div>
-
-<!-- CONFIRMACIÓN ELIMINAR -->
-   <div class="confirm-backdrop" id="confirm-backdrop">
-      <div class="confirm-modal">
-         <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
-         <h3>¿Eliminar registro?</h3>
-         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar la asistencia <strong id="confirm-nombre"></strong>?</p>
-         <div class="confirm-modal-actions">
-            <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
-            <a id="confirm-link" href="#" class="btn-confirm-delete"><i class="bi bi-trash3-fill"></i> Eliminar</a>
-         </div>
       </div>
-   </div>
 
-<script>
-    function cargarData(button) {
-       document.getElementById("id_asistencia").value = button.dataset.id;
-       document.getElementById("fecha_asistencia").value = button.dataset.fecha;
-       document.getElementById("estado_asistencia").value = button.dataset.estado;
-       document.getElementById("fk_id_estudiante").value = button.dataset.idEstudiante;
-       toggleIdInput(true);
-    }
+      <!--TABLA Y FORM-->
+      <form th:action="@{/asistencia/guardar}" method="post">
+        <button type="submit" class="btn-crud btn-guardar"> Guardar</button>
+        <div class="crud-inputs">
 
-    function toggleIdInput(isUpdate) {
-       const userContainer = document.getElementById("user-container");
-       const btnActualizar = document.getElementById("btn-actualizar-popoup");
-       const btnCrear = document.getElementById("btn-crear-popoup");
-       const popupForm = document.getElementById("popup-form");
-       if (isUpdate) {
-          userContainer.style.display = "block";
-          btnActualizar.style.display = "inline-block";
-          btnCrear.style.display = "none";
-          popupForm.setAttribute("action", "/asistencias/editar");
-       } else {
-          userContainer.style.display = "none";
-          btnActualizar.style.display = "none";
-          btnCrear.style.display = "inline-block";
-          popupForm.setAttribute("action", "/asistencias/crear");
-       }
-    }
+          <div>
+            <label>Fecha:</label>
+            <input type="date" name="fecha_asistencia1" th:value="${fecha_asistencia}" required readonly>
+          </div>
 
-    // CONFIRMACIÓN DE ELIMINACIÓN
-      function confirmarEliminar(url, nombre) {
-         document.getElementById("confirm-nombre").textContent = nombre;
-         document.getElementById("confirm-link").setAttribute("href", url);
-         document.getElementById("confirm-backdrop").classList.add("show");
-      }
+          <div>
+            <label>ID Sección:</label>
+            <input type="number" name="id_seccion1" th:value="${id_seccion}" required readonly>
+          </div>
+          <div class="estudiantes-container">
+            <table>
 
-      function cerrarConfirm() {
-         document.getElementById("confirm-backdrop").classList.remove("show");
-      }
+              <thead>
+                <tr>
+                  <th>Estudiante</th>
+                  <th>Asistencia</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr th:each="a, iterStat : ${asistencias}">
+                  <input type="hidden" th:name="'estudiante_' + ${iterStat.index}" th:value="${a.fk_id_estudiante}"/>
+                  <td th:text="${a.estudiante.nombre_estudiante + ' ' + a.estudiante.apellido_estudiante}"></td>
+                  <td>
+                    <!-- PRESENTE -->
+                    <input type="radio" value="presente" th:checked="${a.estado_asistencia == 'presente'}" th:name="'estado_' + ${iterStat.index}"/>
+                    <!-- TARDANZA --> 
+                    <input type="radio" value="tardanza" th:checked="${a.estado_asistencia == 'tardanza'}" th:name="'estado_' + ${iterStat.index}"/>
+                    <!-- AUSENTE -->
+                    <input type="radio" value="ausente" th:checked="${a.estado_asistencia == 'ausente'}" th:name="'estado_' + ${iterStat.index}"/>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+      </form>
 
-      // Cerrar al hacer clic fuera del modal
-      document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
-         if (e.target === this) cerrarConfirm();
-      });
-</script>
+    </main>
+  </div>
 
 </body>
 
