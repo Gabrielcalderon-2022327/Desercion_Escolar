@@ -61,5 +61,10 @@ public class EstudianteServiceImplements implements EstudianteService{
         }
         repository.delete(estudiante);
     }
+
+    @Override
+    public List<Estudiante> getEstudiantesByGrupo(Integer id_grado) {
+        return repository.findByFk_id_grado(id_grado);
+    }
 }
 

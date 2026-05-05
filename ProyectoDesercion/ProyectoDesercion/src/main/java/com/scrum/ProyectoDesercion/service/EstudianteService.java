@@ -12,4 +12,5 @@ public interface EstudianteService {
     Estudiante saveEstudiante(Estudiante estudiante);
     Estudiante updateEstudiante(Integer id, Estudiante estudiante);
     void deleteEstudiante(Integer id);
+    List<Estudiante> getEstudiantesByGrupo(Integer id_grado);
 }
