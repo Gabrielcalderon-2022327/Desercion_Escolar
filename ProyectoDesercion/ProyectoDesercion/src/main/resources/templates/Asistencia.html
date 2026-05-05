@@ -4,7 +4,6 @@
 <head>
   <meta charset="UTF-8">
   <title>Asistencia</title>
-
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
   <link rel="stylesheet" href="asistenciaStyle.css">
 </head>
@@ -35,14 +34,10 @@
       </ul>
 
       <div class="topbar-user">
-        <div class="user-avatar">
-          <i class="bi bi-person-fill"></i>
-        </div>
+        <div class="user-avatar"><i class="bi bi-person-fill"></i></div>
         <span class="user-name" th:text="${username}">Admin</span>
         <a th:href="@{/logout}">
-          <button class="btn-logout">
-            Cerrar sesión <i class="bi bi-box-arrow-right"></i>
-          </button>
+          <button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button>
         </a>
       </div>
     </header>
@@ -51,74 +46,131 @@
 
       <h1 class="titulo-entidad">Gestión de Asistencia</h1>
 
+      <!-- ── PANEL BÚSQUEDA ── -->
       <div class="crud-actions">
-        <!-- BUSCAR -->
         <form class="crud-inputs" th:action="@{/asistencia/listar}" method="get">
           <div>
-            <label>Fecha Asistencia:</label>
-            <input type="date" name="fecha_asistencia"  required>
+            <label>Fecha:</label>
+            <input type="date" name="fecha_asistencia" required>
           </div>
-
           <div>
             <label>ID Sección:</label>
-            <input type="number" name="id_seccion" required>
+            <input type="number" id="id_seccion" name="id_seccion" required>
             <button type="button" class="btn-crud btn-elegir" popovertarget="table-grado">Elegir</button>
           </div>
-
-          <button type="submit" class="btn-crud" id="btn-buscar"> Buscar</button>
+          <button type="submit" class="btn-crud" id="btn-buscar">Buscar</button>
         </form>
 
-        <!-- MENSAJES -->
         <div class="message-container">
-          <h2 th:if="${error!=null}" th:text="${error}" id="error-text"></h2>
-          <h2 th:if="${success!=null}" th:text="${success}" id="success-text"></h2>
+          <h2 th:if="${error   != null}" th:text="${error}" id="error-text"></h2>
+          <h2 th:if="${success != null}" th:text="${success}" id="success-text"></h2>
         </div>
-
       </div>
 
-      <!--TABLA Y FORM-->
+      <!--  FORMULARIO Y TABLA  -->
       <form th:action="@{/asistencia/guardar}" method="post">
-        <button type="submit" class="btn-crud btn-guardar"> Guardar</button>
+
+        <button type="submit" class="btn-crud btn-guardar">Guardar</button>
+
         <div class="crud-inputs">
-
           <div>
-            <label>Fecha:</label>
-            <input type="date" name="fecha_asistencia1" th:value="${fecha_asistencia}" required readonly>
+            <label for="fecha_asistencia1">Fecha:</label>
+            <input type="date" id="fecha_asistencia1" name="fecha_asistencia1" th:value="${fecha_asistencia}" required readonly>
           </div>
-
           <div>
-            <label>ID Sección:</label>
-            <input type="number" name="id_seccion1" th:value="${id_seccion}" required readonly>
+            <label for="id_seccion1">Grado:</label>
+            <input type="text" id="id_seccion1" name="id_seccion1" th:value="${seccion_name}" required readonly>
           </div>
-          <div class="estudiantes-container">
-            <table>
+        </div>
 
-              <thead>
-                <tr>
-                  <th>Estudiante</th>
-                  <th>Asistencia</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr th:each="a, iterStat : ${asistencias}">
-                  <input type="hidden" th:name="'estudiante_' + ${iterStat.index}" th:value="${a.fk_id_estudiante}"/>
-                  <td th:text="${a.estudiante.nombre_estudiante + ' ' + a.estudiante.apellido_estudiante}"></td>
-                  <td>
+        <div class="estudiantes-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Estudiante</th>
+                <th>Asistencia</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr th:each="a, iterStat : ${asistencias}">
+
+                <input type="hidden" th:name="'estudiante_' + ${iterStat.index}" th:value="${a.fk_id_estudiante}" />
+                <td>
+                  <span class="student-avatar"><i class="bi bi-person-fill"></i></span>
+                  <span th:text="${a.estudiante.nombre_estudiante + ' ' + a.estudiante.apellido_estudiante}"></span>
+                </td>
+                <td>
+                  <div class="estados-grupo">
+
                     <!-- PRESENTE -->
-                    <input type="radio" value="presente" th:checked="${a.estado_asistencia == 'presente'}" th:name="'estado_' + ${iterStat.index}"/>
-                    <!-- TARDANZA --> 
-                    <input type="radio" value="tardanza" th:checked="${a.estado_asistencia == 'tardanza'}" th:name="'estado_' + ${iterStat.index}"/>
+                    <label class="estado-label presente">
+                      <i class="bi bi-check-circle-fill"></i>
+                      Presente
+                      <input type="radio" value="presente" th:name="'estado_' + ${iterStat.index}"
+                        th:checked="${a.estado_asistencia == 'presente'}" />
+                    </label>
+
+                    <!-- TARDANZA -->
+                    <label class="estado-label tardanza">
+                      <i class="bi bi-clock-fill"></i>
+                      Tardanza
+                      <input type="radio" value="tardanza" th:name="'estado_' + ${iterStat.index}"
+                        th:checked="${a.estado_asistencia == 'tardanza'}" />
+                    </label>
+
                     <!-- AUSENTE -->
-                    <input type="radio" value="ausente" th:checked="${a.estado_asistencia == 'ausente'}" th:name="'estado_' + ${iterStat.index}"/>
-                  </td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
+                    <label class="estado-label ausente">
+                      <i class="bi bi-x-circle-fill"></i>
+                      Ausente
+                      <input type="radio" value="ausente" th:name="'estado_' + ${iterStat.index}"
+                        th:checked="${a.estado_asistencia == 'ausente'}" />
+                    </label>
+
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
       </form>
 
     </main>
   </div>
+
+  <!-- Tabla insertada-->
+  <div class="table-container popup-table" id="table-grado" popover="manual">
+    <button class="btn-cerrar-popup" popovertarget="table-grado" popovertargetaction="hide" aria-label="Cerrar">✕</button>
+    <table class="crud-table">
+      <thead> <!-- Encabezado de las columnas-->
+        <tr>
+          <th>ID</th>
+          <th>Nombre Grado</th>
+          <th>ID Maestro</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody> <!-- Contenido de la tabla-->
+        <tr th:each=" g: ${grados}"> <!-- Filas de ejemplo (tr representa una fila)-->
+          <td th:text="${g.id_grado}"></td>
+          <td th:text="${g.nombre_grado}"></td>
+          <td th:text="${g.fk_id_maestro}"></td>
+          <td>
+            <div class="actions">
+              <button class="btn-crud btn-elegir" onclick="elegirGrado(this)" th:data-grado="${g.id_grado}" popovertarget="table-grado" popovertargetaction="hide">Elegir</button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script>
+    function elegirGrado(button){
+      document.getElementById("id_seccion").value = button.dataset.grado;
+    }
+  </script>
 
 </body>
 
