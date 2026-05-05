@@ -17,18 +17,7 @@ public class UsuarioValidator {
 
     // VALIDACIÓN PARA REGISTRO
     public void validarRegistro(Usuario usuario) {
-
-        String correo = usuario.getCorreoUsuario() != null
-                ? usuario.getCorreoUsuario().trim()
-                : null;
-
-        String contra = usuario.getContraUsuario() != null
-                ? usuario.getContraUsuario().trim()
-                : null;
-
-        String rol = usuario.getRolUsuario() != null
-                ? usuario.getRolUsuario().trim()
-                : null;
+        String correo = usuario.getCorreoUsuario().trim();
 
         // dominio Gmail obligatorio
         if (!correo.toLowerCase().endsWith("@gmail.com")) {
@@ -40,6 +29,31 @@ public class UsuarioValidator {
                 usuarioRepository.findByCorreoUsuario(correo);
 
         if (usuarioExistente.isPresent()) {
+            throw new IllegalArgumentException("Ya existe un usuario con este correo");
+        }
+    }
+
+    public void validarUpdate(Usuario usuario, Integer id){
+        String correo = usuario.getCorreoUsuario().trim();
+        Usuario editedUser = usuarioRepository.findById(id).orElse(null);
+
+        // dominio Gmail obligatorio
+        if (!correo.toLowerCase().endsWith("@gmail.com")) {
+            throw new IllegalArgumentException("El correo debe ser de Gmail (@gmail.com)");
+        }
+
+        // Validar si ya existe el usuario
+        Optional<Usuario> usuarioExistente = usuarioRepository.findByCorreoUsuario(correo);
+        boolean usuarioExiste;
+        if(correo.equals(editedUser.getCorreoUsuario())){
+            usuarioExiste = false;
+        } else if (usuarioExistente.isPresent()){
+            usuarioExiste = true;
+        } else {
+            usuarioExiste = false;
+        }
+
+        if (usuarioExiste) {
             throw new IllegalArgumentException("Ya existe un usuario con este correo");
         }
     }

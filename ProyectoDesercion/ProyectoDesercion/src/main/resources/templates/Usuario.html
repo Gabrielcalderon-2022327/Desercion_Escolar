@@ -12,9 +12,9 @@
    <div class="layout">
       <!-- Encabezado de la página-->
       <header class="header">
-         <div class="logo">
-            <img src="/img/LogoUsuario.png" alt="Imagen que describa la entidad + logo de la aplicacion">
-            <!--Agregar referencia al logo-->
+         <div class="topbar-brand">
+            <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+            <span class="brand-name">Usuarios</span>
          </div>
          <!-- Navegacion por la pagina-->
          <ul class="navegacion">
@@ -36,11 +36,12 @@
          </ul>
 
          <!--Informacion del usuario y boton para cerrar sesion-->
-         <div class="user-info">
-            <span>Gabriel</span>
-            <form th:action="@{/logout}" method="post">
-               <button class="btn-cerrarSesion">Cerrar sesión</button>
-            </form>
+         <div class="topbar-user">
+               <div class="user-avatar">
+                  <i class="bi bi-person-fill"></i>
+               </div>
+               <span class="user-name" th:text="${username}">Admin</span>
+               <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button></a>
          </div>
       </header>
 
@@ -52,7 +53,7 @@
             <button class="btn-crud btn-crear"popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/usuarios/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
             <form class="crud-search" th:action="@{/usuarios/buscar}" method="get">
-               <input type="number" placeholder="Buscar por ID..." name="idUsuario">
+               <input type="number" placeholder="Buscar por ID..." name="idUsuario" required>
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
@@ -63,7 +64,8 @@
             </div>
          </div>
 
-         <div id="datos" class="crud-form" popover="manual">
+         <!-- Formulario para crear o actualizar una entidad-->
+         <div id="datos" class="crud-form" popover>
             <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide" aria-label="Cerrar">✕</button>
             <form id="popup-form" th:action="@{/usuarios}" method="post">
 
@@ -98,12 +100,6 @@
                      <input type="date" id="creacionUsuario" name="creacionUsuario" readonly required>
                   </div>
 
-                  <div>
-                     <label for="fk">FK:</label>
-                     <input type="numeric" id="fk" name="fk" required>
-                     <button type="button" class="btn-crud btn-elegir" popovertarget="table-alerta">Elegir</button>
-                  </div>
-
                </div>
                <div class="btn-container">
                   <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup">Crear</button>
@@ -131,7 +127,7 @@
                   <tr th:each=" u: ${usuarios}"> <!-- Filas de ejemplo (tr representa una fila)-->
                      <td th:text="${u.idUsuario}">1</td>
                      <td th:text="${u.correoUsuario}">gabriel@email.com</td>
-                     <td th:text="${u.contraUsuario}">password123</td>
+                     <td>************</td>
                      <td th:text="${u.rolUsuario}">ADMIN</td>
                      <td th:text="${u.creacionUsuario}">2024-01-15</td>
                      <td>
@@ -151,36 +147,6 @@
             </table>
          </div>
       </main>
-
-      <!-- TABLA INSERTADA-->
-      <div class=" table-container popup-table" id="table-alerta" popover="manual" >
-            <button class="btn-cerrar-popup" popovertarget="table-alerta" popovertargetaction="hide" aria-label="Cerrar">✕</button>
-            <table class="crud-table">
-               <thead> <!-- Encabezado de las columnas-->
-                  <tr>
-                     <th>ID</th>
-                     <th>Fecha Alerta</th>
-                     <th>Tipo Alerta</th>
-                     <th>Incidente Alerta</th>
-                     <th>ID Riesgo</th>
-                     <th>Acciones</th>
-                  </tr>
-               </thead>
-
-               <tbody> <!-- Contenido de la tabla-->
-                  <tr th:each="a: ${alertas}"> <!-- Filas de ejemplo (tr representa una fila)-->
-                     <td th:text="${a.id_alerta}"></td>
-                     <td th:text="${a.fecha_alerta}"></td>
-                     <td th:text="${a.tipo_alerta}"></td>
-                     <td th:text="${a.incidente_alerta}"></td>
-                     <td th:text="${a.fk_id_riesgo}"></td>
-                     <td>
-                        <button class="btn-crud btn-elegir" onclick="elegirId(this)" th:data-fk="${a.id_alerta}" popovertarget="table-alerta" popovertargetaction="hide">Elegir</button>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-      </div>
    </div>
 
    <!-- CONFIRMACIÓN ELIMINAR -->
@@ -197,11 +163,6 @@
    </div>
 
    <script>
-      //FUNCION PARA ELEGIR FOREIGN KEY
-      function elegirId(button){
-         document.getElementById("fk").value = button.dataset.fk;
-      }
-
       //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
       function cargarData(button) {
          document.getElementById("idUsuario").value = button.dataset.id;
@@ -235,6 +196,7 @@
             btnCrear.style.display = "inline-block";
             popupForm.setAttribute("action", "/usuarios/crear");
          }
+
       }
 
       // CONFIRMACIÓN DE ELIMINACIÓN
@@ -254,4 +216,5 @@
       });
    </script>
 </body>
+
 </html>

@@ -3,7 +3,7 @@
 
 <head>
    <meta charset="UTF-8">
-   <title>Usuario</title>
+   <title>Alerta</title>
    <link rel="stylesheet" href="Plantilla.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
@@ -12,16 +12,17 @@
    <div class="layout">
       <!-- Encabezado de la página-->
       <header class="header">
-         <div class="logo">
-            <img src="/img/LogoUsuario.png" alt="Imagen que describa la entidad + logo de la aplicacion">
-            <!--Agregar referencia al logo-->
+         <div class="topbar-brand">
+            <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+            <span class="brand-name">Alertas</span>
          </div>
          <!-- Navegacion por la pagina-->
          <ul class="navegacion">
-            <li><a th:href="@{/index}">Inicio</a></li> <!--Agregar referencia al index-->
+            <li><a th:href="@{/index}">Inicio</a></li>
             <li>
-               <!--Menu desplegable para las entidades--> <!--Eliminar Referencia a página propia-->
+               <!--Menu desplegable para las entidades-->
                <ul class="entidades-menu">
+                  <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
                   <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
                   <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
                   <li id="encargado-link"><a th:href="@{/encargados}">Encargado</a></li>
@@ -30,29 +31,29 @@
                   <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
                   <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
                   <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
-                  <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
                </ul>
             </li>
          </ul>
 
          <!--Informacion del usuario y boton para cerrar sesion-->
-         <div class="user-info">
-            <span>Gabriel</span>
-            <form th:action="@{/logout}" method="post">
-               <button class="btn-cerrarSesion">Cerrar sesión</button>
-            </form>
+         <div class="topbar-user">
+               <div class="user-avatar">
+                  <i class="bi bi-person-fill"></i>
+               </div>
+               <span class="user-name" th:text="${username}">Admin</span>
+               <a th:href="@{/logout}"><button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button></a>
          </div>
       </header>
 
       <main class="main-content">
-         <h1 class="titulo-entidad">Gestión de Usuarios</h1>
+         <h1 class="titulo-entidad">Gestión de Alertas</h1>
 
          <!-- Botones para el put, post, delete y get-->
          <div class="crud-actions">
             <button class="btn-crud btn-crear"popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
-            <a th:href="@{/usuarios/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
-            <form class="crud-search" th:action="@{/usuarios/buscar}" method="get">
-               <input type="number" placeholder="Buscar por ID..." name="idUsuario">
+            <a th:href="@{/alertas/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/alertas/buscar}" method="get">
+               <input type="number" placeholder="Buscar por ID..." name="idAlerta" required>
                <button type="submit" class="btn-crud" id="btn-buscar">
                   <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
@@ -63,45 +64,35 @@
             </div>
          </div>
 
-         <div id="datos" class="crud-form" popover="manual">
+         <!-- Formulario para crear o actualizar una entidad-->
+         <div id="datos" class="crud-form" popover>
             <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide" aria-label="Cerrar">✕</button>
-            <form id="popup-form" th:action="@{/usuarios}" method="post">
-
+            <form id="popup-form" th:action="@{/alertas}" method="post">
                <div class="input-group">
 
                   <div id="user-container">
-                     <label for="idUsuario">ID:</label>
-                     <input type="hidden" id="idUsuario" name="idUsuario" readonly required>
+                     <label for="id_alerta">ID Alerta:</label>
+                     <input type="number" id="id_alerta" name="id_alerta" readonly required>
                   </div>
 
                   <div>
-                     <label for="correoUsuario">Correo:</label>
-                     <input type="email" id="correoUsuario" name="correoUsuario" required>
+                     <label for="fecha_alerta">Fecha:</label>
+                     <input type="date" id="fecha_alerta" name="fecha_alerta" required>
                   </div>
 
                   <div>
-                     <label for="contraUsuario">Contraseña:</label>
-                     <input type="password" id="contraUsuario" name="contraUsuario" required>
+                     <label for="tipo_alerta">Tipo:</label>
+                     <input type="text" id="tipo_alerta" name="tipo_alerta" required>
                   </div>
 
                   <div>
-                     <label for="rolUsuario">Rol:</label>
-                     <select id="rolUsuario" name="rolUsuario" required>
-                        <option value="Administrador">Administrador</option>
-                        <option value="Orientador">Orientador</option>
-                        <option value="Maestro">Maestro</option>
-                     </select>
-                  </div>
-
-                  <div id="date-container">
-                     <label for="creacionUsuario">Fecha de Creación:</label>
-                     <input type="date" id="creacionUsuario" name="creacionUsuario" readonly required>
+                     <label for="incidente_alerta">Incidente:</label>
+                     <input type="text" id="incidente_alerta" name="incidente_alerta" required>
                   </div>
 
                   <div>
-                     <label for="fk">FK:</label>
-                     <input type="numeric" id="fk" name="fk" required>
-                     <button type="button" class="btn-crud btn-elegir" popovertarget="table-alerta">Elegir</button>
+                     <label for="fk_id_riesgo">ID Riesgo:</label>
+                     <input type="number" id="fk_id_riesgo" name="fk_id_riesgo" required>
                   </div>
 
                </div>
@@ -116,46 +107,6 @@
          <div class=" table-container">
             <table class="crud-table">
 
-               <thead> <!-- Encabezado de las columnas-->
-                  <tr>
-                     <th>ID</th>
-                     <th>Correo</th>
-                     <th>Contraseña</th>
-                     <th>Rol</th>
-                     <th>Fecha Creación</th>
-                     <th>Acciones</th>
-                  </tr>
-               </thead>
-
-               <tbody> <!-- Contenido de la tabla-->
-                  <tr th:each=" u: ${usuarios}"> <!-- Filas de ejemplo (tr representa una fila)-->
-                     <td th:text="${u.idUsuario}">1</td>
-                     <td th:text="${u.correoUsuario}">gabriel@email.com</td>
-                     <td th:text="${u.contraUsuario}">password123</td>
-                     <td th:text="${u.rolUsuario}">ADMIN</td>
-                     <td th:text="${u.creacionUsuario}">2024-01-15</td>
-                     <td>
-                        <div class="actions">
-                           <button class="btn-crud btn-actualizar" popovertarget="datos" th:data-id="${u.idUsuario}"
-                              th:data-correo="${u.correoUsuario}" th:data-contra="${u.contraUsuario}"
-                              th:data-rol="${u.rolUsuario}" th:data-fecha="${u.creacionUsuario}"
-                              onclick="cargarData(this)">Actualizar</button>
-                           <button class="btn-crud btn-eliminar"
-                              th:data-url="@{/usuarios/eliminar/{id}(id=${u.idUsuario})}"
-                              th:data-nombre="${u.correoUsuario}"
-                              onclick="confirmarEliminar(this.dataset.url, this.dataset.nombre)">Eliminar</button>
-                        </div>
-                     </td>
-                  </tr>
-               </tbody>
-            </table>
-         </div>
-      </main>
-
-      <!-- TABLA INSERTADA-->
-      <div class=" table-container popup-table" id="table-alerta" popover="manual" >
-            <button class="btn-cerrar-popup" popovertarget="table-alerta" popovertargetaction="hide" aria-label="Cerrar">✕</button>
-            <table class="crud-table">
                <thead> <!-- Encabezado de las columnas-->
                   <tr>
                      <th>ID</th>
@@ -175,12 +126,22 @@
                      <td th:text="${a.incidente_alerta}"></td>
                      <td th:text="${a.fk_id_riesgo}"></td>
                      <td>
-                        <button class="btn-crud btn-elegir" onclick="elegirId(this)" th:data-fk="${a.id_alerta}" popovertarget="table-alerta" popovertargetaction="hide">Elegir</button>
+                        <div class="actions">
+                           <button class="btn-crud btn-actualizar" popovertarget="datos"
+                              th:data-id="${a.id_alerta}" th:data-fecha="${a.fecha_alerta}"
+                              th:data-tipo="${a.tipo_alerta}" th:data-incidente="${a.incidente_alerta}"
+                              th:data-riesgo="${a.fk_id_riesgo}" onclick="cargarData(this)">Actualizar</button>
+                           <button class="btn-crud btn-eliminar"
+                              th:data-url="@{/alertas/eliminar/{id}(id=${a.id_alerta})}"
+                              th:data-id="${a.id_alerta}"
+                              onclick="confirmarEliminar(this.dataset.url, this.dataset.id)">Eliminar</button>
+                        </div>
                      </td>
                   </tr>
                </tbody>
             </table>
-      </div>
+         </div>
+      </main>
    </div>
 
    <!-- CONFIRMACIÓN ELIMINAR -->
@@ -188,7 +149,7 @@
       <div class="confirm-modal">
          <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
          <h3>¿Eliminar registro?</h3>
-         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar al usuario <strong id="confirm-nombre"></strong>?</p>
+         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar la alerta <strong id="confirm-nombre"></strong>?</p>
          <div class="confirm-modal-actions">
             <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
             <a id="confirm-link" href="#" class="btn-confirm-delete"><i class="bi bi-trash3-fill"></i> Eliminar</a>
@@ -197,44 +158,34 @@
    </div>
 
    <script>
-      //FUNCION PARA ELEGIR FOREIGN KEY
-      function elegirId(button){
-         document.getElementById("fk").value = button.dataset.fk;
-      }
-
       //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
       function cargarData(button) {
-         document.getElementById("idUsuario").value = button.dataset.id;
-         document.getElementById("correoUsuario").value = button.dataset.correo;
-         document.getElementById("contraUsuario").value = button.dataset.contra;
-         document.getElementById("rolUsuario").value = button.dataset.rol;
-         document.getElementById("creacionUsuario").value = button.dataset.fecha;
+         document.getElementById("id_alerta").value = button.dataset.id;
+         document.getElementById("fecha_alerta").value = button.dataset.fecha;
+         document.getElementById("tipo_alerta").value = button.dataset.tipo;
+         document.getElementById("incidente_alerta").value = button.dataset.incidente;
+         document.getElementById("fk_id_riesgo").value = button.dataset.riesgo;
          toggleIdInput(true);
       }
 
       //FUNCION PARA OCULTAR Y MOSTRAR EL INPUT DEL ID
       function toggleIdInput(isUpdate) {
-         const idInput = document.getElementById("idUsuario");
          const userContainer = document.getElementById("user-container");
-         const dateContainer = document.getElementById("date-container");
          const btnActualizar = document.getElementById("btn-actualizar-popoup");
          const btnCrear = document.getElementById("btn-crear-popoup");
          const popupForm = document.getElementById("popup-form");
          if (isUpdate) {
-            idInput.setAttribute("type", "number");
             userContainer.style.display = "block";
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
-            dateContainer.style.display = "block";
-            popupForm.setAttribute("action", "/usuarios/editar");
+            popupForm.setAttribute("action", "/alertas/editar");
          } else {
-            idInput.setAttribute("type", "hidden");
             userContainer.style.display = "none";
-            dateContainer.style.display = "none";
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
-            popupForm.setAttribute("action", "/usuarios/crear");
+            popupForm.setAttribute("action", "/alertas/crear");
          }
+
       }
 
       // CONFIRMACIÓN DE ELIMINACIÓN
@@ -253,5 +204,7 @@
          if (e.target === this) cerrarConfirm();
       });
    </script>
+
 </body>
+
 </html>

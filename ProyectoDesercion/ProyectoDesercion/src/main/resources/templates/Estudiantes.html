@@ -19,7 +19,7 @@
         </div>
 
         <ul class="navegacion">
-            <li><a th:href="@{/paginaprincipal}">Inicio</a></li>
+            <li><a th:href="@{/index}">Inicio</a></li>
             <li>
                 <ul class="entidades-menu">
                     <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
@@ -56,7 +56,7 @@
             </a>
 
             <form class="crud-search" th:action="@{/estudiantes/buscar}" method="get">
-                <input type="number" placeholder="Buscar por ID..." name="id_estudiante">
+                <input type="number" placeholder="Buscar por ID..." name="id_estudiante" required>
                 <button type="submit" class="btn-crud" id="btn-buscar">
                     <img src="/img/buscar.png" alt="Logo de busqueda">
                 </button>

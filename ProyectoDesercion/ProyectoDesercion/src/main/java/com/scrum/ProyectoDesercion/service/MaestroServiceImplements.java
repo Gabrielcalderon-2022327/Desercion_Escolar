@@ -38,7 +38,7 @@ public class MaestroServiceImplements implements MaestroService{
 
     @Override
     public Maestro updateMaestro(Integer id, Maestro maestro) {
-        Maestro updateMaestro = maestroRepository.findById(maestro.getIdMaestro()).orElse(null);
+        Maestro updateMaestro = maestroRepository.findById(id).orElse(null);
         if (updateMaestro != null) {
             updateMaestro.setNombreMaestro(maestro.getNombreMaestro());
             updateMaestro.setEspecialidadMaestro(maestro.getEspecialidadMaestro());
