@@ -2,6 +2,7 @@ package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Riesgo;
 import com.scrum.ProyectoDesercion.service.RiesgoService;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +22,12 @@ public class RiesgoController {
 
     // Cargar vista principal
     @GetMapping("/riesgos")
-    public String cargarRiesgos(Model model){
+    public String cargarRiesgos(Model model, HttpSession session){
+        if (session.getAttribute("username") == null){
+            return "redirect:/login";
+        } else{
+            model.addAttribute("username", session.getAttribute("username"));
+        }
         if(!model.containsAttribute("riesgos")){
             model.addAttribute("riesgos", riesgoService.listarRiesgos());
         }
