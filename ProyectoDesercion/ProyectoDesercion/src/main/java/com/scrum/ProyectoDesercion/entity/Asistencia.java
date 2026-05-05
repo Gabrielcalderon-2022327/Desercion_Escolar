@@ -29,6 +29,18 @@ public class Asistencia {
     @NotNull(message = "El id del estudiante es un campo  obligatorio")
     private Integer fk_id_estudiante;
 
+    @ManyToOne
+    @JoinColumn(name = "fk_id_estudiante", insertable = false, updatable = false)
+    private Estudiante estudiante;
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
+
     public Integer getId_asistencia() {
         return id_asistencia;
     }
