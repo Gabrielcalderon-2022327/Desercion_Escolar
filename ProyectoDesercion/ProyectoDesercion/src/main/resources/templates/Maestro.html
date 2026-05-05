@@ -63,7 +63,7 @@
             </div>
          </div>
 
-         <div id="datos" class="crud-form" popover>
+         <div id="datos" class="crud-form" popover="manual">
             <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide"
                aria-label="Cerrar">✕</button>
             <form id="popup-form" th:action="@{/maestros/crear}" method="post">
@@ -92,6 +92,7 @@
                   <div>
                      <label for="fk_id_usuario">ID Usuario (FK):</label>
                      <input type="number" id="fk_id_usuario" name="fk_id_usuario" required>
+                     <button type="button" class="btn-crud btn-elegir" popovertarget="table-usuarios">Elegir</button>
                   </div>
                </div>
 
@@ -139,6 +140,39 @@
       </main>
    </div>
 
+   <!-- TABLA DE USUARIOS -->
+   <div class=" table-container" id="table-usuarios" popover="manual">
+      <button class="btn-cerrar-popup" popovertarget="table-usuarios" popovertargetaction="hide" aria-label="Cerrar">×</button>
+            <table class="crud-table">
+
+               <thead> <!-- Encabezado de las columnas-->
+                  <tr>
+                     <th>ID</th>
+                     <th>Correo</th>
+                     <th>Contraseña</th>
+                     <th>Rol</th>
+                     <th>Fecha Creación</th>
+                     <th>Acciones</th>
+                  </tr>
+               </thead>
+
+               <tbody> <!-- Contenido de la tabla-->
+                  <tr th:each=" u: ${usuarios}"> <!-- Filas de ejemplo (tr representa una fila)-->
+                     <td th:text="${u.idUsuario}">1</td>
+                     <td th:text="${u.correoUsuario}">gabriel@email.com</td>
+                     <td>************</td>
+                     <td th:text="${u.rolUsuario}">ADMIN</td>
+                     <td th:text="${u.creacionUsuario}">2024-01-15</td>
+                     <td>
+                        <div class="actions">
+                           <button class="btn-crud btn-elegir" onclick="elegirUsuario(this)" th:data-usuario="${u.idUsuario}" popovertarget="table-usuarios" popovertargetaction="hide">Elegir</button>
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+
    <!-- CONFIRMACIÓN ELIMINAR -->
    <div class="confirm-backdrop" id="confirm-backdrop">
       <div class="confirm-modal">
@@ -153,6 +187,10 @@
    </div>
 
    <script>
+function elegirUsuario(button) {
+         document.getElementById("fk_id_usuario").value = button.dataset.usuario;
+      }
+
       function cargarData(button) {
          document.getElementById("id_maestro").value = button.dataset.id;
          document.getElementById("nombre_maestro").value = button.dataset.nombre;
@@ -164,17 +202,20 @@
 
       function toggleIdInput(isUpdate) {
          const idContainer = document.getElementById("id-container");
+         const idInput = document.getElementById("id_maestro");
          const btnActualizar = document.getElementById("btn-actualizar-popoup");
          const btnCrear = document.getElementById("btn-crear-popoup");
          const popupForm = document.getElementById("popup-form");
 
          if (isUpdate) {
             idContainer.style.display = "block";
+            idInput.disabled = false;  
             btnActualizar.style.display = "inline-block";
             btnCrear.style.display = "none";
             popupForm.setAttribute("action", "/maestros/editar");
          } else {
             idContainer.style.display = "none";
+            idInput.disabled = true;
             btnActualizar.style.display = "none";
             btnCrear.style.display = "inline-block";
             document.getElementById("popup-form").reset();
