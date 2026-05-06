@@ -4,7 +4,7 @@
 <head>
    <meta charset="UTF-8">
    <title>Usuario</title>
-   <link rel="stylesheet" href="../static/Plantilla.css">
+   <link rel="stylesheet" href="usuarioStyle.css">
    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
 </head>
 
@@ -83,22 +83,27 @@
                      <input type="email" id="correoUsuario" name="correoUsuario" required>
                   </div>
 
-                  <div>
+                  <div class="pw-row">
                      <label for="contraUsuario">Contraseña:</label>
-                     <input type="password" id="contraUsuario" name="contraUsuario" required>
-                     <button type="button" class="toggle-pw" aria-label="Mostrar contraseña" onclick="togglePassword()">
-                        <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                           <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
-                           <circle cx="12" cy="12" r="3" />
-                        </svg>
-                        <svg class="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                           stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
-                           <path
-                              d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24" />
-                           <line x1="1" y1="1" x2="23" y2="23" />
-                        </svg>
-                     </button>
+                     <div class="field__wrap">
+                        <span class="field__icon">
+                           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                              <rect x="3" y="11" width="18" height="11" rx="2"/>
+                              <path d="M7 11V7a5 5 0 0110 0v4"/>
+                           </svg>
+                        </span>
+                        <input type="password" id="contraUsuario" name="contraUsuario" required>
+                        <button type="button" class="toggle-pw" aria-label="Mostrar contraseña" onclick="togglePassword()">
+                           <svg class="eye-icon eye-open" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                              <circle cx="12" cy="12" r="3"/>
+                           </svg>
+                           <svg class="eye-icon eye-closed" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M17.94 17.94A10.07 10.07 0 0112 20c-7 0-11-8-11-8a18.45 18.45 0 015.06-5.94M9.9 4.24A9.12 9.12 0 0112 4c7 0 11 8 11 8a18.5 18.5 0 01-2.16 3.19m-6.72-1.07a3 3 0 11-4.24-4.24"/>
+                              <line x1="1" y1="1" x2="23" y2="23"/>
+                           </svg>
+                        </button>
+                     </div>
                   </div>
 
                   <div>
@@ -181,14 +186,17 @@
       //MOSTRAR Y OCULTAR CONTRA
       function togglePassword() {
          const passwordInput = document.getElementById('contraUsuario');
-         const toggleBtn = document.querySelector('.toggle-pw');
+         const eyeOpen   = document.querySelector('.toggle-pw .eye-open');
+         const eyeClosed = document.querySelector('.toggle-pw .eye-closed');
 
          if (passwordInput.type === 'password') {
             passwordInput.type = 'text';
-            toggleBtn.classList.add('is-visible');
+            eyeOpen.style.display   = 'none';
+            eyeClosed.style.display = 'block';
          } else {
             passwordInput.type = 'password';
-            toggleBtn.classList.remove('is-visible');
+            eyeOpen.style.display   = 'block';
+            eyeClosed.style.display = 'none';
          }
       }
 
