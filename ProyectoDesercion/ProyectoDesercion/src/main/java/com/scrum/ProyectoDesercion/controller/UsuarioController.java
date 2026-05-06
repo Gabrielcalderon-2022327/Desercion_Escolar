@@ -3,6 +3,7 @@ package com.scrum.ProyectoDesercion.controller;
 import com.scrum.ProyectoDesercion.entity.Usuario;
 import com.scrum.ProyectoDesercion.service.UsuarioService;
 import com.scrum.ProyectoDesercion.validator.UsuarioValidator;
+import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +24,12 @@ public class UsuarioController {
     }
 
     @GetMapping("/usuarios")
-    public String cargarUsuarios(Model model){
+    public String cargarUsuarios(Model model, HttpSession session){
+        if(session.getAttribute("username") == null){
+            return "redirect:/login";
+        } else{
+            model.addAttribute("username",  session.getAttribute("username"));
+        }
         if(!model.containsAttribute("usuarios")){
             model.addAttribute("usuarios", usuarioService.getAllUsuarios());
         }
