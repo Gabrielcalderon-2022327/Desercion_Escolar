@@ -903,3 +903,67 @@ input[type="number"]::-webkit-inner-spin-button {
     75%  { transform: rotate(-8deg); }
     100% { transform: rotate(0deg); }
 }
+
+/* Campo contraseña   */
+
+.input-group > div.pw-row {
+    grid-template-columns: 140px 1fr;
+    align-items: center;
+}
+
+#datos .field__wrap {
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+/* Ícono del candado */
+#datos .field__icon {
+    position: absolute;
+    left: 10px;
+    display: flex;
+    align-items: center;
+    color: var(--texto-secundario);
+    pointer-events: none;
+    transition: color 0.2s;
+    z-index: 1;
+}
+#datos .field__icon svg {
+    width: 16px;
+    height: 16px;
+}
+
+#datos .field__wrap input[type="password"],
+#datos .field__wrap input[type="text"] {
+    padding-left: 36px;
+    padding-right: 40px;
+}
+
+/* Resaltar el ícono del candado cuando el input está enfocado */
+#datos .field__wrap:focus-within .field__icon {
+    color: var(--teal);
+}
+
+/* toggle ojo */
+#datos .toggle-pw {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    color: var(--texto-secundario);
+    padding: 0;
+    transition: color 0.2s;
+    z-index: 1;
+}
+#datos .toggle-pw:hover { color: var(--teal); }
+#datos .toggle-pw svg {
+    width: 16px;
+    height: 16px;
+}
+
+/* Estado inicial */
+#datos .eye-closed { display: none; }
