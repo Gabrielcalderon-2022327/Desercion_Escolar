@@ -2,6 +2,7 @@ package com.scrum.ProyectoDesercion.controller;
 
 import com.scrum.ProyectoDesercion.entity.Riesgo;
 import com.scrum.ProyectoDesercion.service.RiesgoService;
+import com.scrum.ProyectoDesercion.service.EstudianteService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
@@ -15,9 +16,11 @@ import java.util.List;
 public class RiesgoController {
 
     private final RiesgoService riesgoService;
+    private final EstudianteService estudianteService;
 
-    public RiesgoController(RiesgoService riesgoService) {
+    public RiesgoController(RiesgoService riesgoService, EstudianteService estudianteService) {
         this.riesgoService = riesgoService;
+        this.estudianteService = estudianteService;
     }
 
     // Cargar vista principal
@@ -28,6 +31,9 @@ public class RiesgoController {
         } else{
             model.addAttribute("username", session.getAttribute("username"));
         }
+
+        model.addAttribute("estudiantes", estudianteService.getAllEstudiantes());
+
         if(!model.containsAttribute("riesgos")){
             model.addAttribute("riesgos", riesgoService.listarRiesgos());
         }
