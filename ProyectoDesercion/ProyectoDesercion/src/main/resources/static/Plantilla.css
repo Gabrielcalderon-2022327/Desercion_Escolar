@@ -54,11 +54,65 @@ body {
     background: linear-gradient(90deg, var(--teal), var(--amarillo), var(--naranja));
 }
 
-.logo img {
-    height: 52px;
-    width: auto;
-    display: block;
-    filter: brightness(0) invert(1);
+/* ── Logo EduGuard ── */
+.topbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.brand-icon {
+    width: 38px; height: 38px;
+    border-radius: 10px;
+    background: linear-gradient(135deg, var(--teal), var(--marino));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 1.1rem;
+    border: 1.5px solid rgba(142,202,230,.3);
+    position: relative;
+    animation: logoEntrada 0.7s cubic-bezier(.34,1.56,.64,1) both;
+    transition: transform .3s ease, box-shadow .3s ease;
+    flex-shrink: 0;
+}
+
+/* Anillo de pulso continuo */
+.brand-icon::after {
+    content: '';
+    position: absolute;
+    inset: -4px;
+    border-radius: 14px;
+    border: 2px solid var(--teal);
+    opacity: 0;
+    animation: logoPulse 2.8s ease-out infinite 1.2s;
+}
+
+/* Ícono rota suavemente al hacer hover en la marca */
+.topbar-brand:hover .brand-icon {
+    transform: rotate(-12deg) scale(1.12);
+    box-shadow: 0 0 18px rgba(33,158,188,.55), 0 0 36px rgba(33,158,188,.2);
+}
+
+.topbar-brand:hover .brand-icon i {
+    animation: shieldShake .5s ease;
+}
+
+.brand-name {
+    font-family: "Inter", "DM Sans", sans-serif;
+    font-size: 1.4em;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.03em;
+    animation: logoNombreEntrada 0.6s cubic-bezier(.34,1.56,.64,1) .15s both;
+    transition: letter-spacing .3s ease, color .3s ease;
+}
+
+.topbar-brand:hover .brand-name {
+    letter-spacing: 0.09em;
+    color: var(--cielo);
 }
 
 /* ── Navegación ── */
