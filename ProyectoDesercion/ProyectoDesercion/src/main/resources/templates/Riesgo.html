@@ -10,17 +10,14 @@
 
 <body>
 <div class="layout">
-    <!-- Encabezado de la página-->
     <header class="header">
         <div class="topbar-brand">
             <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
             <span class="brand-name">Riesgo</span>
         </div>
-        <!-- Navegacion por la pagina-->
         <ul class="navegacion">
             <li><a th:href="@{/index}">Inicio</a></li>
             <li>
-                <!--Menu desplegable para las entidades-->
                 <ul class="entidades-menu">
                     <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
                     <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
@@ -35,7 +32,6 @@
             </li>
         </ul>
 
-        <!--Informacion del usuario y boton para cerrar sesion-->
         <div class="topbar-user">
             <div class="user-avatar">
                 <i class="bi bi-person-fill"></i>
@@ -48,7 +44,6 @@
     <main class="main-content">
         <h1 class="titulo-entidad">Gestión de Riesgos</h1>
 
-        <!-- Botones para el put, post, delete y get-->
         <div class="crud-actions">
             <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)"></button>
             <a th:href="@{/riesgos/listar}"><button class="btn-crud" id="btn-listar"></button></a>
@@ -64,7 +59,6 @@
             </div>
         </div>
 
-        <!-- Formulario para crear o actualizar una entidad-->
         <div id="datos" class="crud-form" popover>
             <form id="popup-form" th:action="@{/riesgos}" method="post">
 
@@ -87,9 +81,9 @@
 
                     <div>
                         <label for="idEstudiante">ID Estudiante:</label>
-                        <div style="display: flex; gap: 5px;">
-                            <input class="fk" type="number" id="idEstudiante" name="fk_id_estudiante" required readonly>
-                            <button type="button" class="btn-crud btn-elegir" popovertarget="table-estudiante">Elegir</button>
+                        <div style="display: flex; gap: 10px; align-items: center; width: 100%;">
+                            <input class="fk" type="number" id="idEstudiante" name="fk_id_estudiante" required style="flex-grow: 1;">
+                            <button type="button" class="btn-crud btn-elegir" popovertarget="table-estudiante" style="white-space: nowrap; flex-shrink: 0;">Elegir</button>
                         </div>
                     </div>
 
@@ -101,7 +95,6 @@
             </form>
         </div>
 
-        <!-- Tabla de las entidades-->
         <div class="table-container">
             <table class="crud-table">
 
@@ -140,7 +133,6 @@
     </main>
 </div>
 
-<!-- TABLA POPUP -->
 <div class="table-container popup-table" id="table-estudiante" popover="manual">
     <button class="btn-cerrar-popup" popovertarget="table-estudiante" popovertargetaction="hide">✕</button>
     <table class="crud-table">
@@ -156,14 +148,13 @@
                 <td th:text="${e.id_estudiante}"></td>
                 <td th:text="${e.nombre_estudiante}"></td>
                 <td>
-                    <button class="btn-crud btn-elegir" onclick="elegirEstudiante(this)" th:data-estudiante="${e.id_estudiante}" popovertarget="table-estudiante" popovertargetaction="hide">Elegir</button>
+                   <button type="button" class="btn-crud btn-elegir" onclick="elegirEstudiante(this)" th:data-estudiante="${e.id_estudiante}">Elegir</button>
                 </td>
             </tr>
         </tbody>
     </table>
 </div>
 
-<!-- CONFIRMACIÓN ELIMINAR -->
     <div class="confirm-backdrop" id="confirm-backdrop">
       <div class="confirm-modal">
           <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
@@ -179,6 +170,16 @@
 <script>
     function elegirEstudiante(button){
         document.getElementById("idEstudiante").value = button.dataset.estudiante;
+
+        const tablaEstudiante = document.getElementById("table-estudiante");
+        if (tablaEstudiante && tablaEstudiante.hidePopover) {
+            tablaEstudiante.hidePopover();
+        }
+
+        const panelDatos = document.getElementById("datos");
+        if (panelDatos && panelDatos.showPopover) {
+            panelDatos.showPopover();
+        }
     }
 
     function cargarData(button) {
@@ -207,7 +208,6 @@
        }
     }
 
-    // CONFIRMACIÓN DE ELIMINACIÓN
       function confirmarEliminar(url, nombre) {
           document.getElementById("confirm-nombre").textContent = nombre;
           document.getElementById("confirm-link").setAttribute("href", url);
@@ -218,12 +218,10 @@
           document.getElementById("confirm-backdrop").classList.remove("show");
       }
 
-      // Cerrar al hacer clic fuera del modal
       document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
           if (e.target === this) cerrarConfirm();
       });
 </script>
-
 </body>
 
 </html>
