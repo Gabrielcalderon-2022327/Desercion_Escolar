@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Past;
+import jakarta.validation.constraints.PastOrPresent;
 
 import java.time.LocalDate;
 
@@ -18,7 +19,7 @@ public class Asistencia {
 
     @Column(name = "fecha_asistencia")
     @NotNull(message = "La fecha de asistencia es un campo  obligatorio")
-    @Past(message = "La fecha no puede ser futura")
+    @PastOrPresent(message = "La fecha no puede ser futura")
     private LocalDate fecha_asistencia;
 
     @Column(name = "estado_asistencia")
@@ -28,6 +29,18 @@ public class Asistencia {
     @Column(name = "fk_id_estudiante")
     @NotNull(message = "El id del estudiante es un campo  obligatorio")
     private Integer fk_id_estudiante;
+
+    @ManyToOne
+    @JoinColumn(name = "fk_id_estudiante", insertable = false, updatable = false)
+    private Estudiante estudiante;
+
+    public Estudiante getEstudiante() {
+        return estudiante;
+    }
+
+    public void setEstudiante(Estudiante estudiante) {
+        this.estudiante = estudiante;
+    }
 
     public Integer getId_asistencia() {
         return id_asistencia;

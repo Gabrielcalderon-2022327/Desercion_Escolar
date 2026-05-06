@@ -53,7 +53,7 @@
 
          <!-- Botones para el put, post, delete y get-->
          <div class="crud-actions">
-            <button class="btn-crud btn-crear"popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <button class="btn-crud btn-crear" popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
             <a th:href="@{/economia/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
             <form class="crud-search" th:action="@{/economia/buscar}" method="get">
                <input type="number" placeholder="Buscar por ID..." name="idUsuario" required>
@@ -61,15 +61,16 @@
                   <img src="/img/buscar.png" alt="Logo de busqueda">
                </button>
             </form>
-             <div class="message-container">
-                 <h2 id="error-text" th:if="${error != null}" th:text="${error}"></h2>
-                 <h2 id="success-text" th:if="${success != null}" th:text="${success}"></h2>
-             </div>
+            <div class="message-container">
+               <h2 id="error-text" th:if="${error != null}" th:text="${error}"></h2>
+               <h2 id="success-text" th:if="${success != null}" th:text="${success}"></h2>
+            </div>
          </div>
 
          <!-- Formulario para crear o actualizar una entidad-->
-         <div id="datos" class="crud-form" popover>
-            <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide" aria-label="Cerrar">✕</button>
+         <div id="datos" class="crud-form" popover="manual">
+            <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide"
+               aria-label="Cerrar">✕</button>
             <form id="popup-form" th:action="@{/economia}" method="post">
 
                <div class="input-group">
@@ -89,12 +90,11 @@
                      <input type="date" id="fechaEconomia" name="fechaEconomia" required>
                   </div>
 
-                   <div>
-                       <label for="idEstudiante">FK_idEstudiante:</label>
-                       <input type="number" id="idEstudiante" name="idEstudiante" required>
-                   </div>
-
-
+                  <div>
+                     <label for="idEstudiante">ID Estudiante:</label>
+                     <input class="fk" type="number" id="idEstudiante" name="idEstudiante" required>
+                     <button type="button" class="btn-crud btn-elegir" popovertarget="table-estudiante">Elegir</button>
+                  </div>
                </div>
 
 
@@ -127,9 +127,9 @@
                      <td th:text="${e.idEstudiante}"></td>
                      <td>
                         <div class="actions">
-                           <button class="btn-crud btn-actualizar" popovertarget="datos"
-                              th:data-id="${e.idEconomia}" th:data-ingresos="${e.ingresosEconomia}"
-                              th:data-fecha="${e.fechaEconomia}" th:data-estudiante="${e.idEstudiante}" onclick="cargarData(this)">Actualizar</button>
+                           <button class="btn-crud btn-actualizar" popovertarget="datos" th:data-id="${e.idEconomia}"
+                              th:data-ingresos="${e.ingresosEconomia}" th:data-fecha="${e.fechaEconomia}"
+                              th:data-estudiante="${e.idEstudiante}" onclick="cargarData(this)">Actualizar</button>
                            <button class="btn-crud btn-eliminar"
                               th:data-url="@{/economia/eliminar/{id}(id=${e.idEconomia})}"
                               th:data-nombre="${e.idEconomia}"
@@ -141,6 +141,47 @@
             </table>
          </div>
       </main>
+   </div>
+
+   <!--TABLA INSERTADA: ESTUDIANTES-->
+   <div class="table-container popup-table" id="table-estudiante" popover="manual">
+      <button class="btn-cerrar-popup" popovertarget="table-estudiante" popovertargetaction="hide" aria-label="Cerrar">✕</button>
+      <table class="crud-table">
+
+         <thead>
+            <tr>
+               <th>ID</th>
+               <th>Nombre</th>
+               <th>Apellido</th>
+               <th>Fecha Nacimiento</th>
+               <th>Direccion</th>
+               <th>Telefono</th>
+               <th>ID Encargado</th>
+               <th>ID Grado</th>
+               <th>Acciones</th>
+            </tr>
+         </thead>
+
+         <tbody>
+            <tr th:each="e : ${estudiantes}">
+               <td th:text="${e.id_estudiante}"></td>
+               <td th:text="${e.nombre_estudiante}"></td>
+               <td th:text="${e.apellido_estudiante}"></td>
+               <td th:text="${e.fecha_nacimiento_estudiante}"></td>
+               <td th:text="${e.direccion_estudiante}"></td>
+               <td th:text="${e.telefono_estudiante}"></td>
+               <td th:text="${e.fk_id_encargado}"></td>
+               <td th:text="${e.fk_id_grado}"></td>
+
+               <td>
+                  <div class="actions">
+                     <button class="btn-crud btn-elegir" onclick="elegirEstudiante(this)" th:data-estudiante="${e.id_estudiante}" popovertarget="table-estudiante" popovertargetaction="hide">Elegir</button>
+                  </div>
+               </td>
+
+            </tr>
+         </tbody>
+      </table>
    </div>
 
    <!-- CONFIRMACIÓN ELIMINAR -->
@@ -157,6 +198,10 @@
    </div>
 
    <script>
+      function elegirEstudiante(button){
+         document.getElementById("idEstudiante").value = button.dataset.estudiante;
+      }
+
       //FUNCION PARA CARGAR LOS DATOS EN EL FORMULARIO DE ACTUALIZACION
       function cargarData(button) {
          document.getElementById("idEconomia").value = button.dataset.id;
@@ -200,7 +245,7 @@
       }
 
       // Cerrar al hacer clic fuera del modal
-      document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
+      document.getElementById("confirm-backdrop").addEventListener("click", function (e) {
          if (e.target === this) cerrarConfirm();
       });
    </script>

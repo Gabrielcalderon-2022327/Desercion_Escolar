@@ -3,8 +3,10 @@ package com.scrum.ProyectoDesercion.service;
 import com.scrum.ProyectoDesercion.entity.Asistencia;
 import com.scrum.ProyectoDesercion.exception.ResourceNotFoundException;
 import com.scrum.ProyectoDesercion.repository.AsistenciaRepository;
+import com.scrum.ProyectoDesercion.repository.EstudianteRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -20,40 +22,24 @@ public class AsistenciaServiceImplements implements AsistenciaService{
     public List<Asistencia> getAllAsistencia() {
         return repository.findAll();
     }
-
+    
     @Override
-    public Asistencia getAsistenciaById(Integer id) {
-        Asistencia asistencia = repository.findById(id).orElse(null);
-        if (asistencia == null) {
-            throw new ResourceNotFoundException("Asistencia no encontrada");
-        }
-        return asistencia;
+    public List<Asistencia> getByFechaGrado(LocalDate fecha, Integer id_grado) {
+        List<Asistencia> asistencias = repository.findByFechaAndGrado(fecha, id_grado);
+        return asistencias;
     }
 
-    @Override
-    public Asistencia saveAsistencia(Asistencia asistencia) throws RuntimeException {
-        return repository.save(asistencia);
-    }
 
     @Override
-    public Asistencia updateAsistencia(Integer id, Asistencia asistencia) {
-        Asistencia updateAsistencia = repository.findById(id).orElse(null);
-        if (updateAsistencia != null) {
-            updateAsistencia.setEstado_asistencia(asistencia.getEstado_asistencia());
-            updateAsistencia.setFecha_asistencia(asistencia.getFecha_asistencia());
-            updateAsistencia.setFk_id_estudiante(asistencia.getFk_id_estudiante());
-        } else{
-            throw new ResourceNotFoundException("Asistencia no encontrada");
+    public void saveAll(List<Asistencia> asistencias) {
+        for (Asistencia a : asistencias) {
+            Asistencia existente = repository.findByEstudianteAndFecha(a.getFk_id_estudiante(), a.getFecha_asistencia());
+            if (existente != null) {
+                existente.setEstado_asistencia(a.getEstado_asistencia());
+                repository.save(existente);
+            } else {
+                repository.save(a);
+            }
         }
-        return repository.save(updateAsistencia);
-    }
-
-    @Override
-    public void deleteAsistencia(Integer id) {
-        Asistencia asistencia = repository.findById(id).orElse(null);
-        if (asistencia == null) {
-            throw new ResourceNotFoundException("Asistencia no encontrada");
-        }
-        repository.delete(asistencia);
     }
 }
