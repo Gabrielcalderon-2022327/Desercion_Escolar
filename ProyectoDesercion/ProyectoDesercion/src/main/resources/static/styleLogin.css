@@ -417,6 +417,29 @@ body {
 .toggle-pw:hover { color: var(--teal); }
 .toggle-pw svg { width: 18px; height: 18px; }
 
+/* --- Lógica de visualización del ojo --- */
+
+/* Por defecto*/
+.toggle-pw .eye-open {
+    display: block;
+}
+.toggle-pw .eye-closed {
+    display: none;
+}
+
+.toggle-pw.is-visible .eye-open {
+    display: none;
+}
+.toggle-pw.is-visible .eye-closed {
+    display: block;
+    color: var(--teal);
+}
+
+.toggle-pw:active {
+    transform: scale(0.9);
+    transition: transform 0.1s;
+}
+
 /* Estado inicial del ícono de ojo */
 .eye-closed { display: none; }
 
