@@ -129,19 +129,20 @@
 </div>
 
 <script>
-function togglePassword() {
-    const passwordInput = document.getElementById('password');
-    const toggleBtn = document.querySelector('.toggle-pw');
-    
-    // Cambiamos el tipo de input
-    if (passwordInput.type === 'password') {
-        passwordInput.type = 'text';
-        toggleBtn.classList.add('is-visible');
-    } else {
-        passwordInput.type = 'password';
-        toggleBtn.classList.remove('is-visible');
+    function togglePassword() {
+        const passwordInput = document.getElementById('password');
+        const toggleBtn = document.querySelector('.toggle-pw');
+
+        if (passwordInput.type === 'password') {
+            passwordInput.type = 'text';
+            toggleBtn.classList.add('is-visible'); // Esto activa el CSS
+            toggleBtn.setAttribute('aria-label', 'Ocultar contraseña');
+        } else {
+            passwordInput.type = 'password';
+            toggleBtn.classList.remove('is-visible'); // Esto vuelve al estado original
+            toggleBtn.setAttribute('aria-label', 'Mostrar contraseña');
+        }
     }
-}
 </script>
 </body>
 </html>
