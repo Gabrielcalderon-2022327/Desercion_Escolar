@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Encargado</title>
+  <link rel="stylesheet" href="../styles/Plantilla.css">
+</head>
+
+<body>
+  <div class="layout">
+    <!-- Encabezado de la página-->
+    <header class="header">
+        <div class="logo">
+            <img src="../img/Encargado.png" alt="Imagen que describa la entidad + logo de la aplicacion">
+        </div>
+        <!-- Navegacion por la pagina-->
+        <ul class="navegacion">
+          <li><a href="../index/Pagina principal.html">Inicio</a></li>
+          <li>
+            <!--Menu desplegable para las entidades-->
+            <ul class="entidades-menu">
+              <li id="usuarios-link"><a href="../components/Usuario.html">Usuarios</a></li>
+              <li id="maestros-link"><a href="../components/Maestro.html">Maestros</a></li>
+              <li id="grado-link"><a href="../components/Grado.html">Grado</a></li>
+              <li id="estudiante-link"><a href="../components/Estudiante.html">Estudiante</a></li>
+              <li id="asistencia-link"><a href="../components/Asistencia.html">Asistencia</a></li>
+              <li id="materiasF-link"><a href="../components/MateriasF.html">Materias perdidas</a></li>
+              <li id="economia-link"><a href="../components/Economia.html">Economia</a></li>
+              <li id="riesgo-link"><a href="../components/Riesgo.html">Riesgo</a></li>
+              <li id="alerta-link"><a href="../components/Alerta.html">Alerta</a></li>
+            </ul>
+          </li>
+        </ul>
+
+        <!--Informacion del usuario y boton para cerrar sesion-->
+        <div class="user-info">
+            <span>Gabriel</span>
+            <button class="btn-cerrarSesion">Cerrar sesión</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+      <h1 class="titulo-entidad">Gestión de Usuarios</h1>
+
+      <!-- Botones para el put, post, delete y get-->
+      <div class="crud-actions">
+        <button class="btn-crud" id="btn-crear">Crear</button>
+        <button class="btn-crud" id="btn-actualizar">Actualizar</button>
+        <button class="btn-crud" id="btn-eliminar">Eliminar</button>
+        <button class="btn-crud" id="btn-listar">Listar</button>
+      </div>
+
+      <!-- Barra de busqueda-->
+      <div class="crud-search">
+        <input type="text" placeholder="Buscar por ID o nombre...">
+        <button class="btn-crud" id="btn-buscar">
+          <img src="../img/buscar.png" alt="Logo de busqueda">
+        </button>
+      </div>
+
+      <!-- Tabla de las entidades-->
+      <div class="table-container">
+        <table class="crud-table">
+
+          <thead> <!-- Encabezado de las columnas-->
+            <tr>
+              <th>id_encargado</th>
+              <th>nombre_encargado</th>
+              <th>apellido_encargado</th>
+              <th>fecha_nacimiento_encargado</th>
+              <th>direccion_encargado</th>
+              <th>telefono_encargado</th>
+            </tr>
+          </thead>
+
+          <tbody> <!-- Contenido de la tabla-->
+            <tr> <!-- Filas de ejemplo (tr representa una fila)-->
+              <td>1</td> <!-- Filas de ejemplo (td representa la informacion de una celda, debe cazar con el th)-->
+              <td>Gabriel</td>
+              <td>Caldo </td>
+              <td>2008-07-12</td>
+              <td>54655465</td>
+            </tr>
+            <tr> <!-- Filas de ejemplo-->
+              <td>2</td>
+              <td>Alexander</td>
+              <td>Aquino</td>
+              <td>2009-02-10</td>
+              <td>46098451</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+
+  </div>
+</body>
+
+</html>

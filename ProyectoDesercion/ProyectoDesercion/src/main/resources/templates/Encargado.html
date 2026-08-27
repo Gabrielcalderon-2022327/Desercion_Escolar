@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestión de Encargado</title>
+    <link rel="stylesheet" href="Plantilla.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+
+</head>
+<body>
+<div class="layout">
+    <header class="header">
+        <div class="topbar-brand">
+            <span class="brand-icon"><i class="bi bi-shield-check"></i></span>
+            <span class="brand-name">Encargados</span>
+        </div>
+
+        <ul class="navegacion">
+            <li><a th:href="@{/index}">Inicio</a></li>
+            <li>
+                <ul class="entidades-menu">
+                    <li id="usuarios-link"><a th:href="@{/usuarios}">Usuarios</a></li>
+                    <li id="maestros-link"><a th:href="@{/maestros}">Maestros</a></li>
+                    <li id="grado-link"><a th:href="@{/grado}">Grado</a></li>
+                    <li id="estudiante-link"><a th:href="@{/estudiantes}">Estudiante</a></li>
+                    <li id="asistencia-link"><a th:href="@{/asistencia}">Asistencia</a></li>
+                    <li id="materiasF-link"><a th:href="@{/materiasf}">Materias perdidas</a></li>
+                    <li id="economia-link"><a th:href="@{/economia}">Economia</a></li>
+                    <li id="riesgo-link"><a th:href="@{/riesgos}">Riesgo</a></li>
+                    <li id="alerta-link"><a th:href="@{/alertas}">Alerta</a></li>
+                </ul>
+            </li>
+        </ul>
+        <div class="topbar-user">
+            <div class="user-avatar">
+                <i class="bi bi-person-fill"></i>
+            </div>
+            <span class="user-name" th:text="${username}">Admin</span>
+            <a th:href="@{/logout}">
+                <button class="btn-logout">Cerrar sesión <i class="bi bi-box-arrow-right"></i></button>
+            </a>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <h1 class="titulo-entidad">Gestión de Encargado</h1>
+
+        <div class="crud-actions">
+            <button class="btn-crud btn-crear"popovertarget="datos" onclick="toggleIdInput(false)">Crear</button>
+            <a th:href="@{/encargado/listar}"><button class="btn-crud" id="btn-listar">Listar</button></a>
+            <form class="crud-search" th:action="@{/encargado/buscar}" method="get">
+                <input type="number" placeholder="Buscar por ID..." name="idUsuario" required>
+                <button type="submit" class="btn-crud" id="btn-buscar">
+                    <img src="/img/buscar.png" alt="Buscar">
+                </button>
+            </form>
+
+            <div class="message-container">
+                <h2 id="error-text" th:if="${error != null}" th:text="${error}"></h2>
+                <h2 id="success-text" th:if="${success != null}" th:text="${success}"></h2>
+            </div>
+
+        </div>
+
+        <div id="datos" class="crud-form" popover>
+            <button type="button" class="btn-cerrar-popup" popovertarget="datos" popovertargetaction="hide" aria-label="Cerrar">✕</button>
+            <form id="popup-form" method="post">
+                <div class="input-group">
+                    <div id="user-container">
+                        <label for="id_encargado">ID:</label>
+                        <input type="number" id="id_encargado" name="id_encargado" readonly>
+                    </div>
+                    <div>
+                        <label for="nombre_encargado">Nombre:</label>
+                        <input type="text" id="nombre_encargado" name="nombre_encargado" required>
+                    </div>
+                    <div>
+                        <label for="apellido_encargado">Apellido:</label>
+                        <input type="text" id="apellido_encargado" name="apellido_encargado" required>
+                    </div>
+                    <div>
+                        <label for="fecha_nacimiento_encargado">Fecha:</label>
+                        <input type="date" id="fecha_nacimiento_encargado" name="fecha_nacimiento_encargado" required>
+                    </div>
+                    <div>
+                        <label for="direccion_encargado">Direccion:</label>
+                        <input type="text" id="direccion_encargado" name="direccion_encargado" required>
+                    </div>
+                    <div>
+                        <label for="telefono_encargado">Telefono:</label>
+                        <input type="number" id="telefono_encargado" name="telefono_encargado" required>
+                    </div>
+                </div>
+
+                <div class="btn-container">
+                     <button type="submit" class="btn-crud btn-crear" id="btn-crear-popoup">Crear</button>
+                  <button type="submit" class="btn-crud btn-actualizar" id="btn-actualizar-popoup">Actualizar</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="table-container">
+            <table class="crud-table">
+                <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Apellido</th>
+                    <th>Fecha</th>
+                    <th>Direccion</th>
+                    <th>Telefono</th>
+                    <th>Acciones</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each=" e: ${encargado}">
+                    <td th:text="${e.id_encargado}"></td>
+                    <td th:text="${e.nombre_encargado}"></td>
+                    <td th:text="${e.apellido_encargado}"></td>
+                    <td th:text="${e.fecha_nacimiento_encargado}"></td>
+                    <td th:text="${e.direccion_encargado}"></td>
+                    <td th:text="${e.telefono_encargado}"></td>
+                    <td>
+                        <div class="actions">
+                            <button class="btn-crud btn-actualizar" popovertarget="datos"
+                                    th:data-id="${e.id_encargado}" th:data-nombre="${e.nombre_encargado}"
+                                    th:data-apellido="${e.apellido_encargado}" th:data-fecha="${e.fecha_nacimiento_encargado}"
+                                    th:data-direccion="${e.direccion_encargado}" th:data-telefono="${e.telefono_encargado}" onclick="cargarData(this)">Actualizar</button>
+                            <button class="btn-crud btn-eliminar"
+                              th:data-url="@{/encargado/eliminar/{id}(id=${e.id_encargado})}"
+                              th:data-nombre="${e.nombre_encargado}"
+                              onclick="confirmarEliminar(this.dataset.url, this.dataset.nombre)">Eliminar</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+ <!-- CONFIRMACIÓN ELIMINAR -->
+   <div class="confirm-backdrop" id="confirm-backdrop">
+      <div class="confirm-modal">
+         <div class="confirm-modal-icon"><i class="bi bi-trash3-fill"></i></div>
+         <h3>¿Eliminar registro?</h3>
+         <p>Esta acción no se puede deshacer.<br>¿Deseas eliminar al usuario <strong id="confirm-nombre"></strong>?</p>
+         <div class="confirm-modal-actions">
+            <button class="btn-confirm-cancel" onclick="cerrarConfirm()">Cancelar</button>
+            <a id="confirm-link" href="#" class="btn-confirm-delete"><i class="bi bi-trash3-fill"></i> Eliminar</a>
+         </div>
+      </div>
+   </div>
+
+<script>
+    function cargarData(button) {
+       document.getElementById("id_encargado").value = button.dataset.id;
+       document.getElementById("nombre_encargado").value = button.dataset.nombre;
+       document.getElementById("apellido_encargado").value = button.dataset.apellido;
+       document.getElementById("fecha_nacimiento_encargado").value = button.dataset.fecha;
+       document.getElementById("direccion_encargado").value = button.dataset.direccion;
+       document.getElementById("telefono_encargado").value = button.dataset.telefono;
+       toggleIdInput(true);
+    }
+
+    function toggleIdInput(isUpdate) {
+       const idInput = document.getElementById("id_encargado");
+       const userContainer = document.getElementById("user-container");
+       const btnActualizar = document.getElementById("btn-actualizar-popoup");
+       const btnCrear = document.getElementById("btn-crear-popoup");
+       const popupForm = document.getElementById("popup-form");
+
+       if (isUpdate) {
+          userContainer.style.display = "block";
+          btnActualizar.style.display = "inline-block";
+          btnCrear.style.display = "none";
+          popupForm.setAttribute("action", "/encargado/editar");
+       } else {
+          userContainer.style.display = "none";
+          btnActualizar.style.display = "none";
+          btnCrear.style.display = "inline-block";
+          popupForm.setAttribute("action", "/encargado/crear");
+       }
+    }
+
+    // CONFIRMACIÓN DE ELIMINACIÓN
+      function confirmarEliminar(url, nombre) {
+         document.getElementById("confirm-nombre").textContent = nombre;
+         document.getElementById("confirm-link").setAttribute("href", url);
+         document.getElementById("confirm-backdrop").classList.add("show");
+      }
+
+      function cerrarConfirm() {
+         document.getElementById("confirm-backdrop").classList.remove("show");
+      }
+
+      // Cerrar al hacer clic fuera del modal
+      document.getElementById("confirm-backdrop").addEventListener("click", function(e) {
+         if (e.target === this) cerrarConfirm();
+      });
+</script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Materias Perdidas - SCRUM</title>
+    <link rel="stylesheet" href="../styles/Plantilla.css">
+</head>
+<body>
+    <div class="layout">
+        <header class="header">
+            <div class="logo">
+                <img src="../img/LogoMateriasF.png" alt="Logo Aplicación">
+            </div>
+            
+            <ul class="navegacion">
+                <li><a href="../index/Pagina principal.html">Inicio</a></li>
+                <li id="entidades-desplegable">
+                    <ul class="entidades-menu">
+                        <li id="usuarios-link"><a href="../components/Usuario.html">Usuarios</a></li>
+                        <li id="maestros-link"><a href="../components/Maestro.html">Maestros</a></li>
+                        <li id="grado-link"><a href="../components/Grado.html">Grado</a></li>
+                        <li id="encargado-link"><a href="../components/Encargado.html">Encargado</a></li>
+                        <li id="estudiante-link"><a href="../components/Estudiante.html">Estudiante</a></li>
+                        <li id="asistencia-link"><a href="../components/Asistencia.html">Asistencia</a></li>
+                        <li id="economia-link"><a href="../components/Economia.html">Economia</a></li>
+                        <li id="riesgo-link"><a href="../components/Riesgo.html">Riesgo</a></li>
+                        <li id="alerta-link"><a href="../components/Alerta.html">Alerta</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+            <div class="user-info">
+                <span>Joel</span>
+                <button class="btn-cerrarSesion"></button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <h1 class="titulo-entidad">Gestión de Materias Perdidas (MateriasF)</h1>
+
+            <div class="crud-container">
+                <div class="crud-actions">
+                    <button class="btn-crud" id="btn-crear">Crear</button>
+                    <button class="btn-crud" id="btn-actualizar">Actualizar</button>
+                    <button class="btn-crud" id="btn-eliminar">Eliminar</button>
+                    <button class="btn-crud" id="btn-listar">Listar</button>
+                </div>
+
+                <div class="crud-search">
+                    <input type="text" placeholder="Buscar materia o ID...">
+                    <button id="btn-buscar">
+                        <img src="../img/buscar.png" alt="🔍">
+                    </button>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <table class="crud-table">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Materia</th>
+                            <th>Descripción</th>
+                            <th>Fecha Alerta</th>
+                            <th>Maestro ID</th>
+                            <th>Estudiante ID</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>1</td>
+                            <td>Matemáticas</td>
+                            <td>Falla en examen parcial 2</td>
+                            <td>2026-03-01</td>
+                            <td>12</td>
+                            <td>45</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
